@@ -35,7 +35,7 @@ collections:
     label: 团队成员
     label_singular: 成员
     description: 编辑团队成员的姓名、照片、职称与简介。
-    media_folder: "images/team"
+    media_folder: "/images/team"
     public_folder: "images/team"
     folder: _members/
     create: true
