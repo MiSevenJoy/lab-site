@@ -191,6 +191,10 @@
   
 
   
+    <link href="/lab-site/_styles/gallery.css" rel="stylesheet">
+  
+
+  
     <link href="/lab-site/_styles/grid.css" rel="stylesheet">
   
 
@@ -344,6 +348,8 @@
 
   
 
+  
+
 
 <!-- include all css in styles folder -->
 
@@ -362,6 +368,8 @@
   <script src="/lab-site/_scripts/dark-mode.js"></script>
 
   <script src="/lab-site/_scripts/fetch-tags.js"></script>
+
+  <script src="/lab-site/_scripts/gallery.js"></script>
 
   <script src="/lab-site/_scripts/lang.js"></script>
 
@@ -387,69 +395,6 @@
 
 <header class="background" style="--image: url('/lab-site/images/background.jpg')" data-dark="true">
   <a href="/lab-site/" class="home">
-    
-      <span class="logo">
-        
-          <svg xmlns="http://www.w3.org/2000/svg" viewbox="-40 -60 80 100">
-  <style>
-    .bubble {
-      animation: float 2s ease-out both infinite var(--delay);
-    }
-    @keyframes float {
-      0% {
-        opacity: 0;
-      }
-      50% {
-        transform: translateY(0);
-        opacity: 0;
-      }
-      75% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(-40px);
-      }
-    }
-  </style>
-  <g fill="currentColor" opacity="0.5">
-    <circle class="bubble" cx="0" cy="-10" r="3" style="--delay: 0.1s"></circle>
-    <circle class="bubble" cx="0" cy="-10" r="3" style="--delay: 0.4s"></circle>
-    <circle class="bubble" cx="0" cy="-10" r="3" style="--delay: 1.1s"></circle>
-  </g>
-  <path fill="#38bdf8" d="
-      M 0 -22.5
-      L -19.5 -11.25
-      L -19.5 11.25
-      L 0 22.5
-      L 19.5 11.25
-      L 19.5 -11.25
-      z
-    "></path>
-  <path fill="#bae6fd" d="
-      M 0 -22.5
-      L -19.5 -11.25
-      L 0 0
-      L 19.5 -11.25
-      z
-    "></path>
-  <path fill="none" stroke="currentColor" stroke-width="5" d="
-      M -18 -53
-      L -10 -53
-      L -10 -29.2
-      L -30.3 -17.5
-      L -30.3 17.5
-      L 0 35
-      L 30.3 17.5
-      L 30.3 -17.5
-      L 10 -29.2
-      L 10 -53
-      L 18 -53
-    "></path>
-</svg>
-
-        
-      </span>
     
     
       <span class="title-text" data-tooltip="Home">
@@ -477,15 +422,15 @@
       
         <a href="/lab-site/research/" data-tooltip="Published works">
           
-            Research
+            <span class="lang-zh">研究成果</span><span class="lang-en">Publications</span>
           
         </a>
       
     
       
-        <a href="/lab-site/projects/" data-tooltip="Software, datasets, and more">
+        <a href="/lab-site/projects/" data-tooltip="Research projects">
           
-            Projects
+            <span class="lang-zh">研究项目</span><span class="lang-en">Research Projects</span>
           
         </a>
       
@@ -493,23 +438,31 @@
       
         <a href="/lab-site/team/" data-tooltip="About our team">
           
-            Team
+            <span class="lang-zh">团队成员</span><span class="lang-en">Team</span>
           
         </a>
       
     
       
-        <a href="/lab-site/blog/" data-tooltip="Musings and miscellany">
+        <a href="/lab-site/gallery/" data-tooltip="Photos">
           
-            Blog
+            <span class="lang-zh">相册</span><span class="lang-en">Gallery</span>
           
         </a>
       
     
       
-        <a href="/lab-site/contact/" data-tooltip="Email, address, and location">
+        <a href="/lab-site/join/" data-tooltip="Openings">
           
-            Contact
+            <span class="lang-zh">招生计划</span><span class="lang-en">Join Us</span>
+          
+        </a>
+      
+    
+      
+        <a href="/lab-site/contact/" data-tooltip="Email and address">
+          
+            <span class="lang-zh">联系我们</span><span class="lang-en">Contact</span>
           
         </a>
       
@@ -537,12 +490,15 @@
   
 
   <section class="background" data-size="page">
-    <h1 id="team">
+    <h1 class="lang-zh" id="团队成员">
+<i class="icon fa-solid fa-users"></i>团队成员</h1>
+
+<h1 class="lang-en" id="team">
 <i class="icon fa-solid fa-users"></i>Team</h1>
 
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+<p>时空大数据智能与计算实验室由周逊教授于 2023 年秋季在哈尔滨工业大学（深圳）计算机科学与技术学院组建，现有教授、博士生、硕士生等成员二十余人，围绕时空数据挖掘与人工智能开展研究。</p>
+
+<p class="lang-zh">The Spatiotemporal Big Data Intelligence and Computing Lab was founded by Prof. Xun Zhou at the School of Computer Science and Technology, HIT Shenzhen in Fall 2023. The group currently includes faculty, PhD students, and master’s students who work on spatiotemporal data mining and artificial intelligence.</p>
   </section>
 
   
@@ -556,54 +512,28 @@ nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p
   <size></size>
 -->
 
+<h2 class="lang-zh" id="负责人">负责人</h2>
+
+<h2 class="lang-en" id="faculty">Faculty</h2>
+
 <div class="portrait-wrapper">
-  <a href="/lab-site/members/jane-smith.html" class="portrait" data-style="" aria-label="Jane Smith">
+  <a href="/lab-site/members/zhang-fangyuan.html" class="portrait" data-style="" aria-label="Fangyuan Zhang">
     
       <i class="icon fa-solid fa-microscope"></i>
     
 
-    <img src="/lab-site/images/photo.jpg" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+    <img src="/lab-site/images/team/zhangfangyuan.png" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
 
     
       <span class="portrait-name">
-        Jane Smith
+        <span class="lang-zh">张芳源</span><span class="lang-en">Fangyuan Zhang</span>
       </span>
     
 
     
       <span class="portrait-description">
         
-          <span class="lang-zh">教授、博士生导师</span><span class="lang-en">Principal Investigator</span>
-        
-      </span>
-    
-
-    
-      <span class="portrait-affiliation">
-        University of Colorado
-      </span>
-    
-  </a>
-</div>
-
-<div class="portrait-wrapper">
-  <a href="/lab-site/members/john-doe.html" class="portrait" data-style="" aria-label="John Doe">
-    
-      <i class="icon fa-solid fa-graduation-cap"></i>
-    
-
-    <img src="/lab-site/images/photo.jpg" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
-
-    
-      <span class="portrait-name">
-        John Doe
-      </span>
-    
-
-    
-      <span class="portrait-description">
-        
-          <span class="lang-zh">博士生</span><span class="lang-en">PhD Student</span>
+          <span class="lang-zh">教授、博士生导师、国家级青年人才</span><span class="lang-en">Professor</span>
         
       </span>
     
@@ -613,21 +543,23 @@ nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p
 </div>
 
 <div class="portrait-wrapper">
-  <a href="/lab-site/members/sarah-johnson.html" class="portrait" data-style="" aria-label="Sarah Johnson">
+  <a href="/lab-site/members/zhou-xun.html" class="portrait" data-style="" aria-label="Xun Zhou">
+    
+      <i class="icon fa-solid fa-microscope"></i>
     
 
-    <img src="/lab-site/images/photo.jpg" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+    <img src="/lab-site/images/team/zhouxun.jpg" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
 
     
       <span class="portrait-name">
-        Sarah Johnson
+        <span class="lang-zh">周逊</span><span class="lang-en">Xun Zhou</span>
       </span>
     
 
     
       <span class="portrait-description">
         
-          Lead Programmer
+          <span class="lang-zh">教授、博士生导师</span><span class="lang-en">Professor</span>
         
       </span>
     
@@ -635,22 +567,6 @@ nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p
     
   </a>
 </div>
-  </section>
-
-  
-  
-  
-
-  <section class="background" data-size="2" data-dark="true" style="--image: url('/lab-site/images/background.jpg')">
-    <!--
-  <background>images/background.jpg</background>
-  <dark>true</dark>
-  <size>2</size>
--->
-
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
   </section>
 
   
@@ -664,39 +580,544 @@ nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p
   <size></size>
 -->
 
-<div class="grid" data-style="square">
-  
-<figure class="figure">
-  <a class="figure-image" aria-label="figure link">
-    <img src="/lab-site/images/photo.jpg" style="
-        width: auto;
-        max-height: unset;
-      " alt="figure image" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+<h2 class="lang-zh" id="博士生">博士生</h2>
+
+<h2 class="lang-en" id="phd-students">PhD Students</h2>
+
+<div class="portrait-wrapper">
+  <a href="/lab-site/members/bao-kanyu.html" class="portrait" data-style="" aria-label="Kanyu Bao">
+    
+      <i class="icon fa-solid fa-graduation-cap"></i>
+    
+
+    <img src="/lab-site/images/team/baokanyu.jpg" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+
+    
+      <span class="portrait-name">
+        <span class="lang-zh">鲍侃宇</span><span class="lang-en">Kanyu Bao</span>
+      </span>
+    
+
+    
+      <span class="portrait-description">
+        
+          <span class="lang-zh">2023级博士生</span><span class="lang-en">PhD Student (Class of 2023)</span>
+        
+      </span>
+    
+
+    
   </a>
-  
-</figure>
+</div>
 
-<figure class="figure">
-  <a class="figure-image" aria-label="figure link">
-    <img src="/lab-site/images/photo.jpg" style="
-        width: auto;
-        max-height: unset;
-      " alt="figure image" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+<div class="portrait-wrapper">
+  <a href="/lab-site/members/chu-yong.html" class="portrait" data-style="" aria-label="Yong Chu">
+    
+      <i class="icon fa-solid fa-graduation-cap"></i>
+    
+
+    <img src="/lab-site/images/team/chuyong.jpg" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+
+    
+      <span class="portrait-name">
+        <span class="lang-zh">储勇</span><span class="lang-en">Yong Chu</span>
+      </span>
+    
+
+    
+      <span class="portrait-description">
+        
+          <span class="lang-zh">2023级博士生</span><span class="lang-en">PhD Student (Class of 2023)</span>
+        
+      </span>
+    
+
+    
   </a>
-  
-</figure>
+</div>
 
-<figure class="figure">
-  <a class="figure-image" aria-label="figure link">
-    <img src="/lab-site/images/photo.jpg" style="
-        width: auto;
-        max-height: unset;
-      " alt="figure image" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+<div class="portrait-wrapper">
+  <a href="/lab-site/members/huang-rui.html" class="portrait" data-style="" aria-label="Rui Huang">
+    
+      <i class="icon fa-solid fa-graduation-cap"></i>
+    
+
+    <img src="/lab-site/images/team/huangrui.jpg" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+
+    
+      <span class="portrait-name">
+        <span class="lang-zh">黄锐</span><span class="lang-en">Rui Huang</span>
+      </span>
+    
+
+    
+      <span class="portrait-description">
+        
+          <span class="lang-zh">2024级博士生</span><span class="lang-en">PhD Student (Class of 2024)</span>
+        
+      </span>
+    
+
+    
   </a>
+</div>
+
+<div class="portrait-wrapper">
+  <a href="/lab-site/members/li-feiyu.html" class="portrait" data-style="" aria-label="Feiyu Li">
+    
+      <i class="icon fa-solid fa-graduation-cap"></i>
+    
+
+    <img src="/lab-site/images/team/lifeiyu.jpg" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+
+    
+      <span class="portrait-name">
+        <span class="lang-zh">李飞羽</span><span class="lang-en">Feiyu Li</span>
+      </span>
+    
+
+    
+      <span class="portrait-description">
+        
+          <span class="lang-zh">2025级博士生</span><span class="lang-en">PhD Student (Class of 2025)</span>
+        
+      </span>
+    
+
+    
+  </a>
+</div>
+
+<div class="portrait-wrapper">
+  <a href="/lab-site/members/luo-jinglong.html" class="portrait" data-style="" aria-label="Jinglong Luo">
+    
+      <i class="icon fa-solid fa-graduation-cap"></i>
+    
+
+    <img src="/lab-site/images/team/luojinglong.jpg" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+
+    
+      <span class="portrait-name">
+        <span class="lang-zh">罗景龙</span><span class="lang-en">Jinglong Luo</span>
+      </span>
+    
+
+    
+      <span class="portrait-description">
+        
+          <span class="lang-zh">2022级博士生</span><span class="lang-en">PhD Student (Class of 2022)</span>
+        
+      </span>
+    
+
+    
+  </a>
+</div>
+
+<div class="portrait-wrapper">
+  <a href="/lab-site/members/shi-xu.html" class="portrait" data-style="" aria-label="Xu Shi">
+    
+      <i class="icon fa-solid fa-graduation-cap"></i>
+    
+
+    <img src="/lab-site/images/team/shixu.jpg" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+
+    
+      <span class="portrait-name">
+        <span class="lang-zh">时旭</span><span class="lang-en">Xu Shi</span>
+      </span>
+    
+
+    
+      <span class="portrait-description">
+        
+          <span class="lang-zh">2025级博士生</span><span class="lang-en">PhD Student (Class of 2025)</span>
+        
+      </span>
+    
+
+    
+  </a>
+</div>
+
+<div class="portrait-wrapper">
+  <a href="/lab-site/members/tao-zhen.html" class="portrait" data-style="" aria-label="Zhen Tao">
+    
+      <i class="icon fa-solid fa-graduation-cap"></i>
+    
+
+    <img src="/lab-site/images/team/taozhen.jpg" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+
+    
+      <span class="portrait-name">
+        <span class="lang-zh">陶震</span><span class="lang-en">Zhen Tao</span>
+      </span>
+    
+
+    
+      <span class="portrait-description">
+        
+          <span class="lang-zh">2025级博士生</span><span class="lang-en">PhD Student (Class of 2025)</span>
+        
+      </span>
+    
+
+    
+  </a>
+</div>
+
+<div class="portrait-wrapper">
+  <a href="/lab-site/members/wang-jiaze.html" class="portrait" data-style="" aria-label="Jiaze Wang">
+    
+      <i class="icon fa-solid fa-graduation-cap"></i>
+    
+
+    <img src="/lab-site/images/team/wangjiaze.jpg" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+
+    
+      <span class="portrait-name">
+        <span class="lang-zh">王嘉泽</span><span class="lang-en">Jiaze Wang</span>
+      </span>
+    
+
+    
+      <span class="portrait-description">
+        
+          <span class="lang-zh">2024级博士生</span><span class="lang-en">PhD Student (Class of 2024)</span>
+        
+      </span>
+    
+
+    
+  </a>
+</div>
+
+<div class="portrait-wrapper">
+  <a href="/lab-site/members/wang-xinyue.html" class="portrait" data-style="" aria-label="Xinyue Wang">
+    
+      <i class="icon fa-solid fa-graduation-cap"></i>
+    
+
+    <img src="/lab-site/images/team/wangxinyue.jpg" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+
+    
+      <span class="portrait-name">
+        <span class="lang-zh">王欣悦</span><span class="lang-en">Xinyue Wang</span>
+      </span>
+    
+
+    
+      <span class="portrait-description">
+        
+          <span class="lang-zh">2025级博士生</span><span class="lang-en">PhD Student (Class of 2025)</span>
+        
+      </span>
+    
+
+    
+  </a>
+</div>
+
+<div class="portrait-wrapper">
+  <a href="/lab-site/members/yang-kai.html" class="portrait" data-style="" aria-label="Kai Yang">
+    
+      <i class="icon fa-solid fa-graduation-cap"></i>
+    
+
+    <img src="/lab-site/images/team/yangkai.jpg" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+
+    
+      <span class="portrait-name">
+        <span class="lang-zh">杨凯</span><span class="lang-en">Kai Yang</span>
+      </span>
+    
+
+    
+      <span class="portrait-description">
+        
+          <span class="lang-zh">2025级博士生</span><span class="lang-en">PhD Student (Class of 2025)</span>
+        
+      </span>
+    
+
+    
+  </a>
+</div>
+
+<div class="portrait-wrapper">
+  <a href="/lab-site/members/zhang-yaopu.html" class="portrait" data-style="" aria-label="Yaopu Zhang">
+    
+      <i class="icon fa-solid fa-graduation-cap"></i>
+    
+
+    <img src="/lab-site/images/team/zhangyaopu.png" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+
+    
+      <span class="portrait-name">
+        <span class="lang-zh">张窅溥</span><span class="lang-en">Yaopu Zhang</span>
+      </span>
+    
+
+    
+      <span class="portrait-description">
+        
+          <span class="lang-zh">2024级博士生</span><span class="lang-en">PhD Student (Class of 2024)</span>
+        
+      </span>
+    
+
+    
+  </a>
+</div>
+
+<div class="portrait-wrapper">
+  <a href="/lab-site/members/zhou-lingzi.html" class="portrait" data-style="" aria-label="Lingzi Zhou">
+    
+      <i class="icon fa-solid fa-graduation-cap"></i>
+    
+
+    <img src="/lab-site/images/team/zhoulingzi.jpg" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+
+    
+      <span class="portrait-name">
+        <span class="lang-zh">周铃子</span><span class="lang-en">Lingzi Zhou</span>
+      </span>
+    
+
+    
+      <span class="portrait-description">
+        
+          <span class="lang-zh">2025级博士生</span><span class="lang-en">PhD Student (Class of 2025)</span>
+        
+      </span>
+    
+
+    
+  </a>
+</div>
+  </section>
+
   
-</figure>
+  
+  
 
+  <section class="background" data-size="page">
+    <!--
+  <background></background>
+  <dark></dark>
+  <size></size>
+-->
 
+<h2 class="lang-zh" id="硕士生">硕士生</h2>
+
+<h2 class="lang-en" id="master-students">Master Students</h2>
+
+<div class="portrait-wrapper">
+  <a href="/lab-site/members/fan-yu.html" class="portrait" data-style="" aria-label="Yu Fan">
+    
+      <i class="icon fa-solid fa-user-graduate"></i>
+    
+
+    <img src="/lab-site/images/team/fanyu.jpg" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+
+    
+      <span class="portrait-name">
+        <span class="lang-zh">范宇</span><span class="lang-en">Yu Fan</span>
+      </span>
+    
+
+    
+      <span class="portrait-description">
+        
+          <span class="lang-zh">2023级硕士生</span><span class="lang-en">Master Student (Class of 2023)</span>
+        
+      </span>
+    
+
+    
+  </a>
+</div>
+
+<div class="portrait-wrapper">
+  <a href="/lab-site/members/li-ruopu.html" class="portrait" data-style="" aria-label="Ruopu Li">
+    
+      <i class="icon fa-solid fa-user-graduate"></i>
+    
+
+    <img src="/lab-site/images/team/liruopu.jpg" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+
+    
+      <span class="portrait-name">
+        <span class="lang-zh">李若朴</span><span class="lang-en">Ruopu Li</span>
+      </span>
+    
+
+    
+      <span class="portrait-description">
+        
+          <span class="lang-zh">2024级硕士生</span><span class="lang-en">Master Student (Class of 2024)</span>
+        
+      </span>
+    
+
+    
+  </a>
+</div>
+
+<div class="portrait-wrapper">
+  <a href="/lab-site/members/liu-binhui.html" class="portrait" data-style="" aria-label="Binhui Liu">
+    
+      <i class="icon fa-solid fa-user-graduate"></i>
+    
+
+    <img src="/lab-site/images/team/liubinhui.jpg" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+
+    
+      <span class="portrait-name">
+        <span class="lang-zh">刘彬慧</span><span class="lang-en">Binhui Liu</span>
+      </span>
+    
+
+    
+      <span class="portrait-description">
+        
+          <span class="lang-zh">2026级硕士生</span><span class="lang-en">Master Student (Class of 2026)</span>
+        
+      </span>
+    
+
+    
+  </a>
+</div>
+
+<div class="portrait-wrapper">
+  <a href="/lab-site/members/qu-xiuchuan.html" class="portrait" data-style="" aria-label="Xiuchuan Qu">
+    
+      <i class="icon fa-solid fa-user-graduate"></i>
+    
+
+    <img src="/lab-site/images/team/quxiuchuan.png" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+
+    
+      <span class="portrait-name">
+        <span class="lang-zh">渠秀川</span><span class="lang-en">Xiuchuan Qu</span>
+      </span>
+    
+
+    
+      <span class="portrait-description">
+        
+          <span class="lang-zh">2025级硕士生</span><span class="lang-en">Master Student (Class of 2025)</span>
+        
+      </span>
+    
+
+    
+  </a>
+</div>
+
+<div class="portrait-wrapper">
+  <a href="/lab-site/members/xiao-hanbin.html" class="portrait" data-style="" aria-label="Hanbin Xiao">
+    
+      <i class="icon fa-solid fa-user-graduate"></i>
+    
+
+    <img src="/lab-site/images/team/xiaohanbin.jpg" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+
+    
+      <span class="portrait-name">
+        <span class="lang-zh">肖涵彬</span><span class="lang-en">Hanbin Xiao</span>
+      </span>
+    
+
+    
+      <span class="portrait-description">
+        
+          <span class="lang-zh">2024级硕士生</span><span class="lang-en">Master Student (Class of 2024)</span>
+        
+      </span>
+    
+
+    
+  </a>
+</div>
+
+<div class="portrait-wrapper">
+  <a href="/lab-site/members/zhang-chenxu.html" class="portrait" data-style="" aria-label="Chenxu Zhang">
+    
+      <i class="icon fa-solid fa-user-graduate"></i>
+    
+
+    <img src="/lab-site/images/team/zhangchenxu.jpg" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+
+    
+      <span class="portrait-name">
+        <span class="lang-zh">张晨旭</span><span class="lang-en">Chenxu Zhang</span>
+      </span>
+    
+
+    
+      <span class="portrait-description">
+        
+          <span class="lang-zh">2023级硕士生</span><span class="lang-en">Master Student (Class of 2023)</span>
+        
+      </span>
+    
+
+    
+  </a>
+</div>
+
+<div class="portrait-wrapper">
+  <a href="/lab-site/members/zhang-zhongyi.html" class="portrait" data-style="" aria-label="Zhongyi Zhang">
+    
+      <i class="icon fa-solid fa-user-graduate"></i>
+    
+
+    <img src="/lab-site/images/team/zhangzhongyi.jpg" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+
+    
+      <span class="portrait-name">
+        <span class="lang-zh">张忠义</span><span class="lang-en">Zhongyi Zhang</span>
+      </span>
+    
+
+    
+      <span class="portrait-description">
+        
+          <span class="lang-zh">2025级硕士生</span><span class="lang-en">Master Student (Class of 2025)</span>
+        
+      </span>
+    
+
+    
+  </a>
+</div>
+
+<div class="portrait-wrapper">
+  <a href="/lab-site/members/zhou-zirui.html" class="portrait" data-style="" aria-label="Zirui Zhou">
+    
+      <i class="icon fa-solid fa-user-graduate"></i>
+    
+
+    <img src="/lab-site/images/team/zhouzirui.jpg" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+
+    
+      <span class="portrait-name">
+        <span class="lang-zh">周子瑞</span><span class="lang-en">Zirui Zhou</span>
+      </span>
+    
+
+    
+      <span class="portrait-description">
+        
+          <span class="lang-zh">2023级硕士生</span><span class="lang-en">Master Student (Class of 2023)</span>
+        
+      </span>
+    
+
+    
+  </a>
 </div>
   </section>
 

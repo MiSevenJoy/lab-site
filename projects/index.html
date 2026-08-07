@@ -43,21 +43,21 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Projects | 时空大数据智能与计算实验室</title>
+<title>Research Projects | 时空大数据智能与计算实验室</title>
 
 <link rel="icon" href="/lab-site/images/icon.png">
 
-<meta name="title" content="Projects">
+<meta name="title" content="Research Projects">
 <meta name="description" content="哈尔滨工业大学（深圳）计算机科学与技术学院. 实验室研究方向为数据挖掘、机器学习、时空大数据分析与智能，智慧城市等。">
 
-<meta property="og:title" content="Projects">
+<meta property="og:title" content="Research Projects">
 <meta property="og:site_title" content="时空大数据智能与计算实验室">
 <meta property="og:description" content="哈尔滨工业大学（深圳）计算机科学与技术学院. 实验室研究方向为数据挖掘、机器学习、时空大数据分析与智能，智慧城市等。">
 <meta property="og:url" content="https://misevenjoy.github.io/lab-site">
 <meta property="og:image" content="/lab-site/images/share.jpg">
 <meta property="og:locale" content="en_US">
 
-<meta property="twitter:title" content="Projects">
+<meta property="twitter:title" content="Research Projects">
 <meta property="twitter:description" content="哈尔滨工业大学（深圳）计算机科学与技术学院. 实验室研究方向为数据挖掘、机器学习、时空大数据分析与智能，智慧城市等。">
 <meta property="twitter:url" content="https://misevenjoy.github.io/lab-site">
 <meta property="twitter:card" content="summary_large_image">
@@ -73,9 +73,9 @@
     
       "@type": "WebSite",
     
-    "name": "Projects",
+    "name": "Research Projects",
     "description": "哈尔滨工业大学（深圳）计算机科学与技术学院. 实验室研究方向为数据挖掘、机器学习、时空大数据分析与智能，智慧城市等。",
-    "headline": "Projects",
+    "headline": "Research Projects",
     "publisher": {
       "@type": "Organization",
       "logo": { "@type": "ImageObject", "url": "/lab-site/images/icon.png" }
@@ -188,6 +188,10 @@
 
   
     <link href="/lab-site/_styles/form.css" rel="stylesheet">
+  
+
+  
+    <link href="/lab-site/_styles/gallery.css" rel="stylesheet">
   
 
   
@@ -344,6 +348,8 @@
 
   
 
+  
+
 
 <!-- include all css in styles folder -->
 
@@ -362,6 +368,8 @@
   <script src="/lab-site/_scripts/dark-mode.js"></script>
 
   <script src="/lab-site/_scripts/fetch-tags.js"></script>
+
+  <script src="/lab-site/_scripts/gallery.js"></script>
 
   <script src="/lab-site/_scripts/lang.js"></script>
 
@@ -387,69 +395,6 @@
 
 <header class="background" style="--image: url('/lab-site/images/background.jpg')" data-dark="true">
   <a href="/lab-site/" class="home">
-    
-      <span class="logo">
-        
-          <svg xmlns="http://www.w3.org/2000/svg" viewbox="-40 -60 80 100">
-  <style>
-    .bubble {
-      animation: float 2s ease-out both infinite var(--delay);
-    }
-    @keyframes float {
-      0% {
-        opacity: 0;
-      }
-      50% {
-        transform: translateY(0);
-        opacity: 0;
-      }
-      75% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(-40px);
-      }
-    }
-  </style>
-  <g fill="currentColor" opacity="0.5">
-    <circle class="bubble" cx="0" cy="-10" r="3" style="--delay: 0.1s"></circle>
-    <circle class="bubble" cx="0" cy="-10" r="3" style="--delay: 0.4s"></circle>
-    <circle class="bubble" cx="0" cy="-10" r="3" style="--delay: 1.1s"></circle>
-  </g>
-  <path fill="#38bdf8" d="
-      M 0 -22.5
-      L -19.5 -11.25
-      L -19.5 11.25
-      L 0 22.5
-      L 19.5 11.25
-      L 19.5 -11.25
-      z
-    "></path>
-  <path fill="#bae6fd" d="
-      M 0 -22.5
-      L -19.5 -11.25
-      L 0 0
-      L 19.5 -11.25
-      z
-    "></path>
-  <path fill="none" stroke="currentColor" stroke-width="5" d="
-      M -18 -53
-      L -10 -53
-      L -10 -29.2
-      L -30.3 -17.5
-      L -30.3 17.5
-      L 0 35
-      L 30.3 17.5
-      L 30.3 -17.5
-      L 10 -29.2
-      L 10 -53
-      L 18 -53
-    "></path>
-</svg>
-
-        
-      </span>
     
     
       <span class="title-text" data-tooltip="Home">
@@ -477,15 +422,15 @@
       
         <a href="/lab-site/research/" data-tooltip="Published works">
           
-            Research
+            <span class="lang-zh">研究成果</span><span class="lang-en">Publications</span>
           
         </a>
       
     
       
-        <a href="/lab-site/projects/" data-tooltip="Software, datasets, and more">
+        <a href="/lab-site/projects/" data-tooltip="Research projects">
           
-            Projects
+            <span class="lang-zh">研究项目</span><span class="lang-en">Research Projects</span>
           
         </a>
       
@@ -493,23 +438,31 @@
       
         <a href="/lab-site/team/" data-tooltip="About our team">
           
-            Team
+            <span class="lang-zh">团队成员</span><span class="lang-en">Team</span>
           
         </a>
       
     
       
-        <a href="/lab-site/blog/" data-tooltip="Musings and miscellany">
+        <a href="/lab-site/gallery/" data-tooltip="Photos">
           
-            Blog
+            <span class="lang-zh">相册</span><span class="lang-en">Gallery</span>
           
         </a>
       
     
       
-        <a href="/lab-site/contact/" data-tooltip="Email, address, and location">
+        <a href="/lab-site/join/" data-tooltip="Openings">
           
-            Contact
+            <span class="lang-zh">招生计划</span><span class="lang-en">Join Us</span>
+          
+        </a>
+      
+    
+      
+        <a href="/lab-site/contact/" data-tooltip="Email and address">
+          
+            <span class="lang-zh">联系我们</span><span class="lang-en">Contact</span>
           
         </a>
       
@@ -537,29 +490,15 @@
   
 
   <section class="background" data-size="page">
-    <h1 id="projects">
-<i class="icon fa-solid fa-wrench"></i>Projects</h1>
+    <h1 class="lang-zh" id="研究项目">
+<i class="icon fa-solid fa-wrench"></i>研究项目</h1>
 
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+<h1 class="lang-en" id="research-projects">
+<i class="icon fa-solid fa-wrench"></i>Research Projects</h1>
 
-<div class="tags">
-    
-      <a href="/lab-site/projects/?search=%22tag:%20publication%22" class="tag" data-tooltip='Show items with the tag "publication"'>
-        publication
-      </a>
-    
-      <a href="/lab-site/projects/?search=%22tag:%20resource%22" class="tag" data-tooltip='Show items with the tag "resource"'>
-        resource
-      </a>
-    
-      <a href="/lab-site/projects/?search=%22tag:%20website%22" class="tag" data-tooltip='Show items with the tag "website"'>
-        website
-      </a>
-    
-  </div>
+<p>实验室目前承担多项科研项目，涵盖国家自然科学基金、广东省及深圳市科技项目，以及与企业的产学研合作项目。</p>
 
-<div class="search-info"></div>
+<p class="lang-zh">The lab is currently engaged in several research projects, including NSFC grants, Guangdong and Shenzhen science &amp; technology programs, and industry-academia collaborations.</p>
   </section>
 
   
@@ -573,221 +512,133 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
   <size></size>
 -->
 
-<h2 id="featured">Featured</h2>
-
 <div class="card" data-style="">
-  <a href="https://github.com/" aria-label="Cool Dataset" class="card-image">
-    <img src="/lab-site/images/photo.jpg" alt="Cool Dataset" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+  <a aria-label="Research on Spatiotemporal Graph Conditional Reasoning Technology Based on Autocorrelated Subgraph Generation" class="card-image">
+    <img src="/lab-site/images/photo.jpg" alt="Research on Spatiotemporal Graph Conditional Reasoning Technology Based on Autocorrelated Subgraph Generation" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
   </a>
 
   <div class="card-text">
     
-      <a href="https://github.com/" class="card-title">
-        Cool Dataset
+      <a class="card-title">
+        <span class="lang-zh">基于自相关子图生成的时空图条件推演技术研究</span><span class="lang-en">Research on Spatiotemporal Graph Conditional Reasoning Technology Based on Autocorrelated Subgraph Generation</span>
     </a>
     
 
     
-      <span class="card-subtitle">a subtitle</span>
+      <span class="card-subtitle"><span class="lang-zh">国家自然科学基金 面上项目 · 2025.01-2028.12 · 50万元 · 主持</span><span class="lang-en">NSFC General Program · 2025.01-2028.12 · ¥500k · PI</span></span>
     
 
     
-      <p>
-        Lorem ipsum <em>dolor sit amet</em>, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-
-      </p>
-    
-
-    
-      
-
-
-  <div class="tags" data-repo="greenelab/lab-website-template">
-    
-      <a href="/lab-site/projects/?search=%22tag:%20resource%22" class="tag" data-tooltip='Show items with the tag "resource"'>
-        resource
-      </a>
-    
-  </div>
-
 
     
   </div>
 </div>
 
 <div class="card" data-style="">
-  <a href="https://github.com/" aria-label="Cool Package" class="card-image">
-    <img src="/lab-site/images/photo.jpg" alt="Cool Package" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+  <a aria-label="Research on Heterogeneous Spatiotemporal Big Data Pre-trained Foundation Models" class="card-image">
+    <img src="/lab-site/images/photo.jpg" alt="Research on Heterogeneous Spatiotemporal Big Data Pre-trained Foundation Models" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
   </a>
 
   <div class="card-text">
     
-      <a href="https://github.com/" class="card-title">
-        Cool Package
+      <a class="card-title">
+        <span class="lang-zh">异质性时空大数据预训练基础模型技术研究</span><span class="lang-en">Research on Heterogeneous Spatiotemporal Big Data Pre-trained Foundation Models</span>
     </a>
     
 
     
-      <span class="card-subtitle">a subtitle</span>
+      <span class="card-subtitle"><span class="lang-zh">广东省基础与应用基础研究基金 面上项目 · 2025.01-2027.12 · 10万元 · 主持</span><span class="lang-en">Guangdong Basic and Applied Basic Research Foundation · 2025.01-2027.12 · ¥100k · PI</span></span>
     
 
     
-      <p>
-        Lorem ipsum <em>dolor sit amet</em>, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-
-      </p>
-    
-
-    
-      
-
-
-  <div class="tags" data-repo="greenelab/lab-website-template">
-    
-      <a href="/lab-site/projects/?search=%22tag:%20resource%22" class="tag" data-tooltip='Show items with the tag "resource"'>
-        resource
-      </a>
-    
-  </div>
-
-
-    
-  </div>
-</div>
-  </section>
-
-  
-  
-  
-
-  <section class="background" data-size="page">
-    <!--
-  <background></background>
-  <dark></dark>
-  <size></size>
--->
-
-<h2 id="more">More</h2>
-
-<div class="card" data-style="small">
-  <a href="https://github.com/" aria-label="Cool Tutorial" class="card-image">
-    <img src="/lab-site/images/photo.jpg" alt="Cool Tutorial" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
-  </a>
-
-  <div class="card-text">
-    
-      <a href="https://github.com/" class="card-title">
-        Cool Tutorial
-    </a>
-    
-
-    
-      <span class="card-subtitle">a subtitle</span>
-    
-
-    
-      <p>
-        Lorem ipsum <em>dolor sit amet</em>, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-
-      </p>
-    
-
-    
-      
-
-
-  <div class="tags" data-repo="greenelab/lab-website-template">
-    
-      <a href="/lab-site/projects/?search=%22tag:%20resource%22" class="tag" data-tooltip='Show items with the tag "resource"'>
-        resource
-      </a>
-    
-      <a href="/lab-site/projects/?search=%22tag:%20publication%22" class="tag" data-tooltip='Show items with the tag "publication"'>
-        publication
-      </a>
-    
-  </div>
-
 
     
   </div>
 </div>
 
-<div class="card" data-style="small">
-  <a href="https://github.com/" aria-label="Cool Web App" class="card-image">
-    <img src="/lab-site/images/photo.jpg" alt="Cool Web App" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+<div class="card" data-style="">
+  <a aria-label="Research on Spatiotemporal Big Data Mining and Intelligent Technology" class="card-image">
+    <img src="/lab-site/images/photo.jpg" alt="Research on Spatiotemporal Big Data Mining and Intelligent Technology" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
   </a>
 
   <div class="card-text">
     
-      <a href="https://github.com/" class="card-title">
-        Cool Web App
+      <a class="card-title">
+        <span class="lang-zh">时空大数据挖掘与智能技术研究</span><span class="lang-en">Research on Spatiotemporal Big Data Mining and Intelligent Technology</span>
     </a>
     
 
     
-      <span class="card-subtitle">a subtitle</span>
+      <span class="card-subtitle"><span class="lang-zh">深圳市高校稳定支持项目 · 2023.10-2026.09 · 35万元 · 主持</span><span class="lang-en">Shenzhen University Stable Support Project · 2023.10-2026.09 · ¥350k · PI</span></span>
     
 
     
-      <p>
-        Lorem ipsum <em>dolor sit amet</em>, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-
-      </p>
-    
-
-    
-      
-
-
-  <div class="tags" data-repo="greenelab/lab-website-template">
-    
-      <a href="/lab-site/projects/?search=%22tag:%20software%22" class="tag" data-tooltip='Show items with the tag "software"'>
-        software
-      </a>
-    
-  </div>
-
 
     
   </div>
 </div>
 
-<div class="card" data-style="small">
-  <a href="https://github.com/" aria-label="Cool Web Server" class="card-image">
-    <img src="/lab-site/images/photo.jpg" alt="Cool Web Server" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+<div class="card" data-style="">
+  <a aria-label="Key Technologies for Multimodal Embodied Intelligence for Autonomous Traffic Command and Control" class="card-image">
+    <img src="/lab-site/images/photo.jpg" alt="Key Technologies for Multimodal Embodied Intelligence for Autonomous Traffic Command and Control" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
   </a>
 
   <div class="card-text">
     
-      <a href="https://github.com/" class="card-title">
-        Cool Web Server
+      <a class="card-title">
+        <span class="lang-zh">面向自主式交通指挥与管控的多模态具身智能关键技术研发</span><span class="lang-en">Key Technologies for Multimodal Embodied Intelligence for Autonomous Traffic Command and Control</span>
     </a>
     
 
     
-      <span class="card-subtitle">a subtitle</span>
+      <span class="card-subtitle"><span class="lang-zh">深圳市科技创新局重点产业研发项目 · 2026.01-2028.12 · 500万元 · 参与（高校负责人）</span><span class="lang-en">Shenzhen Key Industry R&amp;D Project · 2026.01-2028.12 · ¥5M · Participant (University Lead)</span></span>
     
 
     
-      <p>
-        Lorem ipsum <em>dolor sit amet</em>, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
-      </p>
-    
-
-    
-      
-
-
-  <div class="tags" data-repo="greenelab/lab-website-template">
-    
-      <a href="/lab-site/projects/?search=%22tag:%20software%22" class="tag" data-tooltip='Show items with the tag "software"'>
-        software
-      </a>
     
   </div>
+</div>
 
+<div class="card" data-style="">
+  <a aria-label="Research and Application of Production Command Decision Support Technology Based on Multi-agent Workflow" class="card-image">
+    <img src="/lab-site/images/photo.jpg" alt="Research and Application of Production Command Decision Support Technology Based on Multi-agent Workflow" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+  </a>
+
+  <div class="card-text">
+    
+      <a class="card-title">
+        <span class="lang-zh">基于多智能体工作流的生产指挥决策支持技术研究与应用</span><span class="lang-en">Research and Application of Production Command Decision Support Technology Based on Multi-agent Workflow</span>
+    </a>
+    
+
+    
+      <span class="card-subtitle"><span class="lang-zh">南方电网深圳供电局委托开发项目 · 2026.01-2027.07 · 194.85万元 · 主持</span><span class="lang-en">Commissioned Project by Shenzhen Power Supply Bureau · 2026.01-2027.07 · ¥1.95M · PI</span></span>
+    
+
+    
+
+    
+  </div>
+</div>
+
+<div class="card" data-style="">
+  <a aria-label="Key Technologies and Equipment for High-performance Sensing" class="card-image">
+    <img src="/lab-site/images/photo.jpg" alt="Key Technologies and Equipment for High-performance Sensing" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+  </a>
+
+  <div class="card-text">
+    
+      <a class="card-title">
+        <span class="lang-zh">面向车路云一体化的高性能通感算关键技术与设备研发</span><span class="lang-en">Key Technologies and Equipment for High-performance Sensing</span>
+    </a>
+    
+
+    
+      <span class="card-subtitle"><span class="lang-zh">广东省重点领域研发计划 · 2026.01-2028.12 · 1000万元 · 参与</span><span class="lang-en">Guangdong Provincial Key R&amp;D Program · 2026.01-2028.12 · ¥10M · Participant</span></span>
+    
+
+    
 
     
   </div>

@@ -43,21 +43,21 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Research | 时空大数据智能与计算实验室</title>
+<title>Publications | 时空大数据智能与计算实验室</title>
 
 <link rel="icon" href="/lab-site/images/icon.png">
 
-<meta name="title" content="Research">
+<meta name="title" content="Publications">
 <meta name="description" content="哈尔滨工业大学（深圳）计算机科学与技术学院. 实验室研究方向为数据挖掘、机器学习、时空大数据分析与智能，智慧城市等。">
 
-<meta property="og:title" content="Research">
+<meta property="og:title" content="Publications">
 <meta property="og:site_title" content="时空大数据智能与计算实验室">
 <meta property="og:description" content="哈尔滨工业大学（深圳）计算机科学与技术学院. 实验室研究方向为数据挖掘、机器学习、时空大数据分析与智能，智慧城市等。">
 <meta property="og:url" content="https://misevenjoy.github.io/lab-site">
 <meta property="og:image" content="/lab-site/images/share.jpg">
 <meta property="og:locale" content="en_US">
 
-<meta property="twitter:title" content="Research">
+<meta property="twitter:title" content="Publications">
 <meta property="twitter:description" content="哈尔滨工业大学（深圳）计算机科学与技术学院. 实验室研究方向为数据挖掘、机器学习、时空大数据分析与智能，智慧城市等。">
 <meta property="twitter:url" content="https://misevenjoy.github.io/lab-site">
 <meta property="twitter:card" content="summary_large_image">
@@ -73,9 +73,9 @@
     
       "@type": "WebSite",
     
-    "name": "Research",
+    "name": "Publications",
     "description": "哈尔滨工业大学（深圳）计算机科学与技术学院. 实验室研究方向为数据挖掘、机器学习、时空大数据分析与智能，智慧城市等。",
-    "headline": "Research",
+    "headline": "Publications",
     "publisher": {
       "@type": "Organization",
       "logo": { "@type": "ImageObject", "url": "/lab-site/images/icon.png" }
@@ -188,6 +188,10 @@
 
   
     <link href="/lab-site/_styles/form.css" rel="stylesheet">
+  
+
+  
+    <link href="/lab-site/_styles/gallery.css" rel="stylesheet">
   
 
   
@@ -344,6 +348,8 @@
 
   
 
+  
+
 
 <!-- include all css in styles folder -->
 
@@ -362,6 +368,8 @@
   <script src="/lab-site/_scripts/dark-mode.js"></script>
 
   <script src="/lab-site/_scripts/fetch-tags.js"></script>
+
+  <script src="/lab-site/_scripts/gallery.js"></script>
 
   <script src="/lab-site/_scripts/lang.js"></script>
 
@@ -387,69 +395,6 @@
 
 <header class="background" style="--image: url('/lab-site/images/background.jpg')" data-dark="true">
   <a href="/lab-site/" class="home">
-    
-      <span class="logo">
-        
-          <svg xmlns="http://www.w3.org/2000/svg" viewbox="-40 -60 80 100">
-  <style>
-    .bubble {
-      animation: float 2s ease-out both infinite var(--delay);
-    }
-    @keyframes float {
-      0% {
-        opacity: 0;
-      }
-      50% {
-        transform: translateY(0);
-        opacity: 0;
-      }
-      75% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(-40px);
-      }
-    }
-  </style>
-  <g fill="currentColor" opacity="0.5">
-    <circle class="bubble" cx="0" cy="-10" r="3" style="--delay: 0.1s"></circle>
-    <circle class="bubble" cx="0" cy="-10" r="3" style="--delay: 0.4s"></circle>
-    <circle class="bubble" cx="0" cy="-10" r="3" style="--delay: 1.1s"></circle>
-  </g>
-  <path fill="#38bdf8" d="
-      M 0 -22.5
-      L -19.5 -11.25
-      L -19.5 11.25
-      L 0 22.5
-      L 19.5 11.25
-      L 19.5 -11.25
-      z
-    "></path>
-  <path fill="#bae6fd" d="
-      M 0 -22.5
-      L -19.5 -11.25
-      L 0 0
-      L 19.5 -11.25
-      z
-    "></path>
-  <path fill="none" stroke="currentColor" stroke-width="5" d="
-      M -18 -53
-      L -10 -53
-      L -10 -29.2
-      L -30.3 -17.5
-      L -30.3 17.5
-      L 0 35
-      L 30.3 17.5
-      L 30.3 -17.5
-      L 10 -29.2
-      L 10 -53
-      L 18 -53
-    "></path>
-</svg>
-
-        
-      </span>
     
     
       <span class="title-text" data-tooltip="Home">
@@ -477,15 +422,15 @@
       
         <a href="/lab-site/research/" data-tooltip="Published works">
           
-            Research
+            <span class="lang-zh">研究成果</span><span class="lang-en">Publications</span>
           
         </a>
       
     
       
-        <a href="/lab-site/projects/" data-tooltip="Software, datasets, and more">
+        <a href="/lab-site/projects/" data-tooltip="Research projects">
           
-            Projects
+            <span class="lang-zh">研究项目</span><span class="lang-en">Research Projects</span>
           
         </a>
       
@@ -493,23 +438,31 @@
       
         <a href="/lab-site/team/" data-tooltip="About our team">
           
-            Team
+            <span class="lang-zh">团队成员</span><span class="lang-en">Team</span>
           
         </a>
       
     
       
-        <a href="/lab-site/blog/" data-tooltip="Musings and miscellany">
+        <a href="/lab-site/gallery/" data-tooltip="Photos">
           
-            Blog
+            <span class="lang-zh">相册</span><span class="lang-en">Gallery</span>
           
         </a>
       
     
       
-        <a href="/lab-site/contact/" data-tooltip="Email, address, and location">
+        <a href="/lab-site/join/" data-tooltip="Openings">
           
-            Contact
+            <span class="lang-zh">招生计划</span><span class="lang-en">Join Us</span>
+          
+        </a>
+      
+    
+      
+        <a href="/lab-site/contact/" data-tooltip="Email and address">
+          
+            <span class="lang-zh">联系我们</span><span class="lang-en">Contact</span>
           
         </a>
       
@@ -537,11 +490,15 @@
   
 
   <section class="background" data-size="page">
-    <h1 id="research">
-<i class="icon fa-solid fa-microscope"></i>Research</h1>
+    <h1 class="lang-zh" id="研究成果">
+<i class="icon fa-solid fa-microscope"></i>研究成果</h1>
 
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+<h1 class="lang-en" id="publications">
+<i class="icon fa-solid fa-microscope"></i>Publications</h1>
+
+<p>实验室在时空数据挖掘、机器学习等领域发表多篇高水平论文。J 表示期刊论文，C 表示会议论文。</p>
+
+<p class="lang-zh">The lab publishes research in spatiotemporal data mining and machine learning. J denotes journal papers, C denotes conference papers.</p>
   </section>
 
   
@@ -554,133 +511,6 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
   <dark></dark>
   <size></size>
 -->
-
-<h2 id="highlighted">Highlighted</h2>
-
-<div class="citation-container">
-  <div class="citation">
-    
-      <a href="https://doi.org/c7np" class="citation-image" aria-label="Open collaborative writing with Manubot">
-        <img src="https://journals.plos.org/ploscompbiol/article/figure/image?size=inline&id=info:doi/10.1371/journal.pcbi.1007128.g001&amp;rev=2" alt="Open collaborative writing with Manubot" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
-      </a>
-    
-
-    <div class="citation-text">
-      
-      <i class="icon fa-solid fa-scroll"></i>
-
-      <a href="https://doi.org/c7np" class="citation-title">
-        Open collaborative writing with Manubot
-      </a>
-
-      <div class="citation-authors" tabindex="0">
-        Daniel S. Himmelstein, Vincent Rubinetti, David R. Slochower, Dongbo Hu, Venkat S. Malladi, Casey S. Greene, Anthony Gitter
-
-      </div>
-
-      <div class="citation-details">
-        <span class="citation-publisher">PLOS Computational Biology</span>
-         · 
-        <span class="citation-date">04 Dec 2020</span>
-         · 
-        <span class="citation-id">doi:10.1371/journal.pcbi.1007128</span>
-      </div>
-
-      
-        
-          <div class="citation-description">
-            Lorem ipsum <em>dolor</em> <strong>sit amet</strong>, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-
-          </div>
-        
-
-        
-          <div class="citation-buttons">
-            
-              
-
-
-
-  <div class="button-wrapper">
-    <a class="button" href="https://greenelab.github.io/meta-review/" data-tooltip="Manubot" data-style="bare" aria-label="Manubot">
-      <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewbox="-450 -250 900 500">  <g transform="scale(0.9)">    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="50" d="        M -125 125         L -125 -125        L 0 45        L 125 -125        L 125 125      "></path>    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="50" d="        M -200 -250        L -330 0         L -200 250      "></path>    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="50" d="        m 200 250         L 330 0        L 200 -250      "></path>    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="50" d="        M -330 0        L -370 0      "></path>    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="50" d="        M 330 0        L 370 0      "></path>    <circle cx="-455" cy="0" r="30" fill="none" stroke="currentColor" stroke-width="30"></circle>    <circle cx="455" cy="0" r="30" fill="none" stroke="currentColor" stroke-width="30"></circle>  </g></svg></span>
-      
-        <span>Manubot</span>
-      
-    </a>
-  </div>
-
-
-            
-              
-
-
-
-  <div class="button-wrapper">
-    <a class="button" href="https://github.com/greenelab/meta-review" data-tooltip="Source code" data-style="bare" aria-label="Source code">
-      <i class="icon fa-solid fa-code"></i>
-      
-        <span>Manuscript Source</span>
-      
-    </a>
-  </div>
-
-
-            
-              
-
-
-
-  <div class="button-wrapper">
-    <a class="button" href="http://manubot.org/" data-tooltip="Website" data-style="bare" aria-label="Website">
-      <i class="icon fa-solid fa-globe"></i>
-      
-        <span>Website</span>
-      
-    </a>
-  </div>
-
-
-            
-          </div>
-        
-
-        
-          
-
-
-  <div class="tags" data-repo="greenelab/meta-review">
-    
-      <a href="/lab-site/research/?search=%22tag:%20open-science%22" class="tag" data-tooltip='Show items with the tag "open-science"'>
-        open-science
-      </a>
-    
-      <a href="/lab-site/research/?search=%22tag:%20collaboration%22" class="tag" data-tooltip='Show items with the tag "collaboration"'>
-        collaboration
-      </a>
-    
-  </div>
-
-
-        
-      
-    </div>
-  </div>
-</div>
-  </section>
-
-  
-  
-  
-
-  <section class="background" data-size="page">
-    <!--
-  <background></background>
-  <dark></dark>
-  <size></size>
--->
-
-<h2 id="all">All</h2>
 
 <div class="search-box">
   <input type="text" class="search-input" oninput="onSearchInput(this)" placeholder="Search items on this page">
@@ -696,30 +526,74 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
 <div class="citation-container">
   <div class="citation">
     
-      <a href="https://doi.org/hbvg3p" class="citation-image" aria-label="Scalable data harmonization for single-cell image-based profiling with CytoTable">
-        <img src="" alt="Scalable data harmonization for single-cell image-based profiling with CytoTable" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+      <a href="https://ojs.aaai.org/index.php/AAAI/article/view/39356" class="citation-image" aria-label="Sparse Poisson Gamma Belief Networks for High-Dimensional Sparse Count Data">
+        <img src="" alt="Sparse Poisson Gamma Belief Networks for High-Dimensional Sparse Count Data" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
       </a>
     
 
     <div class="citation-text">
       
-      
+      <i class="icon fa-solid fa-comments"></i>
 
-      <a href="https://doi.org/hbvg3p" class="citation-title">
-        Scalable data harmonization for single-cell image-based profiling with CytoTable
+      <a href="https://ojs.aaai.org/index.php/AAAI/article/view/39356" class="citation-title">
+        Sparse Poisson Gamma Belief Networks for High-Dimensional Sparse Count Data
       </a>
 
       <div class="citation-authors" tabindex="0">
-        Dave Bunten, Jenna Tomkinson, Erik Serrano, Michael J. Lippincott, Kenneth I. Brewer, Vince Rubinetti, Faisal Alquaddoomi, Gregory P. Way
+        Rui Huang, Dian Meng, Xun Zhou, Sikun Yang
 
       </div>
 
       <div class="citation-details">
-        <span class="citation-publisher">Patterns</span>
+        <span class="citation-publisher">AAAI 2026</span>
          · 
-        <span class="citation-date">01 May 2026</span>
+        <span class="citation-date">10 Feb 2026</span>
+        
+           · 
+          <span class="citation-id">doi:10.1609/aaai.v40i1.39356</span>
+        
+      </div>
+
+      
+        
+
+        
+
+        
+      
+    </div>
+  </div>
+</div>
+
+<div class="citation-container">
+  <div class="citation">
+    
+      <a class="citation-image" aria-label="Cryptography-based privacy-preserving large language models: a lifecycle survey of frameworks, methods, and future directions">
+        <img src="" alt="Cryptography-based privacy-preserving large language models: a lifecycle survey of frameworks, methods, and future directions" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+      </a>
+    
+
+    <div class="citation-text">
+      
+      <i class="icon fa-regular fa-newspaper"></i>
+
+      <a class="citation-title">
+        Cryptography-based privacy-preserving large language models: a lifecycle survey of frameworks, methods, and future directions
+      </a>
+
+      <div class="citation-authors" tabindex="0">
+        Jinglong Luo, Yehong Zhang, Zhuo Zhang, Shiyu Liu, Ye Dong, Haoran Li, Yue Yu, Hui Wang, Xun Zhou, Zenglin Xu
+
+      </div>
+
+      <div class="citation-details">
+        <span class="citation-publisher">Artificial Intelligence Review</span>
          · 
-        <span class="citation-id">doi:10.1016/j.patter.2026.101514</span>
+        <span class="citation-date">01 Jan 2026</span>
+        
+           · 
+          <span class="citation-id">Artificial Intelligence Review (accepted)</span>
+        
       </div>
 
       
@@ -738,72 +612,32 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
 <div class="citation-container">
   <div class="citation">
     
-      <a href="https://doi.org/g9rfr3" class="citation-image" aria-label="Scalable data harmonization for single-cell image-based profiling with CytoTable">
-        <img src="" alt="Scalable data harmonization for single-cell image-based profiling with CytoTable" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+      <a class="citation-image" aria-label="Adjacency-Aware Deep Reinforcement Learning for Centralized Vehicle Repositioning">
+        <img src="" alt="Adjacency-Aware Deep Reinforcement Learning for Centralized Vehicle Repositioning" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
       </a>
     
 
     <div class="citation-text">
       
-      
+      <i class="icon fa-solid fa-comments"></i>
 
-      <a href="https://doi.org/g9rfr3" class="citation-title">
-        Scalable data harmonization for single-cell image-based profiling with CytoTable
+      <a class="citation-title">
+        Adjacency-Aware Deep Reinforcement Learning for Centralized Vehicle Repositioning
       </a>
 
       <div class="citation-authors" tabindex="0">
-        Dave Bunten, Jenna Tomkinson, Erik Serrano, Michael J. Lippincott, Kenneth I. Brewer, Vince Rubinetti, Faisal Alquaddoomi, Gregory P. Way
+        Chenxu Zhang, Xun Zhou, Yitian Shao, Jun Luo
 
       </div>
 
       <div class="citation-details">
-        <span class="citation-publisher">openRxiv</span>
+        <span class="citation-publisher">IEEE International Conference on Big Data (BigData)</span>
          · 
-        <span class="citation-date">25 Jun 2025</span>
-         · 
-        <span class="citation-id">doi:10.1101/2025.06.19.660613</span>
-      </div>
-
-      
+        <span class="citation-date">05 Dec 2025</span>
         
-
+           · 
+          <span class="citation-id">IEEE BigData 2025</span>
         
-
-        
-      
-    </div>
-  </div>
-</div>
-
-<h3 id="2023">2023</h3>
-
-<div class="citation-container">
-  <div class="citation">
-    
-      <a href="https://doi.org/gs6kmr" class="citation-image" aria-label="The Monarch Initiative in 2024: an analytic platform integrating phenotypes, genes and diseases across species">
-        <img src="" alt="The Monarch Initiative in 2024: an analytic platform integrating phenotypes, genes and diseases across species" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
-      </a>
-    
-
-    <div class="citation-text">
-      
-      
-
-      <a href="https://doi.org/gs6kmr" class="citation-title">
-        The Monarch Initiative in 2024: an analytic platform integrating phenotypes, genes and diseases across species
-      </a>
-
-      <div class="citation-authors" data-tooltip="Tim E Putman, Kevin Schaper, Nicolas Matentzoglu, Vincent P Rubinetti, Faisal S Alquaddoomi, Corey Cox, J Harry Caufield, Glass Elsarboukh, Sarah Gehrke, Harshad Hegde, Justin T Reese, Ian Braun, Richard M Bruskiewich, Luca Cappelletti, Seth Carbon, Anita R Caron, Lauren E Chan, Christopher G Chute, Katherina G Cortes, Vinícius De Souza, Tommaso Fontana, Nomi L Harris, Emily L Hartley, Eric Hurwitz, Julius O B Jacobsen, Madan Krishnamurthy, Bryan J Laraway, James A McLaughlin, Julie A McMurry, Sierra A T Moxon, Kathleen R Mullen, Shawn T O’Neil, Kent A Shefchek, Ray Stefancsik, Sabrina Toro, Nicole A Vasilevsky, Ramona L Walls, Patricia L Whetzel, David Osumi-Sutherland, Damian Smedley, Peter N Robinson, Christopher J Mungall, Melissa A Haendel, Monica C Munoz-Torres" tabindex="0">
-        Tim E Putman, Kevin Schaper, Nicolas Matentzoglu, Vincent P Rubinetti, Faisal S Alquaddoomi, …, Damian Smedley, Peter N Robinson, Christopher J Mungall, Melissa A Haendel, Monica C Munoz-Torres
-
-      </div>
-
-      <div class="citation-details">
-        <span class="citation-publisher">Nucleic Acids Research</span>
-         · 
-        <span class="citation-date">24 Nov 2023</span>
-         · 
-        <span class="citation-id">doi:10.1093/nar/gkad1082</span>
       </div>
 
       
@@ -820,30 +654,32 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
 <div class="citation-container">
   <div class="citation">
     
-      <a href="https://doi.org/gsvf5z" class="citation-image" aria-label="Integration of 168,000 samples reveals global patterns of the human gut microbiome">
-        <img src="" alt="Integration of 168,000 samples reveals global patterns of the human gut microbiome" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+      <a class="citation-image" aria-label="ConPro-GAIL: Interpretable Policy Learning via Conceptual Prototyping for Human Spatiotemporal Decision Understanding">
+        <img src="" alt="ConPro-GAIL: Interpretable Policy Learning via Conceptual Prototyping for Human Spatiotemporal Decision Understanding" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
       </a>
     
 
     <div class="citation-text">
       
-      
+      <i class="icon fa-solid fa-comments"></i>
 
-      <a href="https://doi.org/gsvf5z" class="citation-title">
-        Integration of 168,000 samples reveals global patterns of the human gut microbiome
+      <a class="citation-title">
+        ConPro-GAIL: Interpretable Policy Learning via Conceptual Prototyping for Human Spatiotemporal Decision Understanding
       </a>
 
       <div class="citation-authors" tabindex="0">
-        Richard J. Abdill, Samantha P. Graham, Vincent Rubinetti, Frank W. Albert, Casey S. Greene, Sean Davis, Ran Blekhman
+        Ronilo Ragodos, Xun Zhou, Tong Wang, Yajun Pan, Jun Luo
 
       </div>
 
       <div class="citation-details">
-        <span class="citation-publisher">openRxiv</span>
+        <span class="citation-publisher">ACM SIGSPATIAL Conference on Advances in Geographic Information Systems (SIGSPATIAL)</span>
          · 
-        <span class="citation-date">11 Oct 2023</span>
-         · 
-        <span class="citation-id">doi:10.1101/2023.10.11.560955</span>
+        <span class="citation-date">04 Nov 2025</span>
+        
+           · 
+          <span class="citation-id">SIGSPATIAL 2025</span>
+        
       </div>
 
       
@@ -860,30 +696,32 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
 <div class="citation-container">
   <div class="citation">
     
-      <a href="https://doi.org/gr5hb5" class="citation-image" aria-label="MyGeneset.info: an interactive and programmatic platform for community-curated and user-created collections of genes">
-        <img src="" alt="MyGeneset.info: an interactive and programmatic platform for community-curated and user-created collections of genes" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+      <a class="citation-image" aria-label="CENTAUR: Bridging the Impossible Trinity of Privacy, Efficiency, and Performance in Privacy-Preserving Transformer Inference">
+        <img src="" alt="CENTAUR: Bridging the Impossible Trinity of Privacy, Efficiency, and Performance in Privacy-Preserving Transformer Inference" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
       </a>
     
 
     <div class="citation-text">
       
-      
+      <i class="icon fa-solid fa-comments"></i>
 
-      <a href="https://doi.org/gr5hb5" class="citation-title">
-        MyGeneset.info: an interactive and programmatic platform for community-curated and user-created collections of genes
+      <a class="citation-title">
+        CENTAUR: Bridging the Impossible Trinity of Privacy, Efficiency, and Performance in Privacy-Preserving Transformer Inference
       </a>
 
       <div class="citation-authors" tabindex="0">
-        Ricardo Avila, Vincent Rubinetti, Xinghua Zhou, Dongbo Hu, Zhongchao Qian, Marco Alvarado Cano, Everaldo Rodolpho, Ginger Tsueng, Casey Greene, Chunlei Wu
+        Jinglong Luo, Guanzhong Chen, Yehong Zhang, Shiyu Liu, Hui Wang, Yue Yu, Xun Zhou, Yuan Qi, Zenglin Xu
 
       </div>
 
       <div class="citation-details">
-        <span class="citation-publisher">Nucleic Acids Research</span>
+        <span class="citation-publisher">The 63rd Annual Meeting of the Association for Computational Linguistics (ACL)</span>
          · 
-        <span class="citation-date">18 Apr 2023</span>
-         · 
-        <span class="citation-id">doi:10.1093/nar/gkad289</span>
+        <span class="citation-date">27 Jul 2025</span>
+        
+           · 
+          <span class="citation-id">ACL 2025</span>
+        
       </div>
 
       
@@ -900,265 +738,32 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
 <div class="citation-container">
   <div class="citation">
     
-      <a href="https://doi.org/grmcb9" class="citation-image" aria-label="Hetnet connectivity search provides rapid insights into how two biomedical entities are related">
-        <img src="" alt="Hetnet connectivity search provides rapid insights into how two biomedical entities are related" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+      <a class="citation-image" aria-label="From continuous pre-training to alignment: A comprehensive toolkit for large language models in federated learning">
+        <img src="" alt="From continuous pre-training to alignment: A comprehensive toolkit for large language models in federated learning" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
       </a>
     
 
     <div class="citation-text">
       
-      
+      <i class="icon fa-regular fa-newspaper"></i>
 
-      <a href="https://doi.org/grmcb9" class="citation-title">
-        Hetnet connectivity search provides rapid insights into how two biomedical entities are related
-      </a>
-
-      <div class="citation-authors" data-tooltip="Daniel S. Himmelstein, Michael Zietz, Vincent Rubinetti, Kyle Kloster, Benjamin J. Heil, Faisal Alquaddoomi, Dongbo Hu, David N. Nicholson, Yun Hao, Blair D. Sullivan, Michael W. Nagle, Casey S. Greene" tabindex="0">
-        Daniel S. Himmelstein, Michael Zietz, Vincent Rubinetti, Kyle Kloster, Benjamin J. Heil, …, David N. Nicholson, Yun Hao, Blair D. Sullivan, Michael W. Nagle, Casey S. Greene
-
-      </div>
-
-      <div class="citation-details">
-        <span class="citation-publisher">openRxiv</span>
-         · 
-        <span class="citation-date">07 Jan 2023</span>
-         · 
-        <span class="citation-id">doi:10.1101/2023.01.05.522941</span>
-      </div>
-
-      
-        
-
-        
-
-        
-      
-    </div>
-  </div>
-</div>
-
-<h3 id="2022">2022</h3>
-
-<div class="citation-container">
-  <div class="citation">
-    
-      <a href="https://doi.org/gsd85n" class="citation-image" aria-label="Hetnet connectivity search provides rapid insights into how biomedical entities are related">
-        <img src="" alt="Hetnet connectivity search provides rapid insights into how biomedical entities are related" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
-      </a>
-    
-
-    <div class="citation-text">
-      
-      
-
-      <a href="https://doi.org/gsd85n" class="citation-title">
-        Hetnet connectivity search provides rapid insights into how biomedical entities are related
-      </a>
-
-      <div class="citation-authors" data-tooltip="Daniel S Himmelstein, Michael Zietz, Vincent Rubinetti, Kyle Kloster, Benjamin J Heil, Faisal Alquaddoomi, Dongbo Hu, David N Nicholson, Yun Hao, Blair D Sullivan, Michael W Nagle, Casey S Greene" tabindex="0">
-        Daniel S Himmelstein, Michael Zietz, Vincent Rubinetti, Kyle Kloster, Benjamin J Heil, …, David N Nicholson, Yun Hao, Blair D Sullivan, Michael W Nagle, Casey S Greene
-
-      </div>
-
-      <div class="citation-details">
-        <span class="citation-publisher">GigaScience</span>
-         · 
-        <span class="citation-date">28 Dec 2022</span>
-         · 
-        <span class="citation-id">doi:10.1093/gigascience/giad047</span>
-      </div>
-
-      
-        
-
-        
-
-        
-      
-    </div>
-  </div>
-</div>
-
-<div class="citation-container">
-  <div class="citation">
-    
-      <a href="https://doi.org/gstx7j" class="citation-image" aria-label="MolEvolvR: A web-app for characterizing proteins using molecular evolution and phylogeny">
-        <img src="" alt="MolEvolvR: A web-app for characterizing proteins using molecular evolution and phylogeny" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
-      </a>
-    
-
-    <div class="citation-text">
-      
-      
-
-      <a href="https://doi.org/gstx7j" class="citation-title">
-        MolEvolvR: A web-app for characterizing proteins using molecular evolution and phylogeny
-      </a>
-
-      <div class="citation-authors" data-tooltip="Faisal S Alquaddoomi, Joseph T Burke, Lo Sosinski, David A Mayer, Evan P Brenner, Samuel Z Chen, Jacob D Krol, Ethan P Wolfe, Vincent P Rubinetti, Shaddai Amolitos, Kellen M Reason, John B Johnston, Janani Ravi" tabindex="0">
-        Faisal S Alquaddoomi, Joseph T Burke, Lo Sosinski, David A Mayer, Evan P Brenner, …, Vincent P Rubinetti, Shaddai Amolitos, Kellen M Reason, John B Johnston, Janani Ravi
-
-      </div>
-
-      <div class="citation-details">
-        <span class="citation-publisher">openRxiv</span>
-         · 
-        <span class="citation-date">22 Feb 2022</span>
-         · 
-        <span class="citation-id">doi:10.1101/2022.02.18.461833</span>
-      </div>
-
-      
-        
-
-        
-
-        
-      
-    </div>
-  </div>
-</div>
-
-<h3 id="2020">2020</h3>
-
-<div class="citation-container">
-  <div class="citation">
-    
-      <a href="https://doi.org/c7np" class="citation-image" aria-label="Open collaborative writing with Manubot">
-        <img src="https://journals.plos.org/ploscompbiol/article/figure/image?size=inline&id=info:doi/10.1371/journal.pcbi.1007128.g001&amp;rev=2" alt="Open collaborative writing with Manubot" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
-      </a>
-    
-
-    <div class="citation-text">
-      
-      <i class="icon fa-solid fa-scroll"></i>
-
-      <a href="https://doi.org/c7np" class="citation-title">
-        Open collaborative writing with Manubot
+      <a class="citation-title">
+        From continuous pre-training to alignment: A comprehensive toolkit for large language models in federated learning
       </a>
 
       <div class="citation-authors" tabindex="0">
-        Daniel S. Himmelstein, Vincent Rubinetti, David R. Slochower, Dongbo Hu, Venkat S. Malladi, Casey S. Greene, Anthony Gitter
+        Zhuo Zhang, Yukun Zhang, Guanzhong Chen, Lizhen Qu, Xun Zhou, Hui Wang, Zenglin Xu
 
       </div>
 
       <div class="citation-details">
-        <span class="citation-publisher">PLOS Computational Biology</span>
+        <span class="citation-publisher">Neurocomputing, Volume 647</span>
          · 
-        <span class="citation-date">04 Dec 2020</span>
-         · 
-        <span class="citation-id">doi:10.1371/journal.pcbi.1007128</span>
-      </div>
-
-      
+        <span class="citation-date">01 May 2025</span>
         
-          <div class="citation-description">
-            Lorem ipsum <em>dolor</em> <strong>sit amet</strong>, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-
-          </div>
+           · 
+          <span class="citation-id">Neurocomputing 130572</span>
         
-
-        
-          <div class="citation-buttons">
-            
-              
-
-
-
-  <div class="button-wrapper">
-    <a class="button" href="https://greenelab.github.io/meta-review/" data-tooltip="Manubot" data-style="bare" aria-label="Manubot">
-      <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewbox="-450 -250 900 500">  <g transform="scale(0.9)">    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="50" d="        M -125 125         L -125 -125        L 0 45        L 125 -125        L 125 125      "></path>    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="50" d="        M -200 -250        L -330 0         L -200 250      "></path>    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="50" d="        m 200 250         L 330 0        L 200 -250      "></path>    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="50" d="        M -330 0        L -370 0      "></path>    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="50" d="        M 330 0        L 370 0      "></path>    <circle cx="-455" cy="0" r="30" fill="none" stroke="currentColor" stroke-width="30"></circle>    <circle cx="455" cy="0" r="30" fill="none" stroke="currentColor" stroke-width="30"></circle>  </g></svg></span>
-      
-        <span>Manubot</span>
-      
-    </a>
-  </div>
-
-
-            
-              
-
-
-
-  <div class="button-wrapper">
-    <a class="button" href="https://github.com/greenelab/meta-review" data-tooltip="Source code" data-style="bare" aria-label="Source code">
-      <i class="icon fa-solid fa-code"></i>
-      
-        <span>Manuscript Source</span>
-      
-    </a>
-  </div>
-
-
-            
-              
-
-
-
-  <div class="button-wrapper">
-    <a class="button" href="http://manubot.org/" data-tooltip="Website" data-style="bare" aria-label="Website">
-      <i class="icon fa-solid fa-globe"></i>
-      
-        <span>Website</span>
-      
-    </a>
-  </div>
-
-
-            
-          </div>
-        
-
-        
-          
-
-
-  <div class="tags" data-repo="greenelab/meta-review">
-    
-      <a href="/lab-site/research/?search=%22tag:%20open-science%22" class="tag" data-tooltip='Show items with the tag "open-science"'>
-        open-science
-      </a>
-    
-      <a href="/lab-site/research/?search=%22tag:%20collaboration%22" class="tag" data-tooltip='Show items with the tag "collaboration"'>
-        collaboration
-      </a>
-    
-  </div>
-
-
-        
-      
-    </div>
-  </div>
-</div>
-
-<div class="citation-container">
-  <div class="citation">
-    
-      <a href="https://doi.org/gg2mjh" class="citation-image" aria-label="Compressing gene expression data using multiple latent space dimensionalities learns complementary biological representations">
-        <img src="" alt="Compressing gene expression data using multiple latent space dimensionalities learns complementary biological representations" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
-      </a>
-    
-
-    <div class="citation-text">
-      
-      
-
-      <a href="https://doi.org/gg2mjh" class="citation-title">
-        Compressing gene expression data using multiple latent space dimensionalities learns complementary biological representations
-      </a>
-
-      <div class="citation-authors" tabindex="0">
-        Gregory P. Way, Michael Zietz, Vincent Rubinetti, Daniel S. Himmelstein, Casey S. Greene
-
-      </div>
-
-      <div class="citation-details">
-        <span class="citation-publisher">Genome Biology</span>
-         · 
-        <span class="citation-date">11 May 2020</span>
-         · 
-        <span class="citation-id">doi:10.1186/s13059-020-02021-3</span>
       </div>
 
       
@@ -1175,114 +780,32 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
 <div class="citation-container">
   <div class="citation">
     
-      <a href="https://doi.org/gg7m48" class="citation-image" aria-label="Constructing knowledge graphs and their biomedical applications">
-        <img src="https://ars.els-cdn.com/content/image/1-s2.0-S2001037020302804-gr1.jpg" alt="Constructing knowledge graphs and their biomedical applications" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
+      <a class="citation-image" aria-label="GeoPro-Net: Learning Interpretable Spatiotemporal Prediction Models through Statistically-Guided Geo-Prototyping">
+        <img src="" alt="GeoPro-Net: Learning Interpretable Spatiotemporal Prediction Models through Statistically-Guided Geo-Prototyping" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
       </a>
     
 
     <div class="citation-text">
       
-      
+      <i class="icon fa-solid fa-comments"></i>
 
-      <a href="https://doi.org/gg7m48" class="citation-title">
-        Constructing knowledge graphs and their biomedical applications
+      <a class="citation-title">
+        GeoPro-Net: Learning Interpretable Spatiotemporal Prediction Models through Statistically-Guided Geo-Prototyping
       </a>
 
       <div class="citation-authors" tabindex="0">
-        David N. Nicholson, Casey S. Greene
+        Bang An, Xun Zhou, Zirui Zhou, Ronilo Ragodos, Zenglin Xu, Jun Luo
 
       </div>
 
       <div class="citation-details">
-        <span class="citation-publisher">Computational and Structural Biotechnology Journal</span>
+        <span class="citation-publisher">AAAI Conference on Artificial Intelligence (AAAI)</span>
          · 
-        <span class="citation-date">01 Jan 2020</span>
-         · 
-        <span class="citation-id">doi:10.1016/j.csbj.2020.05.017</span>
-      </div>
-
-      
+        <span class="citation-date">25 Feb 2025</span>
         
-
+           · 
+          <span class="citation-id">AAAI 2025</span>
         
-
-        
-      
-    </div>
-  </div>
-</div>
-
-<h3 id="2019">2019</h3>
-
-<div class="citation-container">
-  <div class="citation">
-    
-      <a href="https://doi.org/gfxjxf" class="citation-image" aria-label="Sequential compression of gene expression across dimensionalities and methods reveals no single best method or dimensionality">
-        <img src="" alt="Sequential compression of gene expression across dimensionalities and methods reveals no single best method or dimensionality" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
-      </a>
-    
-
-    <div class="citation-text">
-      
-      
-
-      <a href="https://doi.org/gfxjxf" class="citation-title">
-        Sequential compression of gene expression across dimensionalities and methods reveals no single best method or dimensionality
-      </a>
-
-      <div class="citation-authors" tabindex="0">
-        Gregory P. Way, Michael Zietz, Vincent Rubinetti, Daniel S. Himmelstein, Casey S. Greene
-
-      </div>
-
-      <div class="citation-details">
-        <span class="citation-publisher">openRxiv</span>
-         · 
-        <span class="citation-date">11 Mar 2019</span>
-         · 
-        <span class="citation-id">doi:10.1101/573782</span>
-      </div>
-
-      
-        
-
-        
-
-        
-      
-    </div>
-  </div>
-</div>
-
-<h3 id="2018">2018</h3>
-
-<div class="citation-container">
-  <div class="citation">
-    
-      <a href="https://doi.org/ckcj" class="citation-image" aria-label="Sci-Hub provides access to nearly all scholarly literature">
-        <img src="https://iiif.elifesciences.org/lax:32822/elife-32822-fig8-v3.tif/full/863,/0/default.webp" alt="Sci-Hub provides access to nearly all scholarly literature" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
-      </a>
-    
-
-    <div class="citation-text">
-      
-      
-
-      <a href="https://doi.org/ckcj" class="citation-title">
-        Sci-Hub provides access to nearly all scholarly literature
-      </a>
-
-      <div class="citation-authors" tabindex="0">
-        Daniel S Himmelstein, Ariel Rodriguez Romero, Jacob G Levernier, Thomas Anthony Munro, Stephen Reid McLaughlin, Bastian Greshake Tzovaras, Casey S Greene
-
-      </div>
-
-      <div class="citation-details">
-        <span class="citation-publisher">eLife</span>
-         · 
-        <span class="citation-date">01 Mar 2018</span>
-         · 
-        <span class="citation-id">doi:10.7554/eLife.32822</span>
       </div>
 
       
