@@ -11,7 +11,7 @@ backend:
 
 # 上传图片保存位置
 media_folder: "images/uploads"
-public_folder: "/images/uploads"
+public_folder: "images/uploads"
 
 site_url: https://misevenjoy.github.io/lab-site/
 display_url: https://misevenjoy.github.io/lab-site/
