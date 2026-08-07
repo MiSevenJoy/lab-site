@@ -149,6 +149,8 @@ collections:
               - {label: 发表期刊 / 会议, name: publisher, widget: string, required: false}
               - {label: 发表日期（YYYY-MM-DD）, name: date, widget: datetime, format: YYYY-MM-DD}
               - {label: 链接（DOI 或网址）, name: link, widget: string, required: false}
+              - {label: GitHub 代码链接, name: code, widget: string, required: false}
+              - {label: PDF 链接, name: pdf, widget: string, required: false}
               - label: 类型
                 name: type
                 widget: select
