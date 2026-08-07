@@ -5,8 +5,8 @@ backend:
   name: github
   repo: MiSevenJoy/lab-site
   branch: main
-  # OAuth 代理地址：部署好免费的 OAuth 代理后替换为实际 URL（形如 https://xxx.onrender.com）
-  base_url: https://YOUR-OAUTH-PROXY-URL
+  # OAuth 代理地址（免费部署在 Render）
+  base_url: https://lab-site-oauth.onrender.com
   auth_endpoint: auth
 
 # 上传图片保存位置
