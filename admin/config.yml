@@ -23,9 +23,9 @@ locale: zh_Hans
 editor:
   preview: false
 
-# 文件名中文字符处理
+# 文件名编码：使用 unicode，保留中文等非 ASCII 字符（避免上传图片名被清空）
 slug:
-  encoding: ascii
+  encoding: unicode
 
 collections:
   # =====================================================
