@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-dark="false">
+<html lang="zh" data-dark="false" data-lang="zh">
   <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <!--
@@ -43,22 +43,22 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Sarah Johnson | MiSevenJoy</title>
+<title>Sarah Johnson | 时空大数据智能与计算实验室</title>
 
 <link rel="icon" href="/lab-site/images/icon.png">
 
 <meta name="title" content="Sarah Johnson">
-<meta name="description" content="Lead Programmer">
+<meta name="description" content="哈尔滨工业大学（深圳）计算机科学与技术学院. Lead Programmer">
 
 <meta property="og:title" content="Sarah Johnson">
-<meta property="og:site_title" content="MiSevenJoy">
-<meta property="og:description" content="Lead Programmer">
+<meta property="og:site_title" content="时空大数据智能与计算实验室">
+<meta property="og:description" content="哈尔滨工业大学（深圳）计算机科学与技术学院. Lead Programmer">
 <meta property="og:url" content="https://misevenjoy.github.io/lab-site">
 <meta property="og:image" content="/lab-site/images/share.jpg">
 <meta property="og:locale" content="en_US">
 
 <meta property="twitter:title" content="Sarah Johnson">
-<meta property="twitter:description" content="Lead Programmer">
+<meta property="twitter:description" content="哈尔滨工业大学（深圳）计算机科学与技术学院. Lead Programmer">
 <meta property="twitter:url" content="https://misevenjoy.github.io/lab-site">
 <meta property="twitter:card" content="summary_large_image">
 <meta property="twitter:image" content="/lab-site/images/share.jpg">
@@ -74,7 +74,7 @@
       "@type": "WebSite",
     
     "name": "Sarah Johnson",
-    "description": "Lead Programmer",
+    "description": "哈尔滨工业大学（深圳）计算机科学与技术学院. Lead Programmer",
     "headline": "Sarah Johnson",
     "publisher": {
       "@type": "Organization",
@@ -215,6 +215,10 @@
   
 
   
+    <link href="/lab-site/_styles/lang.css" rel="stylesheet">
+  
+
+  
     <link href="/lab-site/_styles/link.css" rel="stylesheet">
   
 
@@ -305,6 +309,8 @@
 
   <script src="/lab-site/_scripts/fetch-tags.js"></script>
 
+  <script src="/lab-site/_scripts/lang.js"></script>
+
   <script src="/lab-site/_scripts/search.js"></script>
 
   <script src="/lab-site/_scripts/site-search.js"></script>
@@ -394,8 +400,16 @@
     
       <span class="title-text" data-tooltip="Home">
         
-          <span class="title">MiSevenJoy</span>
+          <span class="title">
+            <span class="lang-zh">时空大数据智能与计算实验室</span>
+            <span class="lang-en">Spatiotemporal Big Data Intelligence and Computing Lab</span>
+          </span>
         
+        
+          <span class="subtitle">
+            <span class="lang-zh">哈尔滨工业大学（深圳）计算机科学与技术学院</span>
+            <span class="lang-en">School of Computer Science and Technology, HIT Shenzhen</span>
+          </span>
         
       </span>
     
@@ -408,34 +422,46 @@
     
       
         <a href="/lab-site/research/" data-tooltip="Published works">
-          Research
+          
+            Research
+          
         </a>
       
     
       
         <a href="/lab-site/projects/" data-tooltip="Software, datasets, and more">
-          Projects
+          
+            Projects
+          
         </a>
       
     
       
         <a href="/lab-site/team/" data-tooltip="About our team">
-          Team
+          
+            Team
+          
         </a>
       
     
       
         <a href="/lab-site/blog/" data-tooltip="Musings and miscellany">
-          Blog
+          
+            Blog
+          
         </a>
       
     
       
         <a href="/lab-site/contact/" data-tooltip="Email, address, and location">
-          Contact
+          
+            Contact
+          
         </a>
       
     
+
+    <button type="button" id="lang-toggle" class="lang-toggle" onclick="toggleLang()" aria-label="Switch language">EN</button>
   </nav>
 </header>
 
@@ -462,8 +488,6 @@
 <div class="portrait-wrapper">
   <a class="portrait" data-style="" aria-label="Sarah Johnson">
     
-      <i class="icon fa-solid fa-code"></i>
-    
 
     <img src="/lab-site/images/photo.jpg" class="portrait-image" alt="member portrait" loading="lazy" onerror="this.src = '/lab-site/images/fallback.svg'; this.onerror = null;">
 
@@ -475,7 +499,9 @@
 
     
       <span class="portrait-description">
-        Lead Programmer
+        
+          Lead Programmer
+        
       </span>
     
 
@@ -532,9 +558,12 @@
 
 
 
+
+
 <p class="center">
   <a href="/lab-site/research/?search=%22Sarah%20Johnson%22%20">
-    Search for Sarah Johnson's papers on the Research page
+    <span class="lang-zh">在「研究成果」页面查找 Sarah Johnson 的论文</span>
+    <span class="lang-en">Search for Sarah Johnson's papers on the Research page</span>
   </a>
 </p>
 
@@ -570,38 +599,8 @@
 
 
   <div class="button-wrapper">
-    <a class="button" href="mailto:contact@MiSevenJoy.com" data-tooltip="Email" data-style="bare" aria-label="Email">
+    <a class="button" href="mailto:contact@your-lab.com" data-tooltip="Email" data-style="bare" aria-label="Email">
       <i class="icon fa-solid fa-envelope"></i>
-      
-    </a>
-  </div>
-
-
-    
-      
-      
-      
-
-
-
-  <div class="button-wrapper">
-    <a class="button" href="https://orcid.org/0000-0001-8713-9213" data-tooltip="ORCID" data-style="bare" aria-label="ORCID">
-      <i class="icon fa-brands fa-orcid"></i>
-      
-    </a>
-  </div>
-
-
-    
-      
-      
-      
-
-
-
-  <div class="button-wrapper">
-    <a class="button" href="https://scholar.google.com/citations?user=ETJoidYAAAAJ" data-tooltip="Google Scholar" data-style="bare" aria-label="Google Scholar">
-      <i class="icon fa-brands fa-google"></i>
       
     </a>
   </div>
@@ -623,41 +622,12 @@
 
 
     
-      
-      
-      
-
-
-
-  <div class="button-wrapper">
-    <a class="button" href="https://twitter.com/MiSevenJoy" data-tooltip="Twitter" data-style="bare" aria-label="Twitter">
-      <i class="icon fa-brands fa-twitter"></i>
-      
-    </a>
-  </div>
-
-
-    
-      
-      
-      
-
-
-
-  <div class="button-wrapper">
-    <a class="button" href="https://youtube.com/MiSevenJoy" data-tooltip="YouTube" data-style="bare" aria-label="YouTube">
-      <i class="icon fa-brands fa-youtube"></i>
-      
-    </a>
-  </div>
-
-
-    
   </div>
 
   <div>
     © 2026
-    MiSevenJoy
+    <span class="lang-zh">时空大数据智能与计算实验室</span>
+    <span class="lang-en">Spatiotemporal Big Data Intelligence and Computing Lab</span>
       |   Built with
     <a href="https://github.com/greenelab/lab-website-template">
       Lab Website Template

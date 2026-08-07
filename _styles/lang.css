@@ -1,0 +1,26 @@
+html[data-lang=zh] .lang-en {
+  display: none !important;
+}
+
+html[data-lang=en] .lang-zh {
+  display: none !important;
+}
+
+.lang-toggle {
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+  font-family: var(--title);
+  font-size: 0.9em;
+  line-height: 1.2;
+  padding: 4px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.lang-toggle:hover {
+  opacity: 0.7;
+}
+
+/*# sourceMappingURL=lang.css.map */
