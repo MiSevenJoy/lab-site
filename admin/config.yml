@@ -1,0 +1,156 @@
+# Decap CMS 配置
+# 网站管理后台：https://misevenjoy.github.io/lab-site/admin/
+
+backend:
+  name: github
+  repo: MiSevenJoy/lab-site
+  branch: main
+  # OAuth 代理地址：部署好免费的 OAuth 代理后替换为实际 URL（形如 https://xxx.onrender.com）
+  base_url: https://YOUR-OAUTH-PROXY-URL
+  auth_endpoint: auth
+
+# 上传图片保存位置
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+site_url: https://misevenjoy.github.io/lab-site/
+display_url: https://misevenjoy.github.io/lab-site/
+
+# 后台界面语言
+locale: zh_Hans
+
+# 通用编辑器设置：Jekyll 页面无法实时预览，关闭预览
+editor:
+  preview: false
+
+# 文件名中文字符处理
+slug:
+  encoding: ascii
+
+collections:
+  # =====================================================
+  # 团队成员
+  # =====================================================
+  - name: members
+    label: 团队成员
+    label_singular: 成员
+    description: 编辑团队成员的姓名、照片、职称与简介。
+    folder: _members/
+    create: true
+    delete: true
+    extension: md
+    format: yaml-frontmatter
+    identifier_field: title
+    slug: "{{slug}}"
+    summary: "{{name.zh}} / {{name.en}}"
+    fields:
+      - {label: 英文姓名（用于网址文件名）, name: title, widget: string}
+      - label: 姓名
+        name: name
+        widget: object
+        fields:
+          - {label: 中文名, name: zh, widget: string}
+          - {label: English, name: en, widget: string}
+      - {label: 照片, name: image, widget: image, required: false}
+      - label: 类别
+        name: role
+        widget: select
+        options:
+          - {label: 教授 / 负责人, value: professor}
+          - {label: 博士后, value: postdoc}
+          - {label: 教师, value: teacher}
+          - {label: 博士生, value: phd}
+          - {label: 硕士生, value: master}
+          - {label: 本科生, value: undergrad}
+          - {label: 毕业生, value: graduate}
+      - label: 职称 / 年级
+        name: description
+        widget: object
+        required: false
+        fields:
+          - {label: 中文, name: zh, widget: string}
+          - {label: English, name: en, widget: string}
+      - label: 姓名别名（用于论文检索）
+        name: aliases
+        widget: list
+        required: false
+        summary: "{{fields.alias}}"
+        field: {label: 别名, name: alias, widget: string}
+      - label: 个人主页链接
+        name: links
+        widget: map
+        key_type: string
+        value_type: string
+        required: false
+      - {label: 个人简介, name: body, widget: markdown}
+
+  # =====================================================
+  # 研究项目
+  # =====================================================
+  - name: projects
+    label: 研究项目
+    label_singular: 项目
+    description: 编辑首页与「研究项目」页展示的科研项目列表。
+    files:
+      - name: projects
+        label: 研究项目列表
+        file: _data/projects.yaml
+        fields:
+          - label: 项目
+            name: items
+            widget: list
+            fields:
+              - label: 标题
+                name: title
+                widget: object
+                fields:
+                  - {label: 中文, name: zh, widget: string}
+                  - {label: English, name: en, widget: string}
+              - label: 信息（时间 / 金额 / 角色）
+                name: subtitle
+                widget: object
+                required: false
+                fields:
+                  - {label: 中文, name: zh, widget: string}
+                  - {label: English, name: en, widget: string}
+              - label: 分组（featured = 首页重点展示）
+                name: group
+                widget: select
+                required: false
+                options:
+                  - {label: 普通, value: ""}
+                  - {label: 重点展示, value: featured}
+              - {label: 配图, name: image, widget: image, required: false}
+
+  # =====================================================
+  # 研究成果（论文）
+  # =====================================================
+  - name: citations
+    label: 研究成果
+    label_singular: 论文
+    description: 编辑「研究成果」页展示的论文列表。type 填 journal（期刊 J）或 conference（会议 C）。
+    files:
+      - name: citations
+        label: 论文列表
+        file: _data/citations.yaml
+        fields:
+          - label: 论文
+            name: items
+            widget: list
+            fields:
+              - {label: ID（DOI 或备注）, name: id, widget: string, required: false}
+              - {label: 标题, name: title, widget: string}
+              - label: 作者
+                name: authors
+                widget: list
+                field: {label: 作者, name: author, widget: string}
+              - {label: 发表期刊 / 会议, name: publisher, widget: string, required: false}
+              - {label: 发表日期（YYYY-MM-DD）, name: date, widget: datetime, format: YYYY-MM-DD}
+              - {label: 链接（DOI 或网址）, name: link, widget: string, required: false}
+              - label: 类型
+                name: type
+                widget: select
+                default: conference
+                options:
+                  - {label: 会议 C, value: conference}
+                  - {label: 期刊 J, value: journal}
