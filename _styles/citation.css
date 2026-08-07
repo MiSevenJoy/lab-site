@@ -1,9 +1,8 @@
-.citation.citation-list {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
+.citation.citation-reference {
+  position: relative;
+  display: block;
   margin: 0;
-  padding: 14px 4px;
+  padding: 12px 4px 12px 20px;
   border-radius: 0;
   background: transparent;
   overflow: visible;
@@ -12,71 +11,55 @@
   text-align: left;
 }
 
-.citation-type-badge {
-  display: inline-block;
-  flex-shrink: 0;
-  min-width: 24px;
-  height: 24px;
-  line-height: 24px;
-  text-align: center;
-  border-radius: 4px;
-  color: #fff;
-  font-size: 0.85rem;
-  font-weight: 600;
-  margin-top: 2px;
+.citation-reference::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 1.05em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gray);
 }
 
-.citation-type-badge[data-type=journal] {
-  background: #8b2c2c;
+.citation-ref-content {
+  line-height: 1.7;
 }
 
-.citation-type-badge[data-type=conference] {
-  background: #2f3f75;
-}
-
-.citation-type-badge[data-type=paper] {
-  background: #555;
-}
-
-.citation-list-main {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.citation-list-title {
+.citation-ref-title {
   font-weight: var(--semi-bold);
 }
 
-.citation-list-authors {
+.citation-ref-venue {
   color: var(--gray);
-  font-size: 0.95em;
 }
 
-.citation-list-details {
-  color: var(--light-gray);
-  font-size: 0.88em;
+.citation-ref-actions {
+  display: inline-flex;
+  gap: 10px;
+  margin-left: 6px;
+  vertical-align: middle;
 }
 
-.citation-list-actions {
-  display: flex;
-  gap: 12px;
-  flex-shrink: 0;
-  padding-top: 2px;
-}
-
-.citation-list-actions a {
+.citation-ref-actions a {
   display: inline-flex;
   color: var(--gray);
-  font-size: 1.15em;
+  font-size: 1em;
   text-decoration: none;
   transition: color 0.15s;
 }
 
-.citation-list-actions a:hover {
+.citation-ref-actions a:hover {
   color: var(--text);
+}
+
+body.page-research {
+  text-align: left;
+}
+
+body.page-research h1,
+body.page-research h3 {
+  text-align: left;
 }
 
 .citation-container {
