@@ -138,7 +138,8 @@ collections:
         fields:
           - label: 论文
             name: items
-            widget: list
+            widget: paperlist
+            hint: 输入标题或 DOI 可自动获取作者、日期、期刊/会议等信息；未命中或需微调时可手动修改。
             fields:
               - {label: ID（DOI 或备注）, name: id, widget: string, required: false}
               - {label: 标题, name: title, widget: string}

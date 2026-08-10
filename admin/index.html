@@ -4,9 +4,383 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Content Manager</title>
+    <style>
+      .paper-list { display: flex; flex-direction: column; gap: 12px; }
+      .paper-box { border: 1px solid #d3d7de; border-radius: 6px; padding: 12px; background: #fafbfc; }
+      .paper-fetch { margin-bottom: 10px; padding: 8px; background: #eef3fb; border-radius: 4px; }
+      .paper-fetch-row { display: flex; gap: 8px; margin-top: 4px; }
+      .paper-fetch-row input { flex: 1; }
+      .paper-fetch-message { margin-top: 6px; font-size: 12px; color: #666; }
+      .paper-results { margin-top: 8px; border-top: 1px dashed #c9ccd4; padding-top: 8px; }
+      .paper-result { padding: 4px 0; }
+      .paper-result a { cursor: pointer; color: #0b6bcb; text-decoration: none; }
+      .paper-result-meta { display: block; font-size: 12px; color: #666; }
+      .paper-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; }
+      .paper-field { display: flex; flex-direction: column; gap: 4px; }
+      .paper-field label { font-size: 12px; font-weight: 600; color: #444; }
+      .paper-field input, .paper-field textarea, .paper-field select { width: 100%; box-sizing: border-box; padding: 6px 8px; border: 1px solid #c9ccd4; border-radius: 4px; font-size: 14px; }
+      .paper-actions { margin-top: 10px; display: flex; gap: 8px; }
+      .paper-actions button, .paper-add button { padding: 4px 12px; border: 1px solid #c9ccd4; border-radius: 4px; background: #fff; cursor: pointer; font-size: 13px; }
+      .paper-actions button:hover, .paper-add button:hover { background: #eef1f6; }
+      .paper-hint { font-size: 12px; color: #666; }
+    </style>
   </head>
   <body>
     <!-- Include the script that builds the page and powers Decap CMS -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <!-- 自定义组件：论文列表，支持按标题 / DOI 自动获取元数据（Crossref） -->
+    <script>
+      (function () {
+        var CMS = window.CMS;
+        if (!CMS) return;
+        var h = window.h || (CMS && CMS.h);
+        var createClass = window.createClass || (CMS && CMS.createClass);
+        if (!h || !createClass) return;
+
+        var FIELD_ORDER = ['id', 'title', 'authors', 'publisher', 'date', 'link', 'code', 'pdf', 'type'];
+
+        function toArr(v) {
+          return v && typeof v.toJS === 'function' ? v.toJS() : v || [];
+        }
+
+        function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+        function cleanStr(s) { return (s || '').replace(/\s+/g, ' ').trim(); }
+
+        function looksLikeDoi(s) { return /10\.\d{4,9}\/[-._;()\/:a-z0-9]+/i.test(s); }
+
+        function authorName(a) {
+          if (!a) return '';
+          if (a.name) return a.name;
+          return [a.given, a.family].filter(Boolean).join(' ').trim();
+        }
+
+        var VENUE_MAP = [
+          { re: /proceedings of the aaai|aaai conference on artificial/i, name: 'AAAI', conf: true },
+          { re: /international joint conference on artificial|ijcai/i, name: 'IJCAI', conf: true },
+          { re: /sigkdd|knowledge discovery and data mining|kdd\b/i, name: 'KDD', conf: true },
+          { re: /icml|international conference on machine learning/i, name: 'ICML', conf: true },
+          { re: /neurips|neural information processing systems/i, name: 'NeurIPS', conf: true },
+          { re: /iclr|international conference on learning representations/i, name: 'ICLR', conf: true },
+          { re: /international conference on big data/i, name: 'IEEE BigData', conf: true },
+          { re: /association for computational linguistics/i, name: 'ACL', conf: true },
+          { re: /sigspatial|advances in geographic information systems/i, name: 'SIGSPATIAL', conf: true },
+          { re: /international conference on data engineering|icde\b/i, name: 'ICDE', conf: true },
+          { re: /very large data bases|vldb/i, name: 'VLDB', conf: true },
+          { re: /international conference on data mining|icdm\b/i, name: 'ICDM', conf: true },
+          { re: /sigmod|international conference on management of data/i, name: 'SIGMOD', conf: true },
+          { re: /world wide web|the web conference/i, name: 'WWW', conf: true },
+          { re: /cikm|conference on information and knowledge/i, name: 'CIKM', conf: true },
+          { re: /wsdm|web search and data mining/i, name: 'WSDM', conf: true },
+          { re: /recsys|recommender systems/i, name: 'RecSys', conf: true },
+          { re: /cvpr|computer vision and pattern recognition/i, name: 'CVPR', conf: true },
+          { re: /iccv|international conference on computer vision/i, name: 'ICCV', conf: true },
+          { re: /eccv|european conference on computer vision/i, name: 'ECCV', conf: true },
+          { re: /emnlp|empirical methods in natural language/i, name: 'EMNLP', conf: true },
+          { re: /naacl|north american chapter/i, name: 'NAACL', conf: true },
+          { re: /uncertainty in artificial intelligence/i, name: 'UAI', conf: true },
+          { re: /siam international conference on data mining|sdm\b/i, name: 'SDM', conf: true },
+          { re: /european conference on machine learning|ecml pkdd|ecml-pkdd/i, name: 'ECML PKDD', conf: true },
+          { re: /neurocomputing/i, name: 'Neurocomputing' },
+          { re: /nature\b/i, name: 'Nature' },
+          { re: /science\b/i, name: 'Science' }
+        ];
+
+        function venueInfo(full, year) {
+          if (!full) return null;
+          for (var i = 0; i < VENUE_MAP.length; i++) {
+            if (VENUE_MAP[i].re.test(full)) {
+              var name = VENUE_MAP[i].name;
+              if (VENUE_MAP[i].conf && year) name = name + ' ' + year;
+              return { name: name, conf: VENUE_MAP[i].conf };
+            }
+          }
+          return { name: full, conf: null };
+        }
+
+        function parsePaper(item) {
+          var p = {};
+          var doi = item.DOI;
+          var year = null;
+          if (item.issued && item.issued['date-parts'] && item.issued['date-parts'][0]) {
+            var dp = item.issued['date-parts'][0];
+            year = dp[0];
+            p.date = year + '-' + pad(dp[1] || 1) + '-' + pad(dp[2] || 1);
+          }
+          if (doi) p.id = 'doi:' + doi;
+          if (item.title && item.title[0]) p.title = cleanStr(item.title[0]);
+          if (item.author && item.author.length) {
+            var names = item.author.map(authorName).filter(Boolean);
+            if (names.length) p.authors = names;
+          }
+          var venue = (item['container-title'] && item['container-title'][0])
+            ? venueInfo(cleanStr(item['container-title'][0]), year)
+            : null;
+          if (venue) p.publisher = venue.name;
+          else if (item.publisher) p.publisher = item.publisher;
+          if (venue && venue.conf) p.type = 'conference';
+          else if (venue && venue.conf === false) p.type = 'journal';
+          else if (item.type === 'journal-article') p.type = 'journal';
+          else if (item.type === 'proceedings-article' || item.type === 'paper-conference') p.type = 'conference';
+          if (doi) p.link = 'https://doi.org/' + doi;
+          return p;
+        }
+
+        function nonEmpty(x) {
+          if (x === undefined || x === null) return false;
+          if (typeof x === 'string') return x.trim() !== '';
+          if (Array.isArray(x)) return x.length > 0;
+          return true;
+        }
+
+        var FIELDS = [
+          { name: 'id', label: 'ID（DOI 或备注）' },
+          { name: 'title', label: '标题' },
+          { name: 'authors', label: '作者（每行一个）' },
+          { name: 'publisher', label: '发表期刊 / 会议' },
+          { name: 'date', label: '发表日期' },
+          { name: 'link', label: '链接（DOI 或网址）' },
+          { name: 'code', label: 'GitHub 代码链接' },
+          { name: 'pdf', label: 'PDF 链接' },
+          { name: 'type', label: '类型' }
+        ];
+
+        var PaperListControl = createClass({
+          displayName: 'PaperListControl',
+
+          getInitialState: function () {
+            return { query: {}, loading: {}, results: {}, message: {} };
+          },
+
+          getPapers: function () { return toArr(this.props.value); },
+
+          commit: function (papers) { this.props.onChange(papers); },
+
+          updateItem: function (idx, patch) {
+            var papers = this.getPapers().slice();
+            var cur = papers[idx] || {};
+            var next = {};
+            for (var i = 0; i < FIELD_ORDER.length; i++) {
+              var k = FIELD_ORDER[i];
+              if (Object.prototype.hasOwnProperty.call(patch, k)) {
+                if (nonEmpty(patch[k])) next[k] = patch[k];
+              } else if (nonEmpty(cur[k])) {
+                next[k] = cur[k];
+              }
+            }
+            papers[idx] = next;
+            this.commit(papers);
+          },
+
+          setLocal: function (idx, key, value) {
+            var s = {};
+            s[key] = Object.assign({}, this.state[key]);
+            s[key][idx] = value;
+            this.setState(s);
+          },
+
+          addPaper: function () {
+            var papers = this.getPapers().slice();
+            papers.push({});
+            this.commit(papers);
+          },
+
+          removePaper: function (idx) {
+            var papers = this.getPapers().slice();
+            papers.splice(idx, 1);
+            this.commit(papers);
+          },
+
+          movePaper: function (idx, delta) {
+            var papers = this.getPapers().slice();
+            var j = idx + delta;
+            if (j < 0 || j >= papers.length) return;
+            var tmp = papers[idx];
+            papers[idx] = papers[j];
+            papers[j] = tmp;
+            this.commit(papers);
+          },
+
+          doFetch: function (idx) {
+            var q = (this.state.query[idx] || '').trim();
+            if (!q || this.state.loading[idx]) return;
+            this.setLocal(idx, 'loading', true);
+            this.setLocal(idx, 'message', '');
+            this.setLocal(idx, 'results', []);
+
+            var self = this;
+            var onDone = function (err, list, isSearch) {
+              var s = {};
+              s.loading = Object.assign({}, self.state.loading);
+              s.loading[idx] = false;
+              if (err) {
+                s.message = Object.assign({}, self.state.message);
+                s.message[idx] = '查询失败：' + err;
+                self.setState(s);
+                return;
+              }
+              list = list || [];
+              if (list.length === 1 && !isSearch) {
+                self.updateItem(idx, list[0]);
+                s.message = Object.assign({}, self.state.message);
+                s.message[idx] = '已自动填充，请核对后保存。';
+              } else if (list.length > 0) {
+                s.results = Object.assign({}, self.state.results);
+                s.results[idx] = list;
+              } else {
+                s.message = Object.assign({}, self.state.message);
+                s.message[idx] = '未找到匹配论文，请手动填写。';
+              }
+              self.setState(s);
+            };
+
+            var opts = { headers: { Accept: 'application/json' } };
+            if (looksLikeDoi(q)) {
+              var doi = q.replace(/^doi:\s*/i, '').trim();
+              fetch('https://api.crossref.org/works/' + encodeURIComponent(doi), opts)
+                .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+                .then(function (d) { onDone(null, [parsePaper(d.message)], false); })
+                .catch(function (e) { onDone(e && e.message ? e.message : '网络错误'); });
+            } else {
+              fetch(
+                'https://api.crossref.org/works?query.bibliographic=' + encodeURIComponent(q) +
+                '&rows=5&select=DOI,title,author,issued,container-title,type,URL,publisher',
+                opts
+              )
+                .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+                .then(function (d) {
+                  onDone(null, ((d.message && d.message.items) || []).map(parsePaper), true);
+                })
+                .catch(function (e) { onDone(e && e.message ? e.message : '网络错误'); });
+            }
+          },
+
+          pickResult: function (idx, paper) {
+            this.updateItem(idx, paper);
+            var s = {};
+            s.results = Object.assign({}, this.state.results);
+            s.results[idx] = [];
+            s.message = Object.assign({}, this.state.message);
+            s.message[idx] = '已填充所选结果，请核对后保存。';
+            this.setState(s);
+          },
+
+          renderField: function (paper, idx, f) {
+            var self = this;
+            var val = paper[f.name];
+            if (f.name === 'authors') {
+              var text = (val || []).join('\n');
+              return h('div', { className: 'paper-field', key: f.name }, [
+                h('label', null, f.label),
+                h('textarea', {
+                  rows: 3,
+                  placeholder: '每行一个作者',
+                  value: text,
+                  onChange: function (e) {
+                    self.updateItem(idx, {
+                      authors: e.target.value.split('\n').map(function (x) { return x.trim(); }).filter(Boolean)
+                    });
+                  }
+                })
+              ]);
+            }
+            if (f.name === 'type') {
+              return h('div', { className: 'paper-field', key: f.name }, [
+                h('label', null, f.label),
+                h('select', {
+                  value: val || 'conference',
+                  onChange: function (e) { self.updateItem(idx, { type: e.target.value }); }
+                }, [
+                  h('option', { key: 'conference', value: 'conference' }, '会议 C'),
+                  h('option', { key: 'journal', value: 'journal' }, '期刊 J')
+                ])
+              ]);
+            }
+            if (f.name === 'date') {
+              return h('div', { className: 'paper-field', key: f.name }, [
+                h('label', null, f.label),
+                h('input', {
+                  type: 'date',
+                  value: val || '',
+                  onChange: function (e) { self.updateItem(idx, { date: e.target.value }); }
+                })
+              ]);
+            }
+            return h('div', { className: 'paper-field', key: f.name }, [
+              h('label', null, f.label),
+              h('input', {
+                type: 'text',
+                value: val || '',
+                placeholder: f.placeholder || '',
+                onChange: function (e) {
+                  var patch = {};
+                  patch[f.name] = e.target.value;
+                  self.updateItem(idx, patch);
+                }
+              })
+            ]);
+          },
+
+          renderPaper: function (paper, idx) {
+            var self = this;
+            var query = this.state.query[idx] || '';
+            var loading = this.state.loading[idx];
+            var results = this.state.results[idx] || [];
+            var message = this.state.message[idx];
+
+            var fields = FIELDS.map(function (f) { return self.renderField(paper, idx, f); });
+
+            var resultNodes = results.map(function (r, i) {
+              var meta = (r.authors || []).slice(0, 3).join(', ');
+              if (r.publisher) meta = meta ? meta + ' — ' + r.publisher : r.publisher;
+              return h('div', { className: 'paper-result', key: i }, [
+                h('a', { href: '#', onClick: function (e) { e.preventDefault(); self.pickResult(idx, r); } }, r.title || '(no title)'),
+                meta ? h('span', { className: 'paper-result-meta' }, meta) : null
+              ]);
+            });
+
+            return h('div', { className: 'paper-box', key: idx }, [
+              h('div', { className: 'paper-fetch' }, [
+                h('label', null, '自动获取（输入标题或 DOI）'),
+                h('div', { className: 'paper-fetch-row' }, [
+                  h('input', {
+                    type: 'text',
+                    value: query,
+                    placeholder: '例如 10.1609/aaai.v40i1.39356 或论文标题',
+                    onChange: function (e) { self.setLocal(idx, 'query', e.target.value); }
+                  }),
+                  h('button', {
+                    type: 'button',
+                    disabled: !!loading,
+                    onClick: function () { self.doFetch(idx); }
+                  }, loading ? '查询中…' : '搜索')
+                ]),
+                message ? h('div', { className: 'paper-fetch-message' }, message) : null,
+                resultNodes.length ? h('div', { className: 'paper-results' }, resultNodes) : null
+              ]),
+              h('div', { className: 'paper-fields' }, fields),
+              h('div', { className: 'paper-actions' }, [
+                h('button', { type: 'button', onClick: function () { self.movePaper(idx, -1); } }, '上移'),
+                h('button', { type: 'button', onClick: function () { self.movePaper(idx, 1); } }, '下移'),
+                h('button', { type: 'button', onClick: function () { self.removePaper(idx); } }, '删除')
+              ])
+            ]);
+          },
+
+          render: function () {
+            var self = this;
+            var papers = this.getPapers();
+            return h('div', { className: 'paper-list' }, [
+              h('div', { className: 'paper-hint' }, '输入标题或 DOI 可自动获取作者、发表日期、期刊/会议等信息；未命中或需微调时可手动修改。'),
+              papers.map(function (p, i) { return self.renderPaper(p, i); }),
+              h('div', { className: 'paper-add' },
+                h('button', { type: 'button', onClick: function () { self.addPaper(); } }, '添加论文'))
+            ]);
+          }
+        });
+
+        CMS.registerWidget('paperlist', PaperListControl);
+      })();
+    </script>
   </body>
 </html>
