@@ -206,3 +206,33 @@ collections:
                 fields:
                   - {label: 中文, name: zh, widget: string}
                   - {label: English, name: en, widget: string}
+
+  # =====================================================
+  # 招生招聘（加入我们）
+  # =====================================================
+  - name: join
+    label: 招生招聘
+    label_singular: 栏目
+    description: 编辑「加入我们」页面的招聘与招生信息，分为博士后/科研助理、博士生、硕士生、本科生四个栏目。
+    files:
+      - name: join
+        label: 招生招聘信息
+        file: _data/join.yaml
+        fields:
+          - label: 栏目
+            name: sections
+            widget: list
+            summary: "{{fields.title.zh}}"
+            fields:
+              - label: 标题
+                name: title
+                widget: object
+                fields:
+                  - {label: 中文, name: zh, widget: string}
+                  - {label: English, name: en, widget: string}
+              - label: 内容（支持 Markdown 语法）
+                name: content
+                widget: object
+                fields:
+                  - {label: 中文内容, name: zh, widget: markdown}
+                  - {label: English content, name: en, widget: markdown}
