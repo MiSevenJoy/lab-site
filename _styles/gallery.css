@@ -3,21 +3,37 @@
   column-gap: 1.4rem;
 }
 
+.gallery-figure {
+  margin: 0 0 1.4rem;
+  break-inside: avoid;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border, rgba(0, 0, 0, 0.08));
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
 .gallery-item {
   width: 100%;
   height: auto;
   display: block;
-  break-inside: avoid;
-  margin-bottom: 1.4rem;
-  border-radius: 6px;
+  margin: 0;
+  border: none;
+  border-radius: 0;
   cursor: zoom-in;
-  border: 1px solid var(--border, rgba(0, 0, 0, 0.08));
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   transition: transform 0.25s ease;
 }
 
 .gallery-item:hover {
   transform: scale(1.02);
+}
+
+.gallery-caption {
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  text-align: left;
+  color: var(--text);
+  background: var(--background-alt);
 }
 
 .lightbox {

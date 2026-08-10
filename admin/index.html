@@ -23,6 +23,14 @@
       .paper-actions button, .paper-add button { padding: 4px 12px; border: 1px solid #c9ccd4; border-radius: 4px; background: #fff; cursor: pointer; font-size: 13px; }
       .paper-actions button:hover, .paper-add button:hover { background: #eef1f6; }
       .paper-hint { font-size: 12px; color: #666; }
+      .paper-header { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: #f0f4fa; border: 1px solid #d3d7de; border-radius: 4px; cursor: pointer; }
+      .paper-header:hover { background: #e4ebf6; }
+      .paper-header-arrow { color: #667; font-size: 12px; }
+      .paper-header-title { flex: 1; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .paper-header-actions { display: flex; gap: 6px; }
+      .paper-header-actions button { padding: 2px 8px; font-size: 12px; border: 1px solid #c9ccd4; border-radius: 4px; background: #fff; cursor: pointer; }
+      .paper-header-actions button:hover { background: #eef1f6; }
+      .paper-body { padding-top: 10px; }
     </style>
   </head>
   <body>
@@ -149,7 +157,12 @@
           displayName: 'PaperListControl',
 
           getInitialState: function () {
-            return { query: {}, loading: {}, results: {}, message: {} };
+            var collapsed = {};
+            var papers = toArr(this.props.value);
+            papers.forEach(function (p, i) {
+              collapsed[i] = Object.keys(p || {}).length > 0;
+            });
+            return { query: {}, loading: {}, results: {}, message: {}, collapsed: collapsed };
           },
 
           getPapers: function () { return toArr(this.props.value); },
@@ -183,12 +196,25 @@
             var papers = this.getPapers().slice();
             papers.push({});
             this.commit(papers);
+            var s = {};
+            s.collapsed = Object.assign({}, this.state.collapsed);
+            s.collapsed[papers.length - 1] = false;
+            this.setState(s);
           },
 
           removePaper: function (idx) {
             var papers = this.getPapers().slice();
             papers.splice(idx, 1);
             this.commit(papers);
+            var c = Object.assign({}, this.state.collapsed);
+            delete c[idx];
+            for (var i = idx + 1; i <= Object.keys(c).length + 1; i++) {
+              if (Object.prototype.hasOwnProperty.call(c, i)) {
+                c[i - 1] = c[i];
+                delete c[i];
+              }
+            }
+            this.setState({ collapsed: c });
           },
 
           movePaper: function (idx, delta) {
@@ -199,6 +225,17 @@
             papers[idx] = papers[j];
             papers[j] = tmp;
             this.commit(papers);
+            var c = Object.assign({}, this.state.collapsed);
+            var ctmp = c[idx];
+            c[idx] = c[j];
+            c[j] = ctmp;
+            this.setState({ collapsed: c });
+          },
+
+          togglePaper: function (idx) {
+            var c = Object.assign({}, this.state.collapsed);
+            c[idx] = !c[idx];
+            this.setState({ collapsed: c });
           },
 
           doFetch: function (idx) {
@@ -323,6 +360,7 @@
 
           renderPaper: function (paper, idx) {
             var self = this;
+            var collapsed = !!this.state.collapsed[idx];
             var query = this.state.query[idx] || '';
             var loading = this.state.loading[idx];
             var results = this.state.results[idx] || [];
@@ -339,7 +377,20 @@
               ]);
             });
 
-            return h('div', { className: 'paper-box', key: idx }, [
+            var title = paper.title || '';
+            if (title.length > 60) title = title.slice(0, 60) + '…';
+
+            var header = h('div', { className: 'paper-header', onClick: function () { self.togglePaper(idx); } }, [
+              h('span', { className: 'paper-header-arrow' }, collapsed ? '▸' : '▾'),
+              h('span', { className: 'paper-header-title' }, title || '（未填写标题）'),
+              h('span', { className: 'paper-header-actions', onClick: function (e) { e.stopPropagation(); } }, [
+                h('button', { type: 'button', onClick: function () { self.movePaper(idx, -1); } }, '上移'),
+                h('button', { type: 'button', onClick: function () { self.movePaper(idx, 1); } }, '下移'),
+                h('button', { type: 'button', onClick: function () { self.removePaper(idx); } }, '删除')
+              ])
+            ]);
+
+            var body = collapsed ? null : h('div', { className: 'paper-body' }, [
               h('div', { className: 'paper-fetch' }, [
                 h('label', null, '自动获取（输入标题或 DOI）'),
                 h('div', { className: 'paper-fetch-row' }, [
@@ -358,13 +409,10 @@
                 message ? h('div', { className: 'paper-fetch-message' }, message) : null,
                 resultNodes.length ? h('div', { className: 'paper-results' }, resultNodes) : null
               ]),
-              h('div', { className: 'paper-fields' }, fields),
-              h('div', { className: 'paper-actions' }, [
-                h('button', { type: 'button', onClick: function () { self.movePaper(idx, -1); } }, '上移'),
-                h('button', { type: 'button', onClick: function () { self.movePaper(idx, 1); } }, '下移'),
-                h('button', { type: 'button', onClick: function () { self.removePaper(idx); } }, '删除')
-              ])
+              h('div', { className: 'paper-fields' }, fields)
             ]);
+
+            return h('div', { className: 'paper-box', key: idx }, [header, body]);
           },
 
           render: function () {

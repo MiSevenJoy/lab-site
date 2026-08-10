@@ -161,3 +161,48 @@ collections:
                 options:
                   - {label: 会议 C, value: conference}
                   - {label: 期刊 J, value: journal}
+
+  # =====================================================
+  # 网站外观（主页顶部 / 页脚背景图）
+  # =====================================================
+  - name: appearance
+    label: 网站外观
+    label_singular: 外观
+    description: 修改实验室主页顶部与页脚的背景图片，可上传自己的图片。
+    media_folder: "images/uploads"
+    public_folder: "images/uploads"
+    files:
+      - name: appearance
+        label: 网站外观
+        file: _data/site.yaml
+        fields:
+          - {label: 页面顶部背景图（主页大图）, name: header, widget: image, required: false}
+          - {label: 页脚背景图, name: footer, widget: image, required: false}
+
+  # =====================================================
+  # 相册
+  # =====================================================
+  - name: gallery
+    label: 相册
+    label_singular: 照片
+    description: 管理「相册」页展示的照片与描述，可上传新照片。
+    media_folder: "images/gallery"
+    public_folder: "images/gallery"
+    files:
+      - name: gallery
+        label: 相册照片
+        file: _data/gallery.yaml
+        fields:
+          - label: 照片
+            name: photos
+            widget: list
+            summary: "{{fields.image}}"
+            fields:
+              - {label: 图片, name: image, widget: image, required: false}
+              - label: 描述
+                name: caption
+                widget: object
+                required: false
+                fields:
+                  - {label: 中文, name: zh, widget: string}
+                  - {label: English, name: en, widget: string}
