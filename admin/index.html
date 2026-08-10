@@ -380,6 +380,24 @@
         });
 
         CMS.registerWidget('paperlist', PaperListControl);
+
+        // 保存前清理：删除论文列表中被完全留空的新条目，避免生成空对象破坏站点构建
+        if (typeof CMS.registerEventListener === 'function') {
+          CMS.registerEventListener({
+            name: 'preSave',
+            handler: function ({ entry }) {
+              var data = entry && entry.get ? entry.get('data') : null;
+              if (!data || typeof data.get !== 'function') return undefined;
+              var items = data.get('items');
+              if (!items || typeof items.filter !== 'function') return undefined;
+              var cleaned = items.filter(function (item) {
+                return item && Object.keys(item.toJS ? item.toJS() : item).length > 0;
+              });
+              if (cleaned.size === items.size) return undefined;
+              return data.set('items', cleaned);
+            }
+          });
+        }
       })();
     </script>
   </body>

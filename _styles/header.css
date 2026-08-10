@@ -100,6 +100,63 @@ nav > a:hover {
   color: var(--primary);
 }
 
+.nav-dropdown {
+  position: relative;
+  padding: 5px;
+}
+.nav-dropdown:hover .nav-dropdown-menu, .nav-dropdown:focus-within .nav-dropdown-menu {
+  display: flex;
+}
+
+.nav-dropdown-title {
+  padding: 5px;
+  display: inline-block;
+}
+.nav-dropdown-title:hover {
+  color: var(--primary);
+}
+
+.nav-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  flex-direction: column;
+  min-width: 180px;
+  padding: 6px;
+  background: var(--background);
+  border: 1px solid var(--border, rgba(0, 0, 0, 0.08));
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+  z-index: 20;
+  font-family: var(--heading);
+  text-transform: uppercase;
+}
+.nav-dropdown-menu a {
+  padding: 6px 10px;
+  white-space: nowrap;
+  font-size: 0.9em;
+}
+.nav-dropdown-menu a:hover {
+  color: var(--primary);
+}
+
+@media (max-width: 700px) {
+  .nav-dropdown {
+    width: 100%;
+  }
+  .nav-dropdown-menu {
+    position: static;
+    transform: none;
+    display: flex;
+    width: 100%;
+    padding: 0 0 0 10px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+}
 @media (max-width: 700px) {
   header:not([data-big]) {
     justify-content: flex-end;
