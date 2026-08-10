@@ -4,17 +4,12 @@
 
 .list-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px 20px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
   text-align: left;
 }
 
-@media (max-width: 750px) {
-  .list-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (max-width: 500px) {
+@media (max-width: 600px) {
   .list-grid {
     grid-template-columns: 1fr;
   }
@@ -23,15 +18,21 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 16px;
+  gap: 20px;
+  padding: 24px;
   width: 100%;
   min-width: 0;
+  box-sizing: border-box;
   text-align: left;
   text-decoration: none;
+  background: var(--background-alt);
+  border: 1px solid var(--border, rgba(0, 0, 0, 0.08));
+  border-radius: 10px;
+  box-shadow: var(--shadow);
 }
 
 .portrait-image {
-  width: 100px;
+  width: 120px;
   flex-shrink: 0;
   aspect-ratio: 1/1;
   border-radius: 0;
@@ -49,7 +50,7 @@
 .portrait-description {
   font-family: var(--heading);
   font-weight: var(--semi-bold);
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   line-height: 1.25;
 }
 
