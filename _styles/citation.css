@@ -57,7 +57,10 @@ body.page-research {
   text-align: left;
 }
 
-body.page-research h1,
+body.page-research h1 {
+  text-align: center;
+}
+
 body.page-research h3 {
   text-align: left;
 }
