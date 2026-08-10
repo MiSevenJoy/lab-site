@@ -54,6 +54,8 @@ collections:
           - {label: 中文名, name: zh, widget: string}
           - {label: English, name: en, widget: string}
       - {label: 照片, name: image, widget: image, required: false}
+      - {label: 邮箱, name: email, widget: string, required: false}
+      - {label: 入学 / 加入时间（用于成员排序）, name: date, widget: datetime, format: YYYY-MM-DD, required: false}
       - label: 类别
         name: role
         widget: select
