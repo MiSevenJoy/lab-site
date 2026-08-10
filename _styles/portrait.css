@@ -2,24 +2,39 @@
   display: contents;
 }
 
+.list-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px 20px;
+  text-align: left;
+}
+
+@media (max-width: 750px) {
+  .list-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 500px) {
+  .list-grid {
+    grid-template-columns: 1fr;
+  }
+}
 .portrait {
-  display: inline-flex;
+  display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 14px;
-  margin: 20px;
-  width: 235px;
-  max-width: calc(100% - 40px);
+  gap: 16px;
+  width: 100%;
+  min-width: 0;
   text-align: left;
   text-decoration: none;
-  vertical-align: top;
 }
 
 .portrait-image {
-  width: 64px;
+  width: 100px;
   flex-shrink: 0;
   aspect-ratio: 1/1;
-  border-radius: 50%;
+  border-radius: 0;
   object-fit: cover;
   box-shadow: var(--shadow);
 }
@@ -27,7 +42,7 @@
 .portrait-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
   min-width: 0;
 }
 
@@ -40,11 +55,11 @@
 
 .portrait-name {
   font-family: var(--heading);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .portrait-email {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: var(--gray);
   word-break: break-all;
 }
