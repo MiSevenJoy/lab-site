@@ -94,15 +94,37 @@
       fr.onload = function () {
         var base64 = String(fr.result).split(',')[1];
         getRepoInfo().then(function (info) {
-          return api('/contents/' + filePath.replace(/^\/+/, ''), 'PUT', {
-            message: 'Upload image',
-            content: base64,
-            branch: info.branch,
-          });
+          var path = filePath.replace(/^\/+/, '');
+          return api('/contents/' + path, 'GET')
+            .then(function (existing) {
+              return existing && existing.sha ? existing.sha : null;
+            })
+            .catch(function () {
+              return null; // 文件不存在 → 新建，无需 sha
+            })
+            .then(function (sha) {
+              var body = { message: 'Upload image', content: base64, branch: info.branch };
+              if (sha) body.sha = sha; // 覆盖已存在文件时需要 sha
+              return api('/contents/' + path, 'PUT', body);
+            });
         }).then(function () { resolve(filePath); }).catch(reject);
       };
       fr.onerror = function () { reject(new Error('读取文件失败')); };
       fr.readAsDataURL(blob);
+    });
+  }
+
+  function deleteImage(filePath) {
+    return getRepoInfo().then(function (info) {
+      var path = filePath.replace(/^\/+/, '');
+      return api('/contents/' + path, 'GET').then(function (existing) {
+        if (!existing || !existing.sha) throw new Error('未找到该文件');
+        return api('/contents/' + path, 'DELETE', {
+          message: 'Delete image',
+          sha: existing.sha,
+          branch: info.branch,
+        });
+      });
     });
   }
 
@@ -339,6 +361,21 @@
     var browseStatus = el('div', { style: 'margin-top:8px;font-size:12px;color:#666;min-height:16px;' });
     var browseBtn = el('button', { type: 'button', style: 'padding:6px 14px;cursor:pointer;' }, '加载图片');
 
+    function deleteBrowseImage(path) {
+      if (!window.confirm('确定删除图片：' + path + ' ？此操作会直接提交到仓库。')) return;
+      browseStatus.style.color = '#666';
+      browseStatus.textContent = '正在删除…';
+      deleteImage(path)
+        .then(function () {
+          browseStatus.textContent = '已删除：' + path;
+          loadBrowse();
+        })
+        .catch(function (e) {
+          browseStatus.style.color = '#c0392b';
+          browseStatus.textContent = '删除失败：' + (e && e.message ? e.message : '未知错误');
+        });
+    }
+
     function loadBrowse() {
       var folder = (browseFolder.value || '').trim().replace(/^\/+/, '').replace(/\/+$/, '');
       browseGrid.innerHTML = '';
@@ -347,17 +384,22 @@
       listImages(folder).then(function (paths) {
         browseGrid.innerHTML = '';
         if (!paths.length) { browseStatus.textContent = '该目录下没有图片。'; return; }
-        browseStatus.textContent = '共 ' + paths.length + ' 张，点击插入（原图，不做处理）。';
+        browseStatus.textContent = '共 ' + paths.length + ' 张。点击图片插入，点击右上角 ✕ 删除。';
         getRepoInfo().then(function (info) {
           paths.forEach(function (p) {
-            var thumb = el('img', { style: 'width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:4px;cursor:pointer;border:1px solid #ddd;' });
+            var thumb = el('img', { style: 'width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:4px;cursor:pointer;border:1px solid #ddd;display:block;' });
             thumb.src = 'https://raw.githubusercontent.com/' + info.repo + '/' + info.branch + '/' + p;
             thumb.title = p;
             thumb.addEventListener('click', function () {
               if (handleInsertRef) handleInsertRef(p);
               closeModal();
             });
-            browseGrid.appendChild(el('div', null, [thumb]));
+            var delBtn = el('button', {
+              type: 'button',
+              style: 'position:absolute;top:2px;right:2px;padding:2px 6px;font-size:12px;line-height:1;cursor:pointer;background:rgba(255,255,255,.92);border:1px solid #ccc;border-radius:3px;color:#c0392b;',
+              onclick: function (e) { e.stopPropagation(); deleteBrowseImage(p); },
+            }, '✕');
+            browseGrid.appendChild(el('div', { style: 'position:relative;' }, [thumb, delBtn]));
           });
         });
       });
