@@ -154,7 +154,7 @@
           cw = Math.max(1, Math.min(Math.round(c.w * sw / c.sw), sw - sx));
           ch = Math.max(1, Math.min(Math.round(c.h * sh / c.sh), sh - sy));
         }
-        var scale = Math.min(1, (opts.maxWidth > 0 ? opts.maxWidth : 1920) / cw);
+        var scale = opts.maxWidth > 0 ? Math.min(1, opts.maxWidth / cw) : 1;
         var ow = Math.max(1, Math.round(cw * scale));
         var oh = Math.max(1, Math.round(ch * scale));
         var cv = document.createElement('canvas');
@@ -282,7 +282,7 @@
 
     document.addEventListener('mouseup', function () { cropInteraction = null; });
 
-    var maxWInput = el('input', { type: 'number', value: '1920', min: '16', style: 'width:90px;padding:4px;' });
+    var maxWInput = el('input', { type: 'number', value: '1920', min: '16', placeholder: '留空不缩放', style: 'width:110px;padding:4px;' });
     var qualityInput = el('input', { type: 'range', min: '30', max: '100', value: '80', style: 'width:140px;' });
     var qualityLabel = el('span', { style: 'font-size:12px;color:#666;min-width:36px;' }, '80%');
     var status = el('div', { style: 'margin-top:8px;font-size:12px;color:#666;min-height:16px;' });
@@ -310,8 +310,9 @@
       var f = fileInput.files && fileInput.files[0];
       if (!f) return;
       var folder = (folderInput.value || '').trim().replace(/^\/+/, '').replace(/\/+$/, '');
+      var maxW = maxWInput.value.trim() === '' ? 0 : (parseInt(maxWInput.value, 10) || 1920);
       var opts = {
-        maxWidth: parseInt(maxWInput.value, 10) || 1920,
+        maxWidth: maxW,
         quality: (parseInt(qualityInput.value, 10) || 80) / 100,
         cropDisplay: getCropDisplayRect(),
       };
@@ -345,7 +346,7 @@
       cropWrap,
       el('div', { style: 'margin:10px 0;font-size:12px;color:#666;' }, '选择图片后，可在预览图上拖动绘制裁剪范围，拖动选框或边角可调整。不裁剪则使用整张图。'),
       el('div', { style: 'margin:12px 0;display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13px;' }, [
-        el('div', null, [el('label', { style: 'display:block;margin-bottom:3px;' }, '最大宽度（像素）'), maxWInput]),
+        el('div', null, [el('label', { style: 'display:block;margin-bottom:3px;' }, '输出最大宽度（裁剪后等比缩小，留空不缩放）'), maxWInput]),
         el('div', null, [el('label', { style: 'display:block;margin-bottom:3px;' }, '图片质量'), el('div', { style: 'display:flex;align-items:center;gap:6px;' }, [qualityInput, qualityLabel])]),
       ]),
       el('div', { style: 'margin-bottom:10px;' }, [
