@@ -47,6 +47,16 @@
     return repoInfoPromise;
   }
 
+  function siteRootUrl() {
+    var path = window.location.pathname || '/';
+    var lower = path.toLowerCase();
+    var i = lower.lastIndexOf('/admin');
+    if (i >= 0) path = path.slice(0, i + 1);
+    else path = path.replace(/\/[^/]*$/, '/');
+    if (path.charAt(0) !== '/') path = '/' + path;
+    return window.location.origin + path;
+  }
+
   function getToken() {
     try {
       var raw = window.localStorage.getItem('decap-cms-user');
@@ -389,7 +399,14 @@
         getRepoInfo().then(function (info) {
           paths.forEach(function (p) {
             var thumb = el('img', { style: 'width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:4px;cursor:pointer;border:1px solid #ddd;display:block;' });
-            thumb.src = 'https://raw.githubusercontent.com/' + info.repo + '/' + info.branch + '/' + p;
+            thumb.src = siteRootUrl() + p;
+            thumb.onerror = function () {
+              // 站点内无法加载时，回退到 raw.githubusercontent.com
+              thumb.onerror = null;
+              getRepoInfo().then(function (info) {
+                thumb.src = 'https://raw.githubusercontent.com/' + info.repo + '/' + info.branch + '/' + p;
+              });
+            };
             thumb.title = p;
             thumb.addEventListener('click', function () {
               if (handleInsertRef) handleInsertRef(p);
