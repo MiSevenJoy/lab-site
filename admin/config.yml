@@ -169,7 +169,7 @@ collections:
     label: 网站外观
     label_singular: 外观
     description: 修改实验室主页顶部与页脚的背景图片，可上传自己的图片。
-    media_folder: "images/uploads"
+    media_folder: "/images/uploads"
     public_folder: "images/uploads"
     files:
       - name: appearance
@@ -186,7 +186,7 @@ collections:
     label: 相册
     label_singular: 照片
     description: 管理「相册」页展示的照片与描述，可上传新照片。
-    media_folder: "images/gallery"
+    media_folder: "/images/gallery"
     public_folder: "images/gallery"
     files:
       - name: gallery
