@@ -19,6 +19,10 @@ display_url: https://misevenjoy.github.io/lab-site/
 # 后台界面语言
 locale: zh_Hans
 
+# 自定义图片媒体库：上传自动压缩、支持裁剪（由 admin/media-library.js 提供）
+media_library:
+  name: imagelib
+
 # 通用编辑器设置：Jekyll 页面无法实时预览，关闭预览
 editor:
   preview: false
