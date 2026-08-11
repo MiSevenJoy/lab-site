@@ -21,7 +21,8 @@
       else if (k.indexOf('on') === 0) node.addEventListener(k.slice(2), attrs[k]);
       else node.setAttribute(k, attrs[k]);
     }
-    (children || []).forEach(function (c) {
+    var list = children == null ? [] : (Array.isArray(children) ? children : [children]);
+    list.forEach(function (c) {
       if (c == null) return;
       node.appendChild(typeof c === 'string' || typeof c === 'number' ? document.createTextNode(String(c)) : c);
     });
@@ -317,9 +318,10 @@
 
   var mediaLibrary = {
     name: 'imagelib',
-    init: function () {
+    init: function (args) {
+      var insert = args && args.handleInsert;
       return {
-        show: function (p) { openModal(p || {}); },
+        show: function (p) { openModal({ value: p && p.value, handleInsert: insert }); },
         hide: function () { closeModal(); },
         enableStandalone: function () { return false; },
       };
