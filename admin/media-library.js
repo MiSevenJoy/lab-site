@@ -124,15 +124,21 @@
       img.onload = function () {
         URL.revokeObjectURL(objUrl);
         var sw = img.naturalWidth, sh = img.naturalHeight;
-        var cw = Math.min(opts.cropWidth > 0 ? opts.cropWidth : sw, sw);
-        var ch = Math.min(opts.cropHeight > 0 ? opts.cropHeight : sh, sh);
+        var sx = 0, sy = 0, cw = sw, ch = sh;
+        if (opts.cropDisplay) {
+          var c = opts.cropDisplay;
+          sx = Math.max(0, Math.min(Math.round(c.x * sw / c.sw), sw - 1));
+          sy = Math.max(0, Math.min(Math.round(c.y * sh / c.sh), sh - 1));
+          cw = Math.max(1, Math.min(Math.round(c.w * sw / c.sw), sw - sx));
+          ch = Math.max(1, Math.min(Math.round(c.h * sh / c.sh), sh - sy));
+        }
         var scale = Math.min(1, (opts.maxWidth > 0 ? opts.maxWidth : 1920) / cw);
         var ow = Math.max(1, Math.round(cw * scale));
         var oh = Math.max(1, Math.round(ch * scale));
         var cv = document.createElement('canvas');
         cv.width = ow; cv.height = oh;
         var ctx = cv.getContext('2d');
-        ctx.drawImage(img, Math.round((sw - cw) / 2), Math.round((sh - ch) / 2), cw, ch, 0, 0, ow, oh);
+        ctx.drawImage(img, sx, sy, cw, ch, 0, 0, ow, oh);
         cv.toBlob(function (b) {
           if (b) resolve(b);
           else reject(new Error('图片处理失败'));
@@ -161,22 +167,115 @@
 
     // ---------- 上传 tab ----------
     var fileInput = el('input', { type: 'file', accept: 'image/*' });
-    var preview = el('img', { style: 'max-width:100%;max-height:220px;border-radius:4px;display:none;object-fit:contain;' });
+    var preview = el('img', { style: 'display:block;max-width:100%;max-height:220px;width:auto;height:auto;border-radius:4px;' });
+    var cropBox = el('div', { style: 'position:absolute;display:none;border:2px solid #fff;box-shadow:0 0 0 9999px rgba(0,0,0,.55);cursor:move;touch-action:none;' });
+    var cropWrap = el('div', { style: 'position:relative;display:block;width:fit-content;max-width:100%;margin-top:8px;' }, [preview, cropBox]);
+    var handleStyles = {
+      nw: 'left:-6px;top:-6px;cursor:nwse-resize;',
+      n: 'left:50%;top:-6px;margin-left:-6px;cursor:ns-resize;',
+      ne: 'right:-6px;top:-6px;cursor:nesw-resize;',
+      e: 'right:-6px;top:50%;margin-top:-6px;cursor:ew-resize;',
+      se: 'right:-6px;bottom:-6px;cursor:nwse-resize;',
+      s: 'left:50%;bottom:-6px;margin-left:-6px;cursor:ns-resize;',
+      sw: 'left:-6px;bottom:-6px;cursor:nesw-resize;',
+      w: 'left:-6px;top:50%;margin-top:-6px;cursor:ew-resize;',
+    };
+    Object.keys(handleStyles).forEach(function (pos) {
+      cropBox.appendChild(el('div', {
+        'data-handle': pos,
+        style: 'position:absolute;width:12px;height:12px;background:#fff;border:1px solid #666;' + handleStyles[pos],
+      }));
+    });
+
+    var cropInteraction = null;
+
+    function cropPos(e) {
+      var rect = preview.getBoundingClientRect();
+      return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    }
+
+    function setCropRect(x, y, w, h) {
+      var s = { w: preview.clientWidth, h: preview.clientHeight };
+      x = Math.max(0, Math.min(x, s.w));
+      y = Math.max(0, Math.min(y, s.h));
+      w = Math.max(1, Math.min(w, s.w - x));
+      h = Math.max(1, Math.min(h, s.h - y));
+      cropBox.style.left = x + 'px';
+      cropBox.style.top = y + 'px';
+      cropBox.style.width = w + 'px';
+      cropBox.style.height = h + 'px';
+      cropBox.style.display = 'block';
+    }
+
+    function getCropDisplayRect() {
+      if (cropBox.style.display === 'none') return null;
+      var s = { w: preview.clientWidth, h: preview.clientHeight };
+      if (!s.w || !s.h) return null;
+      return {
+        x: parseFloat(cropBox.style.left) || 0,
+        y: parseFloat(cropBox.style.top) || 0,
+        w: parseFloat(cropBox.style.width) || 0,
+        h: parseFloat(cropBox.style.height) || 0,
+        sw: s.w, sh: s.h,
+      };
+    }
+
+    cropWrap.addEventListener('mousedown', function (e) {
+      if (cropBox.style.display === 'none' && e.target !== preview) return;
+      e.preventDefault();
+      var p = cropPos(e);
+      var handle = e.target && e.target.getAttribute ? e.target.getAttribute('data-handle') : null;
+      if (handle) {
+        cropInteraction = { mode: 'resize', handle: handle, p: p, o: getCropDisplayRect() };
+      } else if (e.target === cropBox) {
+        cropInteraction = { mode: 'move', p: p, o: getCropDisplayRect() };
+      } else if (e.target === preview) {
+        cropInteraction = { mode: 'draw', startX: p.x, startY: p.y };
+        setCropRect(p.x, p.y, 1, 1);
+      }
+    });
+
+    document.addEventListener('mousemove', function (e) {
+      if (!cropInteraction) return;
+      e.preventDefault();
+      var p = cropPos(e);
+      var it = cropInteraction;
+      if (it.mode === 'draw') {
+        var x = Math.min(it.startX, p.x), y = Math.min(it.startY, p.y);
+        setCropRect(x, y, Math.abs(p.x - it.startX), Math.abs(p.y - it.startY));
+      } else if (it.mode === 'move') {
+        setCropRect(it.o.x + (p.x - it.p.x), it.o.y + (p.y - it.p.y), it.o.w, it.o.h);
+      } else if (it.mode === 'resize') {
+        var o = it.o, hd = it.handle;
+        var x2 = o.x + o.w, y2 = o.y + o.h;
+        if (hd.indexOf('w') >= 0) o.x = p.x;
+        if (hd.indexOf('e') >= 0) x2 = p.x;
+        if (hd.indexOf('n') >= 0) o.y = p.y;
+        if (hd.indexOf('s') >= 0) y2 = p.y;
+        if (x2 < o.x) { var tx = o.x; o.x = x2; x2 = tx; }
+        if (y2 < o.y) { var ty = o.y; o.y = y2; y2 = ty; }
+        setCropRect(o.x, o.y, x2 - o.x, y2 - o.y);
+      }
+    });
+
+    document.addEventListener('mouseup', function () { cropInteraction = null; });
+
     var maxWInput = el('input', { type: 'number', value: '1920', min: '16', style: 'width:90px;padding:4px;' });
     var qualityInput = el('input', { type: 'range', min: '30', max: '100', value: '80', style: 'width:140px;' });
     var qualityLabel = el('span', { style: 'font-size:12px;color:#666;min-width:36px;' }, '80%');
-    var cropWInput = el('input', { type: 'number', placeholder: '不限', min: '1', style: 'width:90px;padding:4px;' });
-    var cropHInput = el('input', { type: 'number', placeholder: '不限', min: '1', style: 'width:90px;padding:4px;' });
     var status = el('div', { style: 'margin-top:8px;font-size:12px;color:#666;min-height:16px;' });
     var uploadBtn = el('button', { type: 'button', disabled: true, style: 'padding:6px 14px;cursor:pointer;' }, '请先选择图片');
 
     fileInput.addEventListener('change', function () {
       var f = fileInput.files && fileInput.files[0];
-      if (!f) { preview.style.display = 'none'; uploadBtn.disabled = true; uploadBtn.textContent = '请先选择图片'; return; }
+      if (!f) { cropWrap.style.display = 'none'; uploadBtn.disabled = true; uploadBtn.textContent = '请先选择图片'; return; }
       var url = URL.createObjectURL(f);
-      preview.onload = function () { URL.revokeObjectURL(url); };
+      preview.onload = function () {
+        URL.revokeObjectURL(url);
+        cropBox.style.display = 'none';
+        cropWrap.style.display = 'block';
+      };
       preview.src = url;
-      preview.style.display = 'block';
       uploadBtn.disabled = false;
       uploadBtn.textContent = '处理并上传';
       status.style.color = '#666';
@@ -192,8 +291,7 @@
       var opts = {
         maxWidth: parseInt(maxWInput.value, 10) || 1920,
         quality: (parseInt(qualityInput.value, 10) || 80) / 100,
-        cropWidth: parseInt(cropWInput.value, 10) || 0,
-        cropHeight: parseInt(cropHInput.value, 10) || 0,
+        cropDisplay: getCropDisplayRect(),
       };
       uploadBtn.disabled = true;
       status.style.color = '#666';
@@ -222,12 +320,11 @@
         el('label', { style: 'display:block;font-weight:600;margin-bottom:4px;' }, '选择图片（上传时自动压缩）'),
         fileInput,
       ]),
-      preview,
+      cropWrap,
+      el('div', { style: 'margin:10px 0;font-size:12px;color:#666;' }, '选择图片后，可在预览图上拖动绘制裁剪范围，拖动选框或边角可调整。不裁剪则使用整张图。'),
       el('div', { style: 'margin:12px 0;display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13px;' }, [
         el('div', null, [el('label', { style: 'display:block;margin-bottom:3px;' }, '最大宽度（像素）'), maxWInput]),
         el('div', null, [el('label', { style: 'display:block;margin-bottom:3px;' }, '图片质量'), el('div', { style: 'display:flex;align-items:center;gap:6px;' }, [qualityInput, qualityLabel])]),
-        el('div', null, [el('label', { style: 'display:block;margin-bottom:3px;' }, '裁剪宽度（可选，居中裁剪）'), cropWInput]),
-        el('div', null, [el('label', { style: 'display:block;margin-bottom:3px;' }, '裁剪高度（可选）'), cropHInput]),
       ]),
       el('div', { style: 'margin-bottom:10px;' }, [
         el('label', { style: 'display:block;margin-bottom:3px;font-size:13px;' }, '保存到（需与当前栏目图片目录一致）'),
