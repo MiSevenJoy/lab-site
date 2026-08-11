@@ -33,6 +33,29 @@ slug:
 
 collections:
   # =====================================================
+  # 新闻动态（主页「最新进展」）
+  # =====================================================
+  - name: posts
+    label: 新闻动态
+    label_singular: 新闻
+    description: 编写实验室新闻（标题、照片、详情、发布时间），主页「最新进展」自动按发布时间倒序展示，点击卡片进入详情页。
+    media_folder: "/images/news"
+    public_folder: "images/news"
+    folder: _posts/
+    create: true
+    delete: true
+    extension: md
+    format: yaml-frontmatter
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{title}}"
+    fields:
+      - {label: 标题（主页卡片显示）, name: title, widget: string}
+      - {label: 照片（主页卡片左侧显示）, name: image, widget: image, required: false}
+      - {label: 发布时间（自动按此从新到旧排列）, name: date, widget: datetime, format: YYYY-MM-DD}
+      - {label: 详情附件（可选，可上传 Word 文档）, name: attachment, widget: file, required: false}
+      - {label: 详情正文（Markdown，可插入图片）, name: body, widget: markdown}
+
+  # =====================================================
   # 团队成员
   # =====================================================
   - name: members
