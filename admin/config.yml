@@ -52,8 +52,15 @@ collections:
       - {label: 标题（主页卡片显示）, name: title, widget: string}
       - {label: 照片（主页卡片左侧显示）, name: image, widget: image, required: false}
       - {label: 发布时间（自动按此从新到旧排列）, name: date, widget: datetime, format: YYYY-MM-DD}
-      - {label: 详情附件（可选，可上传 Word 文档）, name: attachment, widget: file, required: false}
-      - {label: 详情正文（Markdown，可插入图片）, name: body, widget: markdown}
+      - label: 详情附件（可选）
+        name: attachment
+        widget: file
+        required: false
+        hint: 可上传 Word 文档或 Markdown（.md）文档。Markdown 文档会在详情页直接渲染显示；Word 等其他文档显示为「下载附件」按钮。
+      - label: 详情正文（Markdown，可插入图片）
+        name: body
+        widget: markdown
+        hint: "中英文段落需分别标注语言：中文段落后紧跟一行 {: .lang-zh}，英文段落后紧跟一行 {: .lang-en}。注意：标记必须紧跟段落、两者之间不要空行，否则会出现中英文同时显示。"
 
   # =====================================================
   # 团队成员
