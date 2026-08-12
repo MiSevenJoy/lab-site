@@ -14,6 +14,8 @@
   var repoInfoPromise = null;
   var isImageMode = true;
   var applyModeFn = null;
+  var currentValue = null;
+  var folderInputs = [];
 
   var el = function (tag, attrs, children) {
     var node = document.createElement(tag);
@@ -37,16 +39,42 @@
       .then(function (r) { return r.text(); })
       .then(function (text) {
         function grab(re) { var m = text.match(re); return m ? m[1].replace(/["'\s]+$/, '') : ''; }
+        // 各集合（栏目）的 public_folder，用于智能默认保存目录
+        var collections = {};
+        var blocks = text.split(/\n\s*-\s*name:\s*/).slice(1);
+        blocks.forEach(function (b) {
+          var name = (b.match(/^([^\s#]+)/) || [])[1];
+          if (!name) return;
+          var pf = (b.match(/public_folder:\s*["']?([^"'\s#]+)/) || [])[1];
+          if (pf) collections[name] = pf.replace(/^\/+/, '').replace(/\/+$/, '');
+        });
         return {
           repo: grab(/^\s*repo:\s*["']?([^"'\s#]+)/m),
           branch: grab(/^\s*branch:\s*["']?([^"'\s#]+)/m) || 'main',
           mediaFolder: grab(/^\s*media_folder:\s*["']?([^"'\s#]+)/m) || 'images/uploads',
+          collections: collections,
         };
       })
       .catch(function () {
-        return { repo: '', branch: 'main', mediaFolder: 'images/uploads' };
+        return { repo: '', branch: 'main', mediaFolder: 'images/uploads', collections: {} };
       });
     return repoInfoPromise;
+  }
+
+  function currentCollectionName() {
+    var h = window.location.hash || '';
+    var m = h.match(/collections\/([^\/]+)/);
+    return m ? decodeURIComponent(m[1]) : '';
+  }
+
+  function defaultFolder(info, value) {
+    if (value && value.indexOf('/') >= 0) {
+      var dir = value.substring(0, value.lastIndexOf('/'));
+      if (dir) return dir;
+    }
+    var coll = currentCollectionName();
+    if (coll && info.collections && info.collections[coll]) return info.collections[coll];
+    return info.mediaFolder || 'images/uploads';
   }
 
   function siteRootUrl() {
@@ -193,8 +221,9 @@
   function buildModal() {
     var folderInput = el('input', { type: 'text', style: 'width:100%;padding:4px;box-sizing:border-box;' });
     var browseFolder = el('input', { type: 'text', style: 'width:100%;padding:4px;box-sizing:border-box;' });
+    folderInputs.push(folderInput, browseFolder);
     getRepoInfo().then(function (info) {
-      var def = info.mediaFolder || 'images/uploads';
+      var def = defaultFolder(info, currentValue);
       if (!folderInput.value) folderInput.value = def;
       if (!browseFolder.value) browseFolder.value = def;
     });
@@ -441,10 +470,11 @@
     (function buildFilePane() {
       var fileInput2 = el('input', { type: 'file' });
       var fileFolder = el('input', { type: 'text', style: 'width:100%;padding:4px;box-sizing:border-box;' });
+      folderInputs.push(fileFolder);
       var fileStatus = el('div', { style: 'margin-top:8px;font-size:12px;color:#666;min-height:16px;' });
       var fileBtn = el('button', { type: 'button', disabled: true, style: 'padding:6px 14px;cursor:pointer;' }, '请先选择文件');
       getRepoInfo().then(function (info) {
-        if (!fileFolder.value) fileFolder.value = info.mediaFolder || 'images/uploads';
+        if (!fileFolder.value) fileFolder.value = defaultFolder(info, currentValue);
       });
       fileInput2.addEventListener('change', function () {
         var f = fileInput2.files && fileInput2.files[0];
@@ -535,8 +565,14 @@
 
   function openModal(params) {
     handleInsertRef = params.handleInsert;
+    currentValue = params.value || null;
     isImageMode = params.imagesOnly === true;
     if (!modal) buildModal();
+    folderInputs.forEach(function (inp) { inp.value = ''; });
+    getRepoInfo().then(function (info) {
+      var def = defaultFolder(info, currentValue);
+      folderInputs.forEach(function (inp) { if (!inp.value) inp.value = def; });
+    });
     if (applyModeFn) applyModeFn();
     modal.style.display = 'flex';
   }
