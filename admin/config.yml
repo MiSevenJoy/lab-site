@@ -114,7 +114,8 @@ collections:
         required: false
         summary: "{{fields.alias}}"
         field: {label: 别名, name: alias, widget: string}
-      - label: 个人主页链接
+      - {label: 个人主页链接（填写后显示，留空则不显示）, name: homepage, widget: string, required: false}
+      - label: 其他链接（社交等，可选）
         name: links
         widget: map
         key_type: string
