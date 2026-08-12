@@ -12,6 +12,8 @@
   var modal = null;
   var handleInsertRef = null;
   var repoInfoPromise = null;
+  var isImageMode = true;
+  var applyModeFn = null;
 
   var el = function (tag, attrs, children) {
     var node = document.createElement(tag);
@@ -434,25 +436,93 @@
       browseStatus,
     ]);
 
+    // ---------- 文件附件（非图片字段，如 Word / Markdown 附件） ----------
+    var filePane = el('div', { style: 'display:none;' }, []);
+    (function buildFilePane() {
+      var fileInput2 = el('input', { type: 'file' });
+      var fileFolder = el('input', { type: 'text', style: 'width:100%;padding:4px;box-sizing:border-box;' });
+      var fileStatus = el('div', { style: 'margin-top:8px;font-size:12px;color:#666;min-height:16px;' });
+      var fileBtn = el('button', { type: 'button', disabled: true, style: 'padding:6px 14px;cursor:pointer;' }, '请先选择文件');
+      getRepoInfo().then(function (info) {
+        if (!fileFolder.value) fileFolder.value = info.mediaFolder || 'images/uploads';
+      });
+      fileInput2.addEventListener('change', function () {
+        var f = fileInput2.files && fileInput2.files[0];
+        fileBtn.disabled = !f;
+        fileBtn.textContent = f ? '上传并插入' : '请先选择文件';
+        fileStatus.style.color = '#666';
+        fileStatus.textContent = f ? ('已选择：' + f.name + '（' + Math.round(f.size / 1024) + ' KB）') : '';
+      });
+      fileBtn.addEventListener('click', function () {
+        var f = fileInput2.files && fileInput2.files[0];
+        if (!f) return;
+        var folder = (fileFolder.value || '').trim().replace(/^\/+/, '').replace(/\/+$/, '');
+        var filePath = (folder ? folder + '/' : '') + f.name;
+        fileBtn.disabled = true;
+        fileStatus.style.color = '#666';
+        fileStatus.textContent = '正在上传…';
+        uploadImage(filePath, f)
+          .then(function () {
+            fileStatus.textContent = '上传成功：' + filePath;
+            if (handleInsertRef) handleInsertRef(filePath);
+            setTimeout(closeModal, 500);
+          })
+          .catch(function (e) {
+            fileBtn.disabled = false;
+            fileBtn.textContent = '上传并插入';
+            fileStatus.style.color = '#c0392b';
+            fileStatus.textContent = '上传失败：' + (e && e.message ? e.message : '未知错误');
+          });
+      });
+      filePane.appendChild(el('div', null, [
+        el('label', { style: 'display:block;font-weight:600;margin-bottom:4px;' }, '选择文件（Word / Markdown / PDF 等）'),
+        fileInput2,
+        el('div', { style: 'margin:12px 0;' }, [
+          el('label', { style: 'display:block;margin-bottom:3px;font-size:13px;' }, '保存到'),
+          fileFolder,
+        ]),
+        el('div', { style: 'display:flex;gap:10px;align-items:center;' }, [fileBtn, el('button', { type: 'button', style: 'padding:6px 14px;cursor:pointer;', onclick: closeModal }, '取消')]),
+        fileStatus,
+      ]));
+    })();
+
     // ---------- tabs ----------
     var uploadTab = el('button', { type: 'button', style: 'padding:6px 12px;cursor:pointer;font-weight:600;' }, '上传新图片');
     var browseTab = el('button', { type: 'button', style: 'padding:6px 12px;cursor:pointer;' }, '已有图片');
+    var tabsRow = el('div', { style: 'display:flex;gap:8px;margin-bottom:14px;' }, [uploadTab, browseTab]);
+    var activeTab = 'upload';
 
     function switchTab(which) {
-      var isUpload = which === 'upload';
-      uploadPane.style.display = isUpload ? 'block' : 'none';
-      browsePane.style.display = isUpload ? 'none' : 'block';
-      uploadTab.style.fontWeight = isUpload ? '600' : '400';
-      browseTab.style.fontWeight = isUpload ? '400' : '600';
-      if (!isUpload) loadBrowse();
+      activeTab = which;
+      applyMode();
     }
     uploadTab.addEventListener('click', function () { switchTab('upload'); });
     browseTab.addEventListener('click', function () { switchTab('browse'); });
 
+    function applyMode() {
+      if (isImageMode) {
+        tabsRow.style.display = 'flex';
+        filePane.style.display = 'none';
+        var isUpload = activeTab === 'upload';
+        uploadPane.style.display = isUpload ? 'block' : 'none';
+        browsePane.style.display = isUpload ? 'none' : 'block';
+        uploadTab.style.fontWeight = isUpload ? '600' : '400';
+        browseTab.style.fontWeight = isUpload ? '400' : '600';
+        if (!isUpload) loadBrowse();
+      } else {
+        tabsRow.style.display = 'none';
+        uploadPane.style.display = 'none';
+        browsePane.style.display = 'none';
+        filePane.style.display = 'block';
+      }
+    }
+    applyModeFn = applyMode;
+
     var box = el('div', { style: 'background:#fff;color:#333;border-radius:8px;padding:20px;width:640px;max-width:92vw;max-height:90vh;overflow:auto;box-sizing:border-box;' }, [
-      el('div', { style: 'display:flex;gap:8px;margin-bottom:14px;' }, [uploadTab, browseTab]),
+      tabsRow,
       uploadPane,
       browsePane,
+      filePane,
     ]);
 
     modal = el('div', {
@@ -465,7 +535,9 @@
 
   function openModal(params) {
     handleInsertRef = params.handleInsert;
+    isImageMode = params.imagesOnly === true;
     if (!modal) buildModal();
+    if (applyModeFn) applyModeFn();
     modal.style.display = 'flex';
   }
 
@@ -478,7 +550,7 @@
     init: function (args) {
       var insert = args && args.handleInsert;
       return {
-        show: function (p) { openModal({ value: p && p.value, handleInsert: insert }); },
+        show: function (p) { openModal({ value: p && p.value, imagesOnly: p && p.imagesOnly, handleInsert: insert }); },
         hide: function () { closeModal(); },
         enableStandalone: function () { return false; },
       };

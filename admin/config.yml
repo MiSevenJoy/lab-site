@@ -52,7 +52,7 @@ collections:
       - {label: 标题（主页卡片显示）, name: title, widget: string}
       - {label: 照片（主页卡片左侧显示）, name: image, widget: image, required: false}
       - {label: 发布时间（自动按此从新到旧排列）, name: date, widget: datetime, format: YYYY-MM-DD}
-      - label: 详情附件（可选）
+      - label: 详情附件
         name: attachment
         widget: file
         required: false
