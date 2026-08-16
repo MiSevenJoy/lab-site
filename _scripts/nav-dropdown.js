@@ -33,9 +33,12 @@
       return;
     }
 
-    // 点击下拉菜单项：跳转后收起
-    if (e.target.closest(".nav-dropdown-menu a")) {
+    // 手机端：点击导航里的任意链接后，收起导航栏
+    if (isMobile() && e.target.closest("nav a")) {
       closeAll();
+      document.querySelectorAll(".nav-toggle").forEach(function (t) {
+        t.checked = false;
+      });
       return;
     }
 
