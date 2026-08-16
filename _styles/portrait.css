@@ -47,16 +47,17 @@
   min-width: 0;
 }
 
-.portrait-description {
+.portrait-name {
   font-family: var(--heading);
   font-weight: var(--semi-bold);
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   line-height: 1.25;
 }
 
-.portrait-name {
+.portrait-description {
   font-family: var(--heading);
-  font-size: 0.95rem;
+  font-size: 1rem;
+  line-height: 1.25;
 }
 
 .portrait-email {

@@ -149,7 +149,6 @@ nav > a:hover {
   .nav-dropdown-menu {
     position: static;
     transform: none;
-    display: flex;
     width: 100%;
     padding: 0 0 0 10px;
     background: transparent;
