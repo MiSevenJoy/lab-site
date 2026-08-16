@@ -104,7 +104,7 @@ nav > a:hover {
   position: relative;
   padding: 5px;
 }
-.nav-dropdown:hover .nav-dropdown-menu, .nav-dropdown:focus-within .nav-dropdown-menu {
+.nav-dropdown:hover .nav-dropdown-menu, .nav-dropdown:focus-within .nav-dropdown-menu, .nav-dropdown.nav-dropdown-open .nav-dropdown-menu {
   display: flex;
 }
 
