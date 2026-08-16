@@ -21,6 +21,15 @@ footer .icon {
   font-size: var(--xl);
 }
 
+.footer-contact {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 4px 6px;
+  font-size: 0.95em;
+}
+
 .footer-links {
   display: flex;
   flex-wrap: wrap;
