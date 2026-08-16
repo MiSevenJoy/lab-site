@@ -171,6 +171,12 @@ nav > a:hover {
     flex-direction: column;
     width: 100%;
   }
+  header:not([data-big]) .nav-dropdown {
+    text-align: right;
+  }
+  header:not([data-big]) .nav-dropdown-menu {
+    text-align: left;
+  }
 }
 
 header[data-big] {
