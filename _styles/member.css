@@ -1,0 +1,35 @@
+body.page-member section[data-size=page] {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+body.page-member .float {
+  float: none;
+  max-width: none;
+  margin: 0;
+  grid-column: 1;
+}
+
+body.page-member section[data-size=page] > :not(.float) {
+  grid-column: 2;
+}
+
+body.page-member section[data-size=page] > .center {
+  grid-column: 1/-1;
+}
+
+@media (max-width: 700px) {
+  body.page-member section[data-size=page] {
+    grid-template-columns: 1fr;
+  }
+  body.page-member section[data-size=page] > :not(.float) {
+    grid-column: 1;
+  }
+  body.page-member section[data-size=page] > .center {
+    grid-column: 1;
+  }
+}
+
+/*# sourceMappingURL=member.css.map */
