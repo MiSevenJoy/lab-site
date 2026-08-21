@@ -44,6 +44,7 @@ header a {
   min-width: 0;
   font-family: var(--title);
   text-align: left;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
 }
 
 .title {
