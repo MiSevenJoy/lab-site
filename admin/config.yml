@@ -308,7 +308,7 @@ collections:
   - name: appearance
     label: 网站外观
     label_singular: 外观
-    description: 修改首页导航栏下方的大图与页脚背景图，可上传自己的图片。
+    description: 管理首页导航栏下方的轮播大图与页脚背景图；轮播图可添加任意数量并调整顺序。
     media_folder: "/images/uploads"
     public_folder: "images/uploads"
     files:
@@ -316,7 +316,14 @@ collections:
         label: 网站外观
         file: _data/site.yaml
         fields:
-          - {label: 首页导航栏下方大图, name: header, widget: image, required: false}
+          - label: 首页轮播图
+            name: header_images
+            widget: list
+            required: false
+            hint: 可添加任意数量的图片；拖动条目可调整网页中的轮播顺序。只有一张图时不会显示切换箭头。
+            summary: "{{fields.image}}"
+            fields:
+              - {label: 图片, name: image, widget: image}
           - {label: 页脚背景图, name: footer, widget: image, required: false}
 
   # =====================================================

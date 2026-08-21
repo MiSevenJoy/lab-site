@@ -196,13 +196,15 @@ header.background::before {
 }
 
 .home-hero {
+  position: relative;
   width: 100%;
   height: clamp(360px, 52vw, 620px);
   overflow: hidden;
   background: var(--background-alt);
 }
 
-.home-hero img {
+.home-hero > img,
+.home-hero-slide {
   display: block;
   width: 100%;
   height: 100%;
@@ -210,9 +212,78 @@ header.background::before {
   object-position: center;
 }
 
+.home-carousel-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.65s ease;
+  will-change: transform;
+}
+
+.home-hero-slide {
+  min-width: 100%;
+  flex: 0 0 100%;
+}
+
+.home-carousel-control {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 64px;
+  padding: 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-family: Arial, sans-serif;
+  font-size: 3rem;
+  font-weight: 200;
+  line-height: 1;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  opacity: 0.72;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: opacity 0.2s ease, background 0.2s ease;
+}
+
+.home-carousel-control:hover,
+.home-carousel-control:focus-visible {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.34);
+  opacity: 1;
+}
+
+.home-carousel-prev {
+  left: 20px;
+}
+
+.home-carousel-next {
+  right: 20px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-carousel-track {
+    transition: none;
+  }
+}
 @media (max-width: 700px) {
   .home-hero {
     height: clamp(260px, 65vw, 420px);
+  }
+  .home-carousel-control {
+    width: 40px;
+    height: 54px;
+    font-size: 2.5rem;
+  }
+  .home-carousel-prev {
+    left: 10px;
+  }
+  .home-carousel-next {
+    right: 10px;
   }
 }
 
