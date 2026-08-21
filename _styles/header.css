@@ -89,6 +89,7 @@ nav {
   flex-wrap: wrap;
   gap: 10px;
   font-family: var(--heading);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
   text-transform: uppercase;
 }
 
@@ -192,7 +193,7 @@ nav > a:hover {
 
 header.background::before {
   background-position: center;
-  opacity: 0.85;
+  opacity: 1;
 }
 
 .home-hero {
