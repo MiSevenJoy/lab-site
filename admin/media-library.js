@@ -270,6 +270,12 @@
     var cropInteraction = null;
 
     function cropRatio() {
+      if (String(currentMediaConfig.crop_ratio).toLowerCase() === 'original') {
+        if (preview.naturalWidth && preview.naturalHeight) {
+          return preview.naturalWidth / preview.naturalHeight;
+        }
+        return 0;
+      }
       var ratio = parseFloat(currentMediaConfig.crop_ratio);
       return isFinite(ratio) && ratio > 0 ? ratio : 0;
     }

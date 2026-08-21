@@ -50,7 +50,17 @@ collections:
     summary: "{{title}}"
     fields:
       - {label: 标题（主页卡片显示）, name: title, widget: string}
-      - {label: 照片（主页卡片左侧显示）, name: image, widget: image, required: false}
+      - label: 照片（主页卡片左侧显示）
+        name: image
+        widget: image
+        required: false
+        hint: 上传时默认按新闻卡片的 8:5 比例裁剪，可拖动选择保留区域。
+        media_library:
+          config:
+            crop_ratio: 1.6
+            crop_label: 新闻卡片 8:5
+            max_width: 1600
+            quality: 85
       - {label: 发布时间（自动按此从新到旧排列）, name: date, widget: datetime, format: YYYY-MM-DD}
       - label: 类型
         name: news_type
@@ -115,7 +125,17 @@ collections:
         fields:
           - {label: 中文名, name: zh, widget: string}
           - {label: English, name: en, widget: string}
-      - {label: 照片, name: image, widget: image, required: false}
+      - label: 照片
+        name: image
+        widget: image
+        required: false
+        hint: 上传时默认按成员头像的 1:1 比例裁剪，可拖动选择保留区域。
+        media_library:
+          config:
+            crop_ratio: 1
+            crop_label: 成员头像 1:1
+            max_width: 1000
+            quality: 85
       - {label: 邮箱, name: email, widget: string, required: false}
       - {label: 入学 / 加入时间（用于成员排序）, name: date, widget: datetime, format: YYYY-MM-DD, required: false}
       - label: 类别
@@ -199,7 +219,17 @@ collections:
         fields:
           - {label: 中文, name: zh, widget: string}
           - {label: English, name: en, widget: string}
-      - {label: 项目图片, name: image, widget: image, required: false, hint: 仅在生成顶部卡片和详情页时使用。}
+      - label: 项目图片
+        name: image
+        widget: image
+        required: false
+        hint: 仅在生成顶部卡片和详情页时使用；上传时默认按卡片的 16:10 比例裁剪。
+        media_library:
+          config:
+            crop_ratio: 1.6
+            crop_label: 研究成果卡片 16:10
+            max_width: 1600
+            quality: 85
       - label: 卡片摘要
         name: summary_text
         widget: object
@@ -283,7 +313,16 @@ collections:
         fields:
           - {label: 中文, name: zh, widget: string}
           - {label: English, name: en, widget: string}
-      - {label: 图片, name: image, widget: image}
+      - label: 图片
+        name: image
+        widget: image
+        hint: 上传时默认按代表工作卡片的 16:10 比例裁剪，可拖动选择保留区域。
+        media_library:
+          config:
+            crop_ratio: 1.6
+            crop_label: 代表工作卡片 16:10
+            max_width: 1600
+            quality: 85
       - label: 摘要
         name: summary_text
         widget: object
@@ -321,19 +360,28 @@ collections:
             widget: list
             required: false
             hint: 可添加任意数量的图片；拖动条目可调整网页中的轮播顺序。只有一张图时不会显示切换箭头。
-            summary: "{{fields.image}}"
-            fields:
-              - label: 图片
-                name: image
-                widget: image
-                hint: 上传新图片时会自动启用 16:7 首页横幅裁剪框，可拖动选择保留区域。
-                media_library:
-                  config:
-                    crop_ratio: 2.285714
-                    crop_label: 首页横幅 16:7
-                    max_width: 1920
-                    quality: 85
-          - {label: 页脚背景图, name: footer, widget: image, required: false}
+            field:
+              label: 图片
+              name: image
+              widget: image
+              hint: 上传新图片时会自动启用 16:7 首页横幅裁剪框，可拖动选择保留区域。
+              media_library:
+                config:
+                  crop_ratio: 2.285714
+                  crop_label: 首页横幅 16:7
+                  max_width: 1920
+                  quality: 85
+          - label: 页脚背景图
+            name: footer
+            widget: image
+            required: false
+            hint: 页脚会随屏幕宽度自动覆盖显示；上传时默认采用适合桌面端的 16:5 宽幅比例。
+            media_library:
+              config:
+                crop_ratio: 3.2
+                crop_label: 页脚宽幅 16:5
+                max_width: 1920
+                quality: 85
 
   # =====================================================
   # 相册
@@ -354,7 +402,17 @@ collections:
             widget: list
             summary: "{{fields.image}}"
             fields:
-              - {label: 图片, name: image, widget: image, required: false}
+              - label: 图片
+                name: image
+                widget: image
+                required: false
+                hint: 相册按图片自身比例显示；上传时默认锁定原图比例，可拖动选择保留区域。
+                media_library:
+                  config:
+                    crop_ratio: original
+                    crop_label: 相册原图比例
+                    max_width: 1920
+                    quality: 88
               - label: 描述
                 name: caption
                 widget: object
