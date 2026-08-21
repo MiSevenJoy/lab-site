@@ -31,6 +31,14 @@
   box-shadow: var(--shadow);
 }
 
+body.page-team a.portrait {
+  color: var(--text);
+}
+
+body.page-team a.portrait:hover {
+  color: var(--primary);
+}
+
 .portrait-image {
   width: 120px;
   flex-shrink: 0;
