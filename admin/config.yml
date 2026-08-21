@@ -323,7 +323,16 @@ collections:
             hint: 可添加任意数量的图片；拖动条目可调整网页中的轮播顺序。只有一张图时不会显示切换箭头。
             summary: "{{fields.image}}"
             fields:
-              - {label: 图片, name: image, widget: image}
+              - label: 图片
+                name: image
+                widget: image
+                hint: 上传新图片时会自动启用 16:7 首页横幅裁剪框，可拖动选择保留区域。
+                media_library:
+                  config:
+                    crop_ratio: 2.285714
+                    crop_label: 首页横幅 16:7
+                    max_width: 1920
+                    quality: 85
           - {label: 页脚背景图, name: footer, widget: image, required: false}
 
   # =====================================================

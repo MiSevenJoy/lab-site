@@ -14,7 +14,9 @@
   var repoInfoPromise = null;
   var isImageMode = true;
   var applyModeFn = null;
+  var applyMediaConfigFn = null;
   var currentValue = null;
+  var currentMediaConfig = {};
   var folderInputs = [];
 
   var el = function (tag, attrs, children) {
@@ -32,6 +34,21 @@
     });
     return node;
   };
+
+  function toPlain(value) {
+    if (!value) return {};
+    if (typeof value.toJS === 'function') return value.toJS();
+    return value;
+  }
+
+  function normalizeMediaConfig(value) {
+    var config = toPlain(value);
+    if (config && config.config) {
+      config = Object.assign({}, config, toPlain(config.config));
+      delete config.config;
+    }
+    return config || {};
+  }
 
   function getRepoInfo() {
     if (repoInfoPromise) return repoInfoPromise;
@@ -252,6 +269,11 @@
 
     var cropInteraction = null;
 
+    function cropRatio() {
+      var ratio = parseFloat(currentMediaConfig.crop_ratio);
+      return isFinite(ratio) && ratio > 0 ? ratio : 0;
+    }
+
     function cropPos(e) {
       var rect = preview.getBoundingClientRect();
       return { x: e.clientX - rect.left, y: e.clientY - rect.top };
@@ -261,13 +283,38 @@
       var s = { w: preview.clientWidth, h: preview.clientHeight };
       x = Math.max(0, Math.min(x, s.w));
       y = Math.max(0, Math.min(y, s.h));
-      w = Math.max(1, Math.min(w, s.w - x));
-      h = Math.max(1, Math.min(h, s.h - y));
+      w = Math.max(1, w);
+      h = Math.max(1, h);
+      var ratio = cropRatio();
+      if (ratio) {
+        if (w / h > ratio) w = h * ratio;
+        else h = w / ratio;
+      }
+      var scale = Math.min(1, (s.w - x) / w, (s.h - y) / h);
+      w = Math.max(1, w * scale);
+      h = Math.max(1, h * scale);
       cropBox.style.left = x + 'px';
       cropBox.style.top = y + 'px';
       cropBox.style.width = w + 'px';
       cropBox.style.height = h + 'px';
       cropBox.style.display = 'block';
+    }
+
+    function fitCropToRatio() {
+      var ratio = cropRatio();
+      if (!ratio || !preview.clientWidth || !preview.clientHeight) {
+        cropBox.style.display = 'none';
+        return;
+      }
+      var sw = preview.clientWidth;
+      var sh = preview.clientHeight;
+      var w = sw;
+      var h = w / ratio;
+      if (h > sh) {
+        h = sh;
+        w = h * ratio;
+      }
+      setCropRect((sw - w) / 2, (sh - h) / 2, w, h);
     }
 
     function getCropDisplayRect() {
@@ -326,6 +373,8 @@
     var maxWInput = el('input', { type: 'number', value: '1920', min: '16', placeholder: '留空不缩放', style: 'width:110px;padding:4px;' });
     var qualityInput = el('input', { type: 'range', min: '30', max: '100', value: '80', style: 'width:140px;' });
     var qualityLabel = el('span', { style: 'font-size:12px;color:#666;min-width:36px;' }, '80%');
+    var cropHelp = el('div', { style: 'margin:10px 0;font-size:12px;color:#666;' }, '选择图片后，可在预览图上拖动绘制裁剪范围，拖动选框或边角可调整。不裁剪则使用整张图。');
+    var cropPresetBtn = el('button', { type: 'button', style: 'display:none;margin-top:8px;padding:5px 10px;cursor:pointer;' }, '恢复推荐裁剪框');
     var status = el('div', { style: 'margin-top:8px;font-size:12px;color:#666;min-height:16px;' });
     var uploadBtn = el('button', { type: 'button', disabled: true, style: 'padding:6px 14px;cursor:pointer;' }, '请先选择图片');
 
@@ -335,8 +384,9 @@
       var url = URL.createObjectURL(f);
       preview.onload = function () {
         URL.revokeObjectURL(url);
-        cropBox.style.display = 'none';
         cropWrap.style.display = 'block';
+        if (cropRatio()) fitCropToRatio();
+        else cropBox.style.display = 'none';
       };
       preview.src = url;
       uploadBtn.disabled = false;
@@ -346,6 +396,23 @@
     });
 
     qualityInput.addEventListener('input', function () { qualityLabel.textContent = qualityInput.value + '%'; });
+    cropPresetBtn.addEventListener('click', fitCropToRatio);
+
+    function applyMediaConfig() {
+      var ratio = cropRatio();
+      var label = currentMediaConfig.crop_label || '';
+      cropPresetBtn.style.display = ratio ? 'inline-block' : 'none';
+      cropHelp.textContent = ratio
+        ? '已锁定为' + (label ? '“' + label + '”' : '推荐横幅比例') + '。拖动裁剪框可调整位置，拖动边角可等比例缩放。'
+        : '选择图片后，可在预览图上拖动绘制裁剪范围，拖动选框或边角可调整。不裁剪则使用整张图。';
+      if (currentMediaConfig.max_width) maxWInput.value = String(currentMediaConfig.max_width);
+      else maxWInput.value = '1920';
+      if (currentMediaConfig.quality) qualityInput.value = String(currentMediaConfig.quality);
+      else qualityInput.value = '80';
+      qualityLabel.textContent = qualityInput.value + '%';
+      if (preview.complete && preview.naturalWidth && ratio) fitCropToRatio();
+    }
+    applyMediaConfigFn = applyMediaConfig;
 
     function doUpload() {
       var f = fileInput.files && fileInput.files[0];
@@ -385,7 +452,8 @@
         fileInput,
       ]),
       cropWrap,
-      el('div', { style: 'margin:10px 0;font-size:12px;color:#666;' }, '选择图片后，可在预览图上拖动绘制裁剪范围，拖动选框或边角可调整。不裁剪则使用整张图。'),
+      cropPresetBtn,
+      cropHelp,
       el('div', { style: 'margin:12px 0;display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13px;' }, [
         el('div', null, [el('label', { style: 'display:block;margin-bottom:3px;' }, '输出最大宽度（裁剪后等比缩小，留空不缩放）'), maxWInput]),
         el('div', null, [el('label', { style: 'display:block;margin-bottom:3px;' }, '图片质量'), el('div', { style: 'display:flex;align-items:center;gap:6px;' }, [qualityInput, qualityLabel])]),
@@ -566,6 +634,7 @@
   function openModal(params) {
     handleInsertRef = params.handleInsert;
     currentValue = params.value || null;
+    currentMediaConfig = normalizeMediaConfig(params.config);
     isImageMode = params.imagesOnly === true;
     if (!modal) buildModal();
     folderInputs.forEach(function (inp) { inp.value = ''; });
@@ -574,6 +643,7 @@
       folderInputs.forEach(function (inp) { if (!inp.value) inp.value = def; });
     });
     if (applyModeFn) applyModeFn();
+    if (applyMediaConfigFn) applyMediaConfigFn();
     modal.style.display = 'flex';
   }
 
@@ -585,8 +655,17 @@
     name: 'imagelib',
     init: function (args) {
       var insert = args && args.handleInsert;
+      var globalConfig = normalizeMediaConfig(args && (args.config || args.options));
       return {
-        show: function (p) { openModal({ value: p && p.value, imagesOnly: p && p.imagesOnly, handleInsert: insert }); },
+        show: function (p) {
+          var fieldConfig = normalizeMediaConfig(p && p.config);
+          openModal({
+            value: p && p.value,
+            imagesOnly: p && p.imagesOnly,
+            config: Object.assign({}, globalConfig, fieldConfig),
+            handleInsert: insert,
+          });
+        },
         hide: function () { closeModal(); },
         enableStandalone: function () { return false; },
       };

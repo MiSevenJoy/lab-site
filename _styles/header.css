@@ -192,7 +192,7 @@ nav > a:hover {
 
 header.background::before {
   background-position: center;
-  opacity: 0.6;
+  opacity: 0.85;
 }
 
 .home-hero {
