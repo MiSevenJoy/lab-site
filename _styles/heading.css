@@ -54,6 +54,22 @@ main > section > h1:first-child + h1 {
   margin-bottom: 24px;
 }
 
+body.page-top-level main > section:first-child {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 120px;
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+body.page-top-level main > section:first-child > h1:first-child,
+body.page-top-level main > section:first-child > h1:first-child + h1 {
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 :where(h1, h2, h3, h4, h5, h6) > .icon {
   margin-right: 1em;
   color: var(--light-gray);

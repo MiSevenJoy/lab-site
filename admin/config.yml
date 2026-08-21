@@ -222,7 +222,7 @@ collections:
   - name: citations
     label: 发表论著
     label_singular: 论文
-    description: 编辑「发表论著」页展示的论文列表。下方的「代表成果」为本栏目子内容。
+    description: 编辑「发表论著」页展示的论文列表。下方的「代表工作」为本栏目子内容。
     files:
       - name: citations
         label: 论文列表
@@ -253,11 +253,11 @@ collections:
                   - {label: 期刊 J, value: journal}
 
   # =====================================================
-  # 发表论著 > 代表成果
+  # 发表论著 > 代表工作
   # =====================================================
   - name: featured_publications
-    label: 代表成果
-    label_singular: 代表成果
+    label: 代表工作
+    label_singular: 代表工作
     description: 「发表论著」的子内容；管理页面顶部的 Selected Publications 卡片及其详情页。
     media_folder: "/images/featured-publications"
     public_folder: "images/featured-publications"
@@ -270,7 +270,7 @@ collections:
     slug: "{{slug}}"
     summary: "{{name.zh}} / {{name.en}}"
     fields:
-      - {label: 成果英文简称（用于网址文件名）, name: title, widget: string, hint: 仅用于后台识别和生成网址，不在网页正文中显示。}
+      - {label: 工作英文简称（用于网址文件名）, name: title, widget: string, hint: 仅用于后台识别和生成网址，不在网页正文中显示。}
       - label: 名称
         name: name
         widget: object
@@ -287,13 +287,13 @@ collections:
       - label: 摘要
         name: summary_text
         widget: object
-        hint: 显示在代表成果卡片中。
+        hint: 显示在代表工作卡片中。
         fields:
           - {label: 中文, name: zh, widget: text}
           - {label: English, name: en, widget: text}
       - {label: 代码链接, name: code, widget: string, required: false}
       - {label: 数据链接, name: data_link, widget: string, required: false}
-      - {label: 论文 / 成果链接, name: link, widget: string, required: false}
+      - {label: 论文 / 工作链接, name: link, widget: string, required: false}
       - label: 详细介绍
         name: details
         widget: object

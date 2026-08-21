@@ -190,6 +190,11 @@ nav > a:hover {
   }
 }
 
+header.background::before {
+  background-position: center;
+  opacity: 0.6;
+}
+
 .home-hero {
   width: 100%;
   height: clamp(360px, 52vw, 620px);
