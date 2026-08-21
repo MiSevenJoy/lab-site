@@ -5,29 +5,53 @@
   align-items: stretch;
 }
 
-.member-profile-sidebar {
+.member-profile-card {
   display: flex;
   min-width: 0;
-  flex-direction: column;
 }
 
-.member-profile-sidebar .portrait {
+.member-profile-card .portrait {
   flex: 1;
 }
 
 .member-profile-introduction {
-  display: flex;
+  display: grid;
   min-width: 0;
-  flex-direction: column;
-  justify-content: center;
+  align-content: start;
 }
 
-.member-profile-introduction > :first-child {
-  margin-top: 0;
+html[data-lang] .member-profile-introduction > .lang-zh,
+html[data-lang] .member-profile-introduction > .lang-en {
+  display: block !important;
+  grid-area: 1/1;
+  margin: 0;
+  visibility: hidden;
 }
 
-.member-profile-introduction > :last-child {
-  margin-bottom: 0;
+html[data-lang=zh] .member-profile-introduction > .lang-zh,
+html[data-lang=en] .member-profile-introduction > .lang-en {
+  visibility: visible;
+}
+
+body.page-member .portrait-name,
+body.page-member .portrait-description {
+  display: grid;
+}
+
+html[data-lang] body.page-member .portrait-name > .lang-zh,
+html[data-lang] body.page-member .portrait-name > .lang-en,
+html[data-lang] body.page-member .portrait-description > .lang-zh,
+html[data-lang] body.page-member .portrait-description > .lang-en {
+  display: block !important;
+  grid-area: 1/1;
+  visibility: hidden;
+}
+
+html[data-lang=zh] body.page-member .portrait-name > .lang-zh,
+html[data-lang=zh] body.page-member .portrait-description > .lang-zh,
+html[data-lang=en] body.page-member .portrait-name > .lang-en,
+html[data-lang=en] body.page-member .portrait-description > .lang-en {
+  visibility: visible;
 }
 
 .member-profile-actions {
@@ -35,12 +59,16 @@
   justify-content: center;
   flex-wrap: wrap;
   gap: 4px 8px;
+  width: calc((100% - 30px) / 2);
   margin-top: 8px;
 }
 
 @media (max-width: 700px) {
   .member-profile {
     grid-template-columns: 1fr;
+  }
+  .member-profile-actions {
+    width: 100%;
   }
 }
 
