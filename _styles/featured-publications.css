@@ -1,0 +1,108 @@
+.featured-publication-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 28px;
+  text-align: left;
+}
+
+.featured-publication-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  overflow: hidden;
+  color: var(--text);
+  text-decoration: none;
+  background: var(--background);
+  border: 1px solid var(--border, rgba(0, 0, 0, 0.08));
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.featured-publication-card:hover {
+  color: var(--text);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px var(--overlay);
+}
+
+.featured-publication-image {
+  width: 100%;
+  aspect-ratio: 16/10;
+  object-fit: cover;
+  border-bottom: 1px solid var(--border, rgba(0, 0, 0, 0.08));
+}
+
+.featured-publication-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 9px;
+  padding: 18px;
+}
+
+.featured-publication-title {
+  margin: 0;
+  font-size: 1.02rem;
+  font-weight: var(--semi-bold);
+  line-height: 1.4;
+}
+
+.featured-publication-venue {
+  color: var(--gray);
+  font-size: 0.82rem;
+  font-style: italic;
+}
+
+.featured-publication-summary {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.featured-publication-detail-venue {
+  color: var(--gray);
+  text-align: center;
+}
+
+.featured-publication-detail-image {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.featured-publication-detail-image img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+}
+
+.featured-publication-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.featured-publication-detail {
+  text-align: left;
+}
+
+.featured-publication-back {
+  margin-top: 40px;
+}
+
+@media (max-width: 850px) {
+  .featured-publication-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 560px) {
+  .featured-publication-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/*# sourceMappingURL=featured-publications.css.map */

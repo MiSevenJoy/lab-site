@@ -19,6 +19,7 @@
   gap: 20px;
   padding: 16px;
   color: var(--text);
+  text-align: left;
   text-decoration: none;
 }
 
@@ -41,6 +42,7 @@
   flex-direction: column;
   gap: 6px;
   min-width: 0;
+  text-align: left;
 }
 
 .news-info-header {
@@ -102,8 +104,18 @@
 }
 
 .news-date {
+  align-self: flex-start;
   font-size: 0.8rem;
   color: var(--gray);
+  text-align: left;
+}
+
+.news-summary {
+  margin: 0;
+  color: var(--gray);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  text-align: left;
 }
 
 .news-detail-meta {

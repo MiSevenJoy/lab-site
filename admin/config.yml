@@ -38,7 +38,7 @@ collections:
   - name: posts
     label: 新闻动态
     label_singular: 新闻
-    description: 编写实验室新闻（标题、照片、详情、发布时间），主页「最新进展」自动按发布时间倒序展示，点击卡片进入详情页。
+    description: 编写实验室新闻（标题、类型、摘要、照片、详情和发布时间），主页「最新进展」自动按发布时间倒序展示，点击卡片进入详情页。
     media_folder: "/images/news"
     public_folder: "images/news"
     folder: _posts/
@@ -54,21 +54,32 @@ collections:
       - {label: 发布时间（自动按此从新到旧排列）, name: date, widget: datetime, format: YYYY-MM-DD}
       - label: 类型
         name: news_type
-        widget: select
-        options:
-          - {label: 论文发表 / Publication, value: paper}
-          - {label: 学术活动 / Academic Activity, value: academic}
-          - {label: 获批项目 / Funded Project, value: project}
-          - {label: 获奖荣誉 / Award & Honor, value: award}
-          - {label: 自定义 / Custom, value: custom}
-      - label: 自定义类型名称
-        name: news_type_custom
         widget: object
-        required: false
-        hint: 仅在上方选择“自定义”时填写，中文和英文名称会分别显示在对应语言页面。
         fields:
-          - {label: 中文名称, name: zh, widget: string}
-          - {label: English Name, name: en, widget: string}
+          - label: 类型选项
+            name: preset
+            widget: select
+            options:
+              - {label: 论文发表 / Publication, value: paper}
+              - {label: 学术活动 / Academic Activity, value: academic}
+              - {label: 获批项目 / Funded Project, value: project}
+              - {label: 获奖荣誉 / Award & Honor, value: award}
+              - {label: 自定义 / Custom, value: custom}
+          - label: 自定义类型
+            name: custom
+            widget: object
+            required: false
+            hint: 选择“自定义 / Custom”时填写。
+            fields:
+              - {label: 中文名称, name: zh, widget: string}
+              - {label: English Name, name: en, widget: string}
+      - label: 摘要
+        name: summary_text
+        widget: object
+        hint: 显示在首页新闻卡片中，网页上不会显示“摘要”二字。
+        fields:
+          - {label: 中文, name: zh, widget: text}
+          - {label: English, name: en, widget: text}
       - label: 详情附件
         name: attachment
         widget: file
@@ -155,7 +166,7 @@ collections:
   - name: projects
     label: 研究成果
     label_singular: 研究成果
-    description: 每项内容会自动生成顶部介绍卡片、下方课题摘要和可点击的详情页。
+    description: 每项内容都会生成下方课题摘要；填写详细介绍后，才会额外生成顶部卡片和可点击的详情入口。
     media_folder: "/images/projects"
     public_folder: "images/projects"
     folder: _projects/
@@ -165,21 +176,34 @@ collections:
     format: yaml-frontmatter
     identifier_field: title
     slug: "{{slug}}"
-    summary: "{{title}} / {{title_en}}"
+    summary: "{{name.zh}} / {{name.en}}"
     fields:
-      - {label: 项目名称（中文）, name: title, widget: string}
-      - {label: Project Name (English), name: title_en, widget: string}
-      - {label: 项目来源（中文）, name: source, widget: string}
-      - {label: Project Source (English), name: source_en, widget: string}
+      - {label: 项目英文简称（用于网址文件名）, name: title, widget: string, hint: 仅用于后台识别和生成网址，不在网页正文中显示。}
+      - label: 项目名称
+        name: name
+        widget: object
+        fields:
+          - {label: 中文, name: zh, widget: string}
+          - {label: English, name: en, widget: string}
+      - label: 项目来源
+        name: source
+        widget: object
+        fields:
+          - {label: 中文, name: zh, widget: string}
+          - {label: English, name: en, widget: string}
       - {label: 项目开始月份, name: start_date, widget: datetime, date_format: "YYYY-MM", time_format: false}
       - {label: 项目结束月份, name: end_date, widget: datetime, date_format: "YYYY-MM", time_format: false}
-      - {label: 参与角色（中文）, name: role, widget: string}
-      - {label: Participation Role (English), name: role_en, widget: string}
-      - {label: 项目图片, name: image, widget: image}
+      - label: 参与角色
+        name: role
+        widget: object
+        fields:
+          - {label: 中文, name: zh, widget: string}
+          - {label: English, name: en, widget: string}
+      - {label: 项目图片, name: image, widget: image, required: false, hint: 仅在生成顶部卡片和详情页时使用。}
       - label: 课题摘要
         name: summary_text
         widget: object
-        hint: 显示在“研究课题”列表中，并与上方卡片一一对应。
+        hint: 显示在“研究课题”的极简文字列表中；如填写详细介绍，也会与上方卡片对应。
         fields:
           - {label: 中文摘要, name: zh, widget: text}
           - {label: English Summary, name: en, widget: text}
@@ -191,6 +215,56 @@ collections:
         fields:
           - {label: 中文介绍, name: zh, widget: markdown}
           - {label: English Introduction, name: en, widget: markdown}
+
+  # =====================================================
+  # 代表成果
+  # =====================================================
+  - name: featured_publications
+    label: 代表成果
+    label_singular: 代表成果
+    description: 管理「发表论著」页顶部的代表成果卡片及其详情页。
+    media_folder: "/images/featured-publications"
+    public_folder: "images/featured-publications"
+    folder: _featured_publications/
+    create: true
+    delete: true
+    extension: md
+    format: yaml-frontmatter
+    identifier_field: title
+    slug: "{{slug}}"
+    summary: "{{name.zh}} / {{name.en}}"
+    fields:
+      - {label: 成果英文简称（用于网址文件名）, name: title, widget: string, hint: 仅用于后台识别和生成网址，不在网页正文中显示。}
+      - label: 名称
+        name: name
+        widget: object
+        fields:
+          - {label: 中文, name: zh, widget: string}
+          - {label: English, name: en, widget: string}
+      - label: 会议 / 期刊名
+        name: venue
+        widget: object
+        fields:
+          - {label: 中文, name: zh, widget: string}
+          - {label: English, name: en, widget: string}
+      - {label: 图片, name: image, widget: image}
+      - label: 摘要
+        name: summary_text
+        widget: object
+        hint: 显示在代表成果卡片中。
+        fields:
+          - {label: 中文, name: zh, widget: text}
+          - {label: English, name: en, widget: text}
+      - {label: 代码链接, name: code, widget: string, required: false}
+      - {label: 数据链接, name: data_link, widget: string, required: false}
+      - {label: 论文 / 成果链接, name: link, widget: string, required: false}
+      - label: 详细介绍
+        name: details
+        widget: object
+        hint: 显示在点击卡片进入的详情页中，支持 Markdown 和插入图片。
+        fields:
+          - {label: 中文, name: zh, widget: markdown}
+          - {label: English, name: en, widget: markdown}
 
   # =====================================================
   # 发表论著（论文）
