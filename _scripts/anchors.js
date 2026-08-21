@@ -1,22 +1,17 @@
 /*
-  creates link next to each heading that links to that section.
+  Keeps heading ids usable for section navigation without displaying
+  a link icon after each heading.
 */
 
 {
   const onLoad = () => {
-    // for each heading
+    // For each heading with an automatically generated id.
     const headings = document.querySelectorAll(
       "h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]"
     );
     for (const heading of headings) {
-      // create anchor link
-      const link = document.createElement("a");
-      link.classList.add("icon", "fa-solid", "fa-link", "anchor");
-      link.href = "#" + heading.id;
-      link.setAttribute("aria-label", "link to this section");
-      heading.append(link);
-
-      // if first heading in the section, move id to parent section
+      // If first heading in the section, move id to parent section so
+      // anchored navigation still accounts for the sticky header.
       if (heading.matches("section > :first-child")) {
         heading.parentElement.id = heading.id;
         heading.removeAttribute("id");

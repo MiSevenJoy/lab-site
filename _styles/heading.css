@@ -42,6 +42,18 @@ h6 {
   font-size: 1rem;
 }
 
+main > section > h1:first-child,
+main > section > h1:first-child + h1,
+main > section > h2:first-child,
+main > section > h2:first-child + h2 {
+  margin-top: 10px;
+}
+
+main > section > h1:first-child,
+main > section > h1:first-child + h1 {
+  margin-bottom: 24px;
+}
+
 :where(h1, h2, h3, h4, h5, h6) > .icon {
   margin-right: 1em;
   color: var(--light-gray);

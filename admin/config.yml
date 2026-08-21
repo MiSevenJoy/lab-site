@@ -166,7 +166,7 @@ collections:
   - name: projects
     label: 研究成果
     label_singular: 研究成果
-    description: 每项内容都会生成下方课题摘要；填写详细介绍后，才会额外生成顶部卡片和可点击的详情入口。
+    description: 每项内容都会生成下方研究课题条目；填写详细介绍后，才会额外生成顶部卡片和可点击的详情入口。
     media_folder: "/images/projects"
     public_folder: "images/projects"
     folder: _projects/
@@ -200,10 +200,10 @@ collections:
           - {label: 中文, name: zh, widget: string}
           - {label: English, name: en, widget: string}
       - {label: 项目图片, name: image, widget: image, required: false, hint: 仅在生成顶部卡片和详情页时使用。}
-      - label: 课题摘要
+      - label: 卡片摘要
         name: summary_text
         widget: object
-        hint: 显示在“研究课题”的极简文字列表中；如填写详细介绍，也会与上方卡片对应。
+        hint: 仅显示在上方研究成果卡片中；下方“研究课题”列表不显示摘要。
         fields:
           - {label: 中文摘要, name: zh, widget: text}
           - {label: English Summary, name: en, widget: text}
@@ -217,12 +217,48 @@ collections:
           - {label: English Introduction, name: en, widget: markdown}
 
   # =====================================================
-  # 代表成果
+  # 发表论著
+  # =====================================================
+  - name: citations
+    label: 发表论著
+    label_singular: 论文
+    description: 编辑「发表论著」页展示的论文列表。下方的「代表成果」为本栏目子内容。
+    files:
+      - name: citations
+        label: 论文列表
+        file: _data/citations.yaml
+        fields:
+          - label: 论文
+            name: items
+            widget: paperlist
+            hint: 输入标题或 DOI 可自动获取作者、日期、期刊/会议等信息；未命中或需微调时可手动修改。
+            fields:
+              - {label: ID（DOI 或备注）, name: id, widget: string, required: false}
+              - {label: 标题, name: title, widget: string}
+              - label: 作者
+                name: authors
+                widget: list
+                field: {label: 作者, name: author, widget: string}
+              - {label: 发表期刊 / 会议, name: publisher, widget: string, required: false}
+              - {label: 发表日期（YYYY-MM-DD）, name: date, widget: datetime, format: YYYY-MM-DD}
+              - {label: 链接（DOI 或网址）, name: link, widget: string, required: false}
+              - {label: GitHub 代码链接, name: code, widget: string, required: false}
+              - {label: PDF 链接, name: pdf, widget: string, required: false}
+              - label: 类型
+                name: type
+                widget: select
+                default: conference
+                options:
+                  - {label: 会议 C, value: conference}
+                  - {label: 期刊 J, value: journal}
+
+  # =====================================================
+  # 发表论著 > 代表成果
   # =====================================================
   - name: featured_publications
     label: 代表成果
     label_singular: 代表成果
-    description: 管理「发表论著」页顶部的代表成果卡片及其详情页。
+    description: 「发表论著」的子内容；管理页面顶部的 Selected Publications 卡片及其详情页。
     media_folder: "/images/featured-publications"
     public_folder: "images/featured-publications"
     folder: _featured_publications/
@@ -265,42 +301,6 @@ collections:
         fields:
           - {label: 中文, name: zh, widget: markdown}
           - {label: English, name: en, widget: markdown}
-
-  # =====================================================
-  # 发表论著（论文）
-  # =====================================================
-  - name: citations
-    label: 发表论著
-    label_singular: 论文
-    description: 编辑「发表论著」页展示的论文列表。type 填 journal（期刊 J）或 conference（会议 C）。
-    files:
-      - name: citations
-        label: 论文列表
-        file: _data/citations.yaml
-        fields:
-          - label: 论文
-            name: items
-            widget: paperlist
-            hint: 输入标题或 DOI 可自动获取作者、日期、期刊/会议等信息；未命中或需微调时可手动修改。
-            fields:
-              - {label: ID（DOI 或备注）, name: id, widget: string, required: false}
-              - {label: 标题, name: title, widget: string}
-              - label: 作者
-                name: authors
-                widget: list
-                field: {label: 作者, name: author, widget: string}
-              - {label: 发表期刊 / 会议, name: publisher, widget: string, required: false}
-              - {label: 发表日期（YYYY-MM-DD）, name: date, widget: datetime, format: YYYY-MM-DD}
-              - {label: 链接（DOI 或网址）, name: link, widget: string, required: false}
-              - {label: GitHub 代码链接, name: code, widget: string, required: false}
-              - {label: PDF 链接, name: pdf, widget: string, required: false}
-              - label: 类型
-                name: type
-                widget: select
-                default: conference
-                options:
-                  - {label: 会议 C, value: conference}
-                  - {label: 期刊 J, value: journal}
 
   # =====================================================
   # 网站外观（主页顶部 / 页脚背景图）
