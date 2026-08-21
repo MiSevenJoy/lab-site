@@ -18,6 +18,7 @@
   var currentValue = null;
   var currentMediaConfig = {};
   var folderInputs = [];
+  var uploadedPreviewPaths = Object.create(null);
 
   var el = function (tag, attrs, children) {
     var node = document.createElement(tag);
@@ -85,6 +86,10 @@
   }
 
   function defaultFolder(info, value) {
+    if (value && uploadedPreviewPaths[value]) value = uploadedPreviewPaths[value];
+    if (value && value.indexOf('/') >= 0) {
+      if (/^https?:\/\//i.test(value)) value = '';
+    }
     if (value && value.indexOf('/') >= 0) {
       var dir = value.substring(0, value.lastIndexOf('/'));
       if (dir) return dir;
@@ -164,11 +169,54 @@
               if (sha) body.sha = sha; // 覆盖已存在文件时需要 sha
               return api('/contents/' + path, 'PUT', body);
             });
-        }).then(function () { resolve(filePath); }).catch(reject);
+        }).then(function (response) {
+          resolve({ path: filePath, response: response });
+        }).catch(reject);
       };
       fr.onerror = function () { reject(new Error('读取文件失败')); };
       fr.readAsDataURL(blob);
     });
+  }
+
+  function createUploadedPreview(uploaded) {
+    return getRepoInfo().then(function (info) {
+      var response = uploaded && uploaded.response;
+      var commit = response && response.commit;
+      var ref = commit && commit.sha ? commit.sha : info.branch;
+      var encodedPath = String(uploaded.path || '')
+        .replace(/^\/+/, '')
+        .split('/')
+        .map(function (part) { return encodeURIComponent(part); })
+        .join('/');
+      var url = 'https://raw.githubusercontent.com/' + info.repo + '/' + encodeURIComponent(ref) + '/' + encodedPath;
+      uploadedPreviewPaths[url] = uploaded.path;
+      try { uploadedPreviewPaths[decodeURI(url)] = uploaded.path; } catch (e) { /* 保留编码后的地址 */ }
+      return { path: uploaded.path, previewUrl: url };
+    });
+  }
+
+  function restoreUploadedPaths(value, state) {
+    if (typeof value === 'string') {
+      if (uploadedPreviewPaths[value]) {
+        state.changed = true;
+        return uploadedPreviewPaths[value];
+      }
+      return value;
+    }
+    if (Array.isArray(value)) {
+      return value.map(function (item) { return restoreUploadedPaths(item, state); });
+    }
+    if (value && typeof value.map === 'function') {
+      return value.map(function (item) { return restoreUploadedPaths(item, state); });
+    }
+    if (value && Object.prototype.toString.call(value) === '[object Object]') {
+      var result = {};
+      Object.keys(value).forEach(function (key) {
+        result[key] = restoreUploadedPaths(value[key], state);
+      });
+      return result;
+    }
+    return value;
   }
 
   function deleteImage(filePath) {
@@ -436,11 +484,12 @@
       processImage(f, opts)
         .then(function (blob) {
           var filePath = (folder ? folder + '/' : '') + sanitizeName(f.name) + '.jpg';
-          return uploadImage(filePath, blob).then(function () { return filePath; });
+          return uploadImage(filePath, blob);
         })
-        .then(function (filePath) {
-          status.textContent = '上传成功：' + filePath;
-          if (handleInsertRef) handleInsertRef(filePath);
+        .then(createUploadedPreview)
+        .then(function (uploaded) {
+          status.textContent = '上传成功：' + uploaded.path;
+          if (handleInsertRef) handleInsertRef(uploaded.previewUrl);
           setTimeout(closeModal, 600);
         })
         .catch(function (e) {
@@ -566,9 +615,9 @@
         fileStatus.style.color = '#666';
         fileStatus.textContent = '正在上传…';
         uploadImage(filePath, f)
-          .then(function () {
-            fileStatus.textContent = '上传成功：' + filePath;
-            if (handleInsertRef) handleInsertRef(filePath);
+          .then(function (uploaded) {
+            fileStatus.textContent = '上传成功：' + uploaded.path;
+            if (handleInsertRef) handleInsertRef(uploaded.path);
             setTimeout(closeModal, 500);
           })
           .catch(function (e) {
@@ -679,4 +728,18 @@
   };
 
   CMS.registerMediaLibrary(mediaLibrary);
+
+  if (typeof CMS.registerEventListener === 'function') {
+    CMS.registerEventListener({
+      name: 'preSave',
+      handler: function (payload) {
+        var entry = payload && payload.entry;
+        var data = entry && entry.get ? entry.get('data') : null;
+        if (!data) return undefined;
+        var state = { changed: false };
+        var restored = restoreUploadedPaths(data, state);
+        return state.changed ? restored : undefined;
+      },
+    });
+  }
 })();
