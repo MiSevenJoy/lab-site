@@ -7,6 +7,7 @@
 
 .member-profile-card {
   display: flex;
+  flex-direction: column;
   min-width: 0;
 }
 
@@ -35,16 +36,13 @@
   justify-content: center;
   flex-wrap: wrap;
   gap: 4px 8px;
-  width: calc((100% - 30px) / 2);
+  width: 100%;
   margin-top: 8px;
 }
 
 @media (max-width: 700px) {
   .member-profile {
     grid-template-columns: 1fr;
-  }
-  .member-profile-actions {
-    width: 100%;
   }
 }
 
