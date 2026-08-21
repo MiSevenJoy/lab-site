@@ -47,12 +47,13 @@ header a {
 }
 
 .title {
-  font-size: var(--large);
+  font-size: 1.35rem;
 }
 
 .subtitle {
-  opacity: 0.65;
-  font-weight: var(--thin);
+  opacity: 0.8;
+  font-size: 1.05rem;
+  font-weight: var(--regular);
 }
 
 .nav-toggle {
