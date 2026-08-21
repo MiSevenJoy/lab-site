@@ -49,7 +49,7 @@ header a {
 }
 
 .title {
-  display: grid;
+  display: block;
   font-size: 1.35rem;
   line-height: 1.2;
 }
@@ -59,31 +59,11 @@ header .title > .lang-en {
 }
 
 .subtitle {
-  display: grid;
+  display: block;
   opacity: 0.8;
   font-size: 1.05rem;
   font-weight: var(--regular);
   line-height: 1.2;
-}
-
-html[data-lang] header .title > .lang-zh,
-html[data-lang] header .title > .lang-en,
-html[data-lang] header .subtitle > .lang-zh,
-html[data-lang] header .subtitle > .lang-en,
-html[data-lang] header nav a > .lang-zh,
-html[data-lang] header nav a > .lang-en {
-  display: block !important;
-  grid-area: 1/1;
-  visibility: hidden;
-}
-
-html[data-lang=zh] header .title > .lang-zh,
-html[data-lang=zh] header .subtitle > .lang-zh,
-html[data-lang=zh] header nav a > .lang-zh,
-html[data-lang=en] header .title > .lang-en,
-html[data-lang=en] header .subtitle > .lang-en,
-html[data-lang=en] header nav a > .lang-en {
-  visibility: visible;
 }
 
 .nav-toggle {
@@ -125,7 +105,6 @@ nav {
 }
 
 nav > a {
-  display: inline-grid;
   padding: 5px;
 }
 
@@ -149,7 +128,7 @@ header .lang-toggle {
 
 .nav-dropdown-title {
   padding: 5px;
-  display: inline-grid;
+  display: inline-block;
 }
 .nav-dropdown-title:hover {
   color: var(--primary);
