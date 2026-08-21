@@ -37,9 +37,18 @@
 
 .news-info {
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 6px;
   min-width: 0;
+}
+
+.news-info-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  width: 100%;
 }
 
 .news-title {
@@ -48,9 +57,60 @@
   font-size: 1.1rem;
 }
 
+.news-type {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  max-width: 42%;
+  padding: 4px 9px;
+  color: #6688a3;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.76rem;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: 0.03em;
+  text-align: center;
+  background: #eef5fa;
+  border: 1px solid #dceaf3;
+  border-radius: 999px;
+}
+
+.news-type[data-news-type=academic] {
+  color: #8876a6;
+  background: #f4f0f9;
+  border-color: #e7def1;
+}
+
+.news-type[data-news-type=project] {
+  color: #668e79;
+  background: #eef7f1;
+  border-color: #dcece2;
+}
+
+.news-type[data-news-type=award] {
+  color: #9b8157;
+  background: #faf5e9;
+  border-color: #eee4cc;
+}
+
+.news-type[data-news-type=custom] {
+  color: #7d8490;
+  background: #f2f3f5;
+  border-color: #e2e4e8;
+}
+
 .news-date {
   font-size: 0.8rem;
   color: var(--gray);
+}
+
+.news-detail-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
 }
 
 .news-detail-date {
@@ -72,9 +132,19 @@
 }
 
 @media (max-width: 600px) {
+  .news-card-link {
+    align-items: flex-start;
+  }
   .news-image {
     width: 110px;
     height: 80px;
+  }
+  .news-info-header {
+    gap: 10px;
+  }
+  .news-type {
+    max-width: 48%;
+    font-size: 0.7rem;
   }
 }
 

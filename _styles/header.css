@@ -145,6 +145,8 @@ nav > a:hover {
 @media (max-width: 700px) {
   .nav-dropdown {
     width: 100%;
+    padding: 0;
+    text-align: right;
   }
   .nav-dropdown:hover .nav-dropdown-menu,
   .nav-dropdown:focus-within .nav-dropdown-menu {
@@ -154,8 +156,10 @@ nav > a:hover {
     position: static;
     transform: none;
     display: none;
+    align-items: flex-end;
     width: 100%;
-    padding: 0 0 0 10px;
+    padding: 0 10px 0 0;
+    text-align: right;
     background: transparent;
     border: none;
     box-shadow: none;
@@ -165,53 +169,46 @@ nav > a:hover {
   }
 }
 @media (max-width: 700px) {
-  header:not([data-big]) {
+  header {
     justify-content: flex-end;
   }
-  header:not([data-big]) .nav-toggle {
+  header .nav-toggle {
     display: flex;
   }
-  header:not([data-big]) .nav-toggle:not(:checked) + nav {
+  header .nav-toggle:not(:checked) + nav {
     display: none;
   }
-  header:not([data-big]) nav {
+  header nav {
     align-items: flex-end;
     flex-direction: column;
     width: 100%;
   }
-  header:not([data-big]) .nav-dropdown {
+  header nav > a,
+  header .nav-dropdown {
+    width: 100%;
     text-align: right;
-  }
-  header:not([data-big]) .nav-dropdown-menu {
-    text-align: left;
   }
 }
 
-header[data-big] {
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding: 100px 20px;
-  top: unset;
+.home-hero {
+  width: 100%;
+  height: clamp(360px, 52vw, 620px);
+  overflow: hidden;
+  background: var(--background-alt);
 }
-header[data-big] .home {
-  flex-direction: column;
-  flex-grow: 0;
+
+.home-hero img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
-header[data-big] .logo {
-  height: 80px;
-  flex-shrink: 0;
-}
-header[data-big] .title-text {
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-header[data-big] .title {
-  font-size: var(--xxl);
-}
-header[data-big] .subtitle {
-  font-size: var(--large);
+
+@media (max-width: 700px) {
+  .home-hero {
+    height: clamp(260px, 65vw, 420px);
+  }
 }
 
 /*# sourceMappingURL=header.css.map */

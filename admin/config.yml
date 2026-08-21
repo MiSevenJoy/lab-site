@@ -52,6 +52,23 @@ collections:
       - {label: 标题（主页卡片显示）, name: title, widget: string}
       - {label: 照片（主页卡片左侧显示）, name: image, widget: image, required: false}
       - {label: 发布时间（自动按此从新到旧排列）, name: date, widget: datetime, format: YYYY-MM-DD}
+      - label: 类型
+        name: news_type
+        widget: select
+        options:
+          - {label: 论文发表 / Publication, value: paper}
+          - {label: 学术活动 / Academic Activity, value: academic}
+          - {label: 获批项目 / Funded Project, value: project}
+          - {label: 获奖荣誉 / Award & Honor, value: award}
+          - {label: 自定义 / Custom, value: custom}
+      - label: 自定义类型名称
+        name: news_type_custom
+        widget: object
+        required: false
+        hint: 仅在上方选择“自定义”时填写，中文和英文名称会分别显示在对应语言页面。
+        fields:
+          - {label: 中文名称, name: zh, widget: string}
+          - {label: English Name, name: en, widget: string}
       - label: 详情附件
         name: attachment
         widget: file
@@ -100,11 +117,20 @@ collections:
           - {label: 博士生, value: phd}
           - {label: 硕士生, value: master}
           - {label: 本科生, value: undergrad}
-          - {label: 毕业生, value: graduate}
+          - {label: 已毕业成员, value: graduate}
       - label: 职称 / 年级
         name: description
         widget: object
         required: false
+        fields:
+          - {label: 中文, name: zh, widget: string}
+          - {label: English, name: en, widget: string}
+      - label: 其他信息
+        name: other_info
+        widget: list
+        required: false
+        hint: 可添加多项；网站会按这里的顺序显示在“职称 / 年级”下方。
+        summary: "{{fields.zh}} / {{fields.en}}"
         fields:
           - {label: 中文, name: zh, widget: string}
           - {label: English, name: en, widget: string}
@@ -124,50 +150,55 @@ collections:
       - {label: 个人简介, name: body, widget: markdown}
 
   # =====================================================
-  # 研究项目
+  # 研究成果
   # =====================================================
   - name: projects
-    label: 研究项目
-    label_singular: 项目
-    description: 编辑首页与「研究项目」页展示的科研项目列表。
-    files:
-      - name: projects
-        label: 研究项目列表
-        file: _data/projects.yaml
+    label: 研究成果
+    label_singular: 研究成果
+    description: 每项内容会自动生成顶部介绍卡片、下方课题摘要和可点击的详情页。
+    media_folder: "/images/projects"
+    public_folder: "images/projects"
+    folder: _projects/
+    create: true
+    delete: true
+    extension: md
+    format: yaml-frontmatter
+    identifier_field: title
+    slug: "{{slug}}"
+    summary: "{{title}} / {{title_en}}"
+    fields:
+      - {label: 项目名称（中文）, name: title, widget: string}
+      - {label: Project Name (English), name: title_en, widget: string}
+      - {label: 项目来源（中文）, name: source, widget: string}
+      - {label: Project Source (English), name: source_en, widget: string}
+      - {label: 项目开始月份, name: start_date, widget: datetime, date_format: "YYYY-MM", time_format: false}
+      - {label: 项目结束月份, name: end_date, widget: datetime, date_format: "YYYY-MM", time_format: false}
+      - {label: 参与角色（中文）, name: role, widget: string}
+      - {label: Participation Role (English), name: role_en, widget: string}
+      - {label: 项目图片, name: image, widget: image}
+      - label: 课题摘要
+        name: summary_text
+        widget: object
+        hint: 显示在“研究课题”列表中，并与上方卡片一一对应。
         fields:
-          - label: 项目
-            name: items
-            widget: list
-            fields:
-              - label: 标题
-                name: title
-                widget: object
-                fields:
-                  - {label: 中文, name: zh, widget: string}
-                  - {label: English, name: en, widget: string}
-              - label: 信息（时间 / 金额 / 角色）
-                name: subtitle
-                widget: object
-                required: false
-                fields:
-                  - {label: 中文, name: zh, widget: string}
-                  - {label: English, name: en, widget: string}
-              - label: 分组（featured = 首页重点展示）
-                name: group
-                widget: select
-                required: false
-                options:
-                  - {label: 普通, value: ""}
-                  - {label: 重点展示, value: featured}
-              - {label: 配图, name: image, widget: image, required: false}
+          - {label: 中文摘要, name: zh, widget: text}
+          - {label: English Summary, name: en, widget: text}
+      - label: 详细文字介绍
+        name: details
+        widget: object
+        required: false
+        hint: 可选。填写后才会生成顶部卡片和详情入口；支持 Markdown 和插入图片。
+        fields:
+          - {label: 中文介绍, name: zh, widget: markdown}
+          - {label: English Introduction, name: en, widget: markdown}
 
   # =====================================================
-  # 研究成果（论文）
+  # 发表论著（论文）
   # =====================================================
   - name: citations
-    label: 研究成果
+    label: 发表论著
     label_singular: 论文
-    description: 编辑「研究成果」页展示的论文列表。type 填 journal（期刊 J）或 conference（会议 C）。
+    description: 编辑「发表论著」页展示的论文列表。type 填 journal（期刊 J）或 conference（会议 C）。
     files:
       - name: citations
         label: 论文列表
@@ -203,7 +234,7 @@ collections:
   - name: appearance
     label: 网站外观
     label_singular: 外观
-    description: 修改实验室主页顶部与页脚的背景图片，可上传自己的图片。
+    description: 修改首页导航栏下方的大图与页脚背景图，可上传自己的图片。
     media_folder: "/images/uploads"
     public_folder: "images/uploads"
     files:
@@ -211,7 +242,7 @@ collections:
         label: 网站外观
         file: _data/site.yaml
         fields:
-          - {label: 页面顶部背景图（主页大图）, name: header, widget: image, required: false}
+          - {label: 首页导航栏下方大图, name: header, widget: image, required: false}
           - {label: 页脚背景图, name: footer, widget: image, required: false}
 
   # =====================================================
