@@ -7,13 +7,10 @@
 }
 
 .featured-publication-card {
-  display: flex;
+  position: relative;
   min-width: 0;
-  align-items: stretch;
-  flex-direction: row;
   overflow: hidden;
   color: var(--text);
-  text-decoration: none;
   background: var(--background);
   border: 1px solid var(--border, rgba(0, 0, 0, 0.08));
   border-radius: 10px;
@@ -22,9 +19,22 @@
 }
 
 .featured-publication-card:hover {
-  color: var(--text);
   transform: translateY(-3px);
   box-shadow: 0 6px 20px var(--overlay);
+}
+
+.featured-publication-card-main {
+  display: flex;
+  min-width: 0;
+  min-height: 100%;
+  align-items: stretch;
+  flex-direction: row;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.featured-publication-card-main:hover {
+  color: var(--text);
 }
 
 .featured-publication-image {
@@ -41,6 +51,10 @@
   flex-direction: column;
   gap: 9px;
   padding: 18px;
+}
+
+.featured-publication-card-has-links .featured-publication-content {
+  padding-bottom: 62px;
 }
 
 .featured-publication-title {
@@ -60,6 +74,24 @@
   margin: 0;
   font-size: 0.9rem;
   line-height: 1.55;
+}
+
+.featured-publication-card-links {
+  position: absolute;
+  right: 13px;
+  bottom: 11px;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.featured-publication-card-link.button {
+  margin: 0;
+  padding: 6px 11px;
+  font-size: 0.78rem;
+  line-height: 1.2;
 }
 
 .featured-publication-detail-venue {
@@ -97,7 +129,7 @@
 }
 
 @media (max-width: 650px) {
-  .featured-publication-card {
+  .featured-publication-card-main {
     flex-direction: column;
   }
   .featured-publication-image {

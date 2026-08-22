@@ -332,7 +332,7 @@ collections:
           - {label: English, name: en, widget: text}
       - {label: 代码链接, name: code, widget: string, required: false}
       - {label: 数据链接, name: data_link, widget: string, required: false}
-      - {label: 论文 / 工作链接, name: link, widget: string, required: false}
+      - {label: 链接, name: link, widget: string, required: false}
       - label: 详细介绍
         name: details
         widget: object
