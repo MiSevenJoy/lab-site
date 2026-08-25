@@ -254,10 +254,10 @@
         var sx = 0, sy = 0, cw = sw, ch = sh;
         if (opts.cropDisplay) {
           var c = opts.cropDisplay;
-          sx = Math.max(0, Math.min(Math.round(c.x * sw / c.sw), sw - 1));
-          sy = Math.max(0, Math.min(Math.round(c.y * sh / c.sh), sh - 1));
-          cw = Math.max(1, Math.min(Math.round(c.w * sw / c.sw), sw - sx));
-          ch = Math.max(1, Math.min(Math.round(c.h * sh / c.sh), sh - sy));
+          sx = c.x * sw / c.sw;
+          sy = c.y * sh / c.sh;
+          cw = Math.max(1, c.w * sw / c.sw);
+          ch = Math.max(1, c.h * sh / c.sh);
         }
         var scale = opts.maxWidth > 0 ? Math.min(1, opts.maxWidth / cw) : 1;
         var ow = Math.max(1, Math.round(cw * scale));
@@ -265,11 +265,28 @@
         var cv = document.createElement('canvas');
         cv.width = ow; cv.height = oh;
         var ctx = cv.getContext('2d');
-        ctx.drawImage(img, sx, sy, cw, ch, 0, 0, ow, oh);
+        var ix = Math.max(0, sx);
+        var iy = Math.max(0, sy);
+        var ix2 = Math.min(sw, sx + cw);
+        var iy2 = Math.min(sh, sy + ch);
+        var iw = Math.max(0, ix2 - ix);
+        var ih = Math.max(0, iy2 - iy);
+        if (iw > 0 && ih > 0) {
+          var scaleX = ow / cw;
+          var scaleY = oh / ch;
+          ctx.drawImage(
+            img,
+            ix, iy, iw, ih,
+            (ix - sx) * scaleX, (iy - sy) * scaleY,
+            iw * scaleX, ih * scaleY
+          );
+        }
+        var hasTransparentPadding = sx < 0 || sy < 0 || sx + cw > sw || sy + ch > sh;
+        var outputFormat = hasTransparentPadding ? 'image/png' : (opts.format || 'image/jpeg');
         cv.toBlob(function (b) {
           if (b) resolve(b);
           else reject(new Error('图片处理失败'));
-        }, opts.format || 'image/jpeg', opts.quality || 0.8);
+        }, outputFormat, opts.quality || 0.8);
       };
       img.onerror = function () { URL.revokeObjectURL(objUrl); reject(new Error('无法读取图片')); };
       img.src = objUrl;
@@ -295,9 +312,12 @@
 
     // ---------- 上传 tab ----------
     var fileInput = el('input', { type: 'file', accept: 'image/*' });
-    var preview = el('img', { style: 'display:block;max-width:100%;max-height:220px;width:auto;height:auto;border-radius:4px;' });
+    var preview = el('img', { style: 'display:block;max-width:520px;max-height:220px;width:auto;height:auto;border-radius:4px;' });
     var cropBox = el('div', { style: 'position:absolute;display:none;border:2px solid #fff;box-shadow:0 0 0 9999px rgba(0,0,0,.55);cursor:move;touch-action:none;' });
-    var cropWrap = el('div', { style: 'position:relative;display:block;width:fit-content;max-width:100%;margin-top:8px;' }, [preview, cropBox]);
+    var cropWrap = el('div', { style: 'position:relative;display:block;width:max-content;padding:360px;' }, [preview, cropBox]);
+    var cropStage = el('div', {
+      style: 'display:none;max-width:100%;max-height:430px;margin-top:8px;overflow:auto;border:1px solid #ccd1d7;border-radius:4px;background-color:#f7f7f7;background-image:linear-gradient(45deg,#ddd 25%,transparent 25%),linear-gradient(-45deg,#ddd 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#ddd 75%),linear-gradient(-45deg,transparent 75%,#ddd 75%);background-size:20px 20px;background-position:0 0,0 10px,10px -10px,-10px 0;',
+    }, cropWrap);
     var handleStyles = {
       nw: 'left:-6px;top:-6px;cursor:nwse-resize;',
       n: 'left:50%;top:-6px;margin-left:-6px;cursor:ns-resize;',
@@ -316,6 +336,7 @@
     });
 
     var cropInteraction = null;
+    var cropRect = null;
 
     function cropRatio() {
       if (String(currentMediaConfig.crop_ratio).toLowerCase() === 'original') {
@@ -334,24 +355,83 @@
     }
 
     function setCropRect(x, y, w, h) {
-      var s = { w: preview.clientWidth, h: preview.clientHeight };
-      x = Math.max(0, Math.min(x, s.w));
-      y = Math.max(0, Math.min(y, s.h));
-      w = Math.max(1, w);
-      h = Math.max(1, h);
-      var ratio = cropRatio();
-      if (ratio) {
-        if (w / h > ratio) w = h * ratio;
-        else h = w / ratio;
-      }
-      var scale = Math.min(1, (s.w - x) / w, (s.h - y) / h);
-      w = Math.max(1, w * scale);
-      h = Math.max(1, h * scale);
-      cropBox.style.left = x + 'px';
-      cropBox.style.top = y + 'px';
+      w = Math.max(1, Number(w) || 1);
+      h = Math.max(1, Number(h) || 1);
+      x = Number(x) || 0;
+      y = Number(y) || 0;
+      cropRect = { x: x, y: y, w: w, h: h };
+      cropBox.style.left = (preview.offsetLeft + x) + 'px';
+      cropBox.style.top = (preview.offsetTop + y) + 'px';
       cropBox.style.width = w + 'px';
       cropBox.style.height = h + 'px';
       cropBox.style.display = 'block';
+    }
+
+    function rectFromPoints(ax, ay, bx, by, ratio) {
+      var dx = bx - ax;
+      var dy = by - ay;
+      var w = Math.max(1, Math.abs(dx));
+      var h = Math.max(1, Math.abs(dy));
+      if (ratio) {
+        w = Math.max(w, h * ratio);
+        h = w / ratio;
+      }
+      return {
+        x: dx < 0 ? ax - w : ax,
+        y: dy < 0 ? ay - h : ay,
+        w: w,
+        h: h,
+      };
+    }
+
+    function resizedRect(o, handle, p) {
+      var ratio = cropRatio();
+      var hasX = handle.indexOf('w') >= 0 || handle.indexOf('e') >= 0;
+      var hasY = handle.indexOf('n') >= 0 || handle.indexOf('s') >= 0;
+      var anchorX = handle.indexOf('w') >= 0 ? o.x + o.w : o.x;
+      var anchorY = handle.indexOf('n') >= 0 ? o.y + o.h : o.y;
+
+      if (ratio && hasX && hasY) {
+        return rectFromPoints(anchorX, anchorY, p.x, p.y, ratio);
+      }
+      if (ratio && hasX) {
+        var w = Math.max(1, Math.abs(p.x - anchorX));
+        var h = w / ratio;
+        return {
+          x: p.x < anchorX ? anchorX - w : anchorX,
+          y: o.y + (o.h - h) / 2,
+          w: w,
+          h: h,
+        };
+      }
+      if (ratio && hasY) {
+        var rh = Math.max(1, Math.abs(p.y - anchorY));
+        var rw = rh * ratio;
+        return {
+          x: o.x + (o.w - rw) / 2,
+          y: p.y < anchorY ? anchorY - rh : anchorY,
+          w: rw,
+          h: rh,
+        };
+      }
+
+      var left = handle.indexOf('w') >= 0 ? p.x : o.x;
+      var right = handle.indexOf('e') >= 0 ? p.x : o.x + o.w;
+      var top = handle.indexOf('n') >= 0 ? p.y : o.y;
+      var bottom = handle.indexOf('s') >= 0 ? p.y : o.y + o.h;
+      return {
+        x: Math.min(left, right),
+        y: Math.min(top, bottom),
+        w: Math.max(1, Math.abs(right - left)),
+        h: Math.max(1, Math.abs(bottom - top)),
+      };
+    }
+
+    function centerCropStage() {
+      window.requestAnimationFrame(function () {
+        cropStage.scrollLeft = Math.max(0, preview.offsetLeft + preview.clientWidth / 2 - cropStage.clientWidth / 2);
+        cropStage.scrollTop = Math.max(0, preview.offsetTop + preview.clientHeight / 2 - cropStage.clientHeight / 2);
+      });
     }
 
     function fitCropToRatio() {
@@ -371,15 +451,31 @@
       setCropRect((sw - w) / 2, (sh - h) / 2, w, h);
     }
 
+    function containImageInRatio() {
+      var ratio = cropRatio();
+      if (!ratio || !preview.clientWidth || !preview.clientHeight) return;
+      var sw = preview.clientWidth;
+      var sh = preview.clientHeight;
+      var w = sw;
+      var h = sh;
+      if (sw / sh > ratio) {
+        h = sw / ratio;
+      } else {
+        w = sh * ratio;
+      }
+      setCropRect((sw - w) / 2, (sh - h) / 2, w, h);
+      centerCropStage();
+    }
+
     function getCropDisplayRect() {
-      if (cropBox.style.display === 'none') return null;
+      if (cropBox.style.display === 'none' || !cropRect) return null;
       var s = { w: preview.clientWidth, h: preview.clientHeight };
       if (!s.w || !s.h) return null;
       return {
-        x: parseFloat(cropBox.style.left) || 0,
-        y: parseFloat(cropBox.style.top) || 0,
-        w: parseFloat(cropBox.style.width) || 0,
-        h: parseFloat(cropBox.style.height) || 0,
+        x: cropRect.x,
+        y: cropRect.y,
+        w: cropRect.w,
+        h: cropRect.h,
         sw: s.w, sh: s.h,
       };
     }
@@ -393,7 +489,7 @@
         cropInteraction = { mode: 'resize', handle: handle, p: p, o: getCropDisplayRect() };
       } else if (e.target === cropBox) {
         cropInteraction = { mode: 'move', p: p, o: getCropDisplayRect() };
-      } else if (e.target === preview) {
+      } else if (e.target === preview || e.target === cropWrap) {
         cropInteraction = { mode: 'draw', startX: p.x, startY: p.y };
         setCropRect(p.x, p.y, 1, 1);
       }
@@ -402,23 +498,23 @@
     document.addEventListener('mousemove', function (e) {
       if (!cropInteraction) return;
       e.preventDefault();
+      var stageBounds = cropStage.getBoundingClientRect();
+      var scrollMargin = 32;
+      var scrollStep = 18;
+      if (e.clientX < stageBounds.left + scrollMargin) cropStage.scrollLeft -= scrollStep;
+      else if (e.clientX > stageBounds.right - scrollMargin) cropStage.scrollLeft += scrollStep;
+      if (e.clientY < stageBounds.top + scrollMargin) cropStage.scrollTop -= scrollStep;
+      else if (e.clientY > stageBounds.bottom - scrollMargin) cropStage.scrollTop += scrollStep;
       var p = cropPos(e);
       var it = cropInteraction;
       if (it.mode === 'draw') {
-        var x = Math.min(it.startX, p.x), y = Math.min(it.startY, p.y);
-        setCropRect(x, y, Math.abs(p.x - it.startX), Math.abs(p.y - it.startY));
+        var drawn = rectFromPoints(it.startX, it.startY, p.x, p.y, cropRatio());
+        setCropRect(drawn.x, drawn.y, drawn.w, drawn.h);
       } else if (it.mode === 'move') {
         setCropRect(it.o.x + (p.x - it.p.x), it.o.y + (p.y - it.p.y), it.o.w, it.o.h);
       } else if (it.mode === 'resize') {
-        var o = it.o, hd = it.handle;
-        var x2 = o.x + o.w, y2 = o.y + o.h;
-        if (hd.indexOf('w') >= 0) o.x = p.x;
-        if (hd.indexOf('e') >= 0) x2 = p.x;
-        if (hd.indexOf('n') >= 0) o.y = p.y;
-        if (hd.indexOf('s') >= 0) y2 = p.y;
-        if (x2 < o.x) { var tx = o.x; o.x = x2; x2 = tx; }
-        if (y2 < o.y) { var ty = o.y; o.y = y2; y2 = ty; }
-        setCropRect(o.x, o.y, x2 - o.x, y2 - o.y);
+        var resized = resizedRect(it.o, it.handle, p);
+        setCropRect(resized.x, resized.y, resized.w, resized.h);
       }
     });
 
@@ -427,20 +523,24 @@
     var maxWInput = el('input', { type: 'number', value: '1920', min: '16', placeholder: '留空不缩放', style: 'width:110px;padding:4px;' });
     var qualityInput = el('input', { type: 'range', min: '30', max: '100', value: '80', style: 'width:140px;' });
     var qualityLabel = el('span', { style: 'font-size:12px;color:#666;min-width:36px;' }, '80%');
-    var cropHelp = el('div', { style: 'margin:10px 0;font-size:12px;color:#666;' }, '选择图片后，可在预览图上拖动绘制裁剪范围，拖动选框或边角可调整。不裁剪则使用整张图。');
-    var cropPresetBtn = el('button', { type: 'button', style: 'display:none;margin-top:8px;padding:5px 10px;cursor:pointer;' }, '恢复推荐裁剪框');
+    var cropHelp = el('div', { style: 'margin:10px 0;font-size:12px;color:#666;' }, '选择图片后，可在棋盘画布上拖动绘制裁剪范围。选框超出原图的部分将保存为透明 PNG。');
+    var cropPresetBtn = el('button', { type: 'button', style: 'display:none;padding:5px 10px;cursor:pointer;' }, '恢复推荐裁剪框');
+    var cropContainBtn = el('button', { type: 'button', style: 'display:none;padding:5px 10px;cursor:pointer;' }, '完整保留图片（透明补边）');
+    var cropButtons = el('div', { style: 'display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;' }, [cropPresetBtn, cropContainBtn]);
     var status = el('div', { style: 'margin-top:8px;font-size:12px;color:#666;min-height:16px;' });
     var uploadBtn = el('button', { type: 'button', disabled: true, style: 'padding:6px 14px;cursor:pointer;' }, '请先选择图片');
 
     fileInput.addEventListener('change', function () {
       var f = fileInput.files && fileInput.files[0];
-      if (!f) { cropWrap.style.display = 'none'; uploadBtn.disabled = true; uploadBtn.textContent = '请先选择图片'; return; }
+      if (!f) { cropStage.style.display = 'none'; uploadBtn.disabled = true; uploadBtn.textContent = '请先选择图片'; return; }
       var url = URL.createObjectURL(f);
       preview.onload = function () {
         URL.revokeObjectURL(url);
-        cropWrap.style.display = 'block';
+        cropStage.style.display = 'block';
+        cropRect = null;
         if (cropRatio()) fitCropToRatio();
         else cropBox.style.display = 'none';
+        centerCropStage();
       };
       preview.src = url;
       uploadBtn.disabled = false;
@@ -450,15 +550,20 @@
     });
 
     qualityInput.addEventListener('input', function () { qualityLabel.textContent = qualityInput.value + '%'; });
-    cropPresetBtn.addEventListener('click', fitCropToRatio);
+    cropPresetBtn.addEventListener('click', function () {
+      fitCropToRatio();
+      centerCropStage();
+    });
+    cropContainBtn.addEventListener('click', containImageInRatio);
 
     function applyMediaConfig() {
       var ratio = cropRatio();
       var label = currentMediaConfig.crop_label || '';
       cropPresetBtn.style.display = ratio ? 'inline-block' : 'none';
+      cropContainBtn.style.display = ratio ? 'inline-block' : 'none';
       cropHelp.textContent = ratio
-        ? '已锁定为' + (label ? '“' + label + '”' : '推荐横幅比例') + '。拖动裁剪框可调整位置，拖动边角可等比例缩放。'
-        : '选择图片后，可在预览图上拖动绘制裁剪范围，拖动选框或边角可调整。不裁剪则使用整张图。';
+        ? '已锁定为' + (label ? '“' + label + '”' : '推荐横幅比例') + '。选框可越过原图边界继续等比例放大，棋盘区域将保存为透明 PNG。'
+        : '可在图片及周围棋盘画布上绘制和调整选框；超出原图的部分将保存为透明 PNG。不裁剪则使用整张图。';
       if (currentMediaConfig.max_width) maxWInput.value = String(currentMediaConfig.max_width);
       else maxWInput.value = '1920';
       if (currentMediaConfig.quality) qualityInput.value = String(currentMediaConfig.quality);
@@ -483,7 +588,8 @@
       status.textContent = '正在处理并上传…';
       processImage(f, opts)
         .then(function (blob) {
-          var filePath = (folder ? folder + '/' : '') + sanitizeName(f.name) + '.jpg';
+          var extension = blob.type === 'image/png' ? '.png' : '.jpg';
+          var filePath = (folder ? folder + '/' : '') + sanitizeName(f.name) + extension;
           return uploadImage(filePath, blob);
         })
         .then(createUploadedPreview)
@@ -506,8 +612,8 @@
         el('label', { style: 'display:block;font-weight:600;margin-bottom:4px;' }, '选择图片（上传时自动压缩）'),
         fileInput,
       ]),
-      cropWrap,
-      cropPresetBtn,
+      cropStage,
+      cropButtons,
       cropHelp,
       el('div', { style: 'margin:12px 0;display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13px;' }, [
         el('div', null, [el('label', { style: 'display:block;margin-bottom:3px;' }, '输出最大宽度（裁剪后等比缩小，留空不缩放）'), maxWInput]),
