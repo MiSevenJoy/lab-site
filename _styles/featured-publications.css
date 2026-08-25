@@ -12,7 +12,7 @@
 
 .featured-publication-category-title {
   margin: 20px 0 14px;
-  font-family: Georgia, "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, serif;
+  font-family: "JetBrains Mono", "Cascadia Code", "Fira Code", "Roboto Mono", Consolas, monospace;
   font-size: 1.3rem;
   font-weight: var(--semi-bold);
   line-height: 1.4;
@@ -109,6 +109,14 @@
   padding: 6px 11px;
   font-size: 0.78rem;
   line-height: 1.2;
+}
+
+.featured-publication-link-disabled.button,
+.featured-publication-link-disabled.button:hover {
+  cursor: default;
+  opacity: 0.42;
+  background: var(--gray);
+  color: var(--background);
 }
 
 .featured-publication-detail-venue {
