@@ -1,0 +1,1 @@
+{"version":3,"sourceRoot":"","sources":["join.scss"],"names":[],"mappings":"AAAA;EACE;EACA;;;AAGF;EACE;;;AAGF;EACE;EACA","sourcesContent":[".join-contact {\n  margin-top: 52px;\n  text-align: left;\n}\n\n.join-contact p {\n  margin: 0;\n}\n\n.join-contact a {\n  display: inline-block;\n  margin-top: 4px;\n}\n"],"file":"join.css"}
