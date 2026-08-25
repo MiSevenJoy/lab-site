@@ -12,8 +12,9 @@
 
 .featured-publication-category-title {
   margin: 20px 0 14px;
-  font-family: "JetBrains Mono", "Cascadia Code", "Fira Code", "Roboto Mono", Consolas, monospace;
+  font-family: var(--heading);
   font-size: 1.3rem;
+  font-style: italic;
   font-weight: var(--semi-bold);
   line-height: 1.4;
 }
