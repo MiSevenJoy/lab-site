@@ -12,6 +12,7 @@
 
 .featured-publication-category {
   --category-accent: #2878c8;
+  text-align: left;
 }
 
 .featured-publication-category:nth-child(4n+2) {
