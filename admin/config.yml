@@ -301,9 +301,9 @@ collections:
         fields:
           - {label: 中文, name: zh, widget: text}
           - {label: English, name: en, widget: text}
-      - {label: 代码链接, name: code, widget: string, required: false}
-      - {label: 数据链接, name: data_link, widget: string, required: false}
-      - {label: 链接, name: link, widget: string, required: false}
+      - {label: 代码链接, name: code, widget: string, required: false, hint: 可选；填写后会在卡片和详情页显示“代码 / Code”按钮。}
+      - {label: 数据链接, name: data_link, widget: string, required: false, hint: 可选；填写后会在卡片和详情页显示“数据 / Data”按钮。}
+      - {label: 链接, name: link, widget: string, required: false, hint: 可选；填写后会在卡片和详情页显示“链接 / Link”按钮。}
       - label: 详细介绍
         name: details
         widget: object

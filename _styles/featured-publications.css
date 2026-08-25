@@ -12,7 +12,9 @@
 
 .featured-publication-category-title {
   margin: 20px 0 14px;
-  font-size: 1.05rem;
+  font-family: Georgia, "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, serif;
+  font-size: 1.3rem;
+  font-weight: var(--semi-bold);
   line-height: 1.4;
 }
 
@@ -101,7 +103,8 @@
   gap: 6px;
 }
 
-.featured-publication-card-link.button {
+.featured-publication-card-link.button,
+.featured-publication-detail-link.button {
   margin: 0;
   padding: 6px 11px;
   font-size: 0.78rem;
@@ -131,6 +134,7 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  gap: 6px;
   margin-top: 20px;
 }
 
