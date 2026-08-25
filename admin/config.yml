@@ -251,9 +251,9 @@ collections:
   - name: featured_publications
     label: 代表工作
     label_singular: 代表工作
-    description: 「研究成果」的子内容；按研究方向管理 Selected Publications 卡片及其详情页。
-    media_folder: "/images/featured-publications"
-    public_folder: "images/featured-publications"
+    description: 「研究成果」的子内容；按研究方向管理 Featured Works 卡片及其详情页。
+    media_folder: "/images/featured-works"
+    public_folder: "images/featured-works"
     folder: _featured_publications/
     create: true
     delete: true
