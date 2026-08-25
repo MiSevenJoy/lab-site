@@ -6,6 +6,20 @@
   text-align: left;
 }
 
+.featured-publication-category + .featured-publication-category {
+  margin-top: 34px;
+}
+
+.featured-publication-category-title {
+  margin: 20px 0 14px;
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+
+.featured-publication-category .featured-publication-grid {
+  margin-top: 0;
+}
+
 .featured-publication-card {
   position: relative;
   min-width: 0;

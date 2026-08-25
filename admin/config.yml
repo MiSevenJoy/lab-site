@@ -186,7 +186,7 @@ collections:
   - name: projects
     label: 研究成果
     label_singular: 研究成果
-    description: 每项内容都会生成下方研究课题条目；填写详细介绍后，才会额外生成顶部卡片和可点击的详情入口。
+    description: 管理「研究成果」页下方的研究课题列表；代表工作卡片在本栏目下方的「代表工作」子内容中单独管理。
     media_folder: "/images/projects"
     public_folder: "images/projects"
     folder: _projects/
@@ -219,76 +219,39 @@ collections:
         fields:
           - {label: 中文, name: zh, widget: string}
           - {label: English, name: en, widget: string}
-      - label: 项目图片
-        name: image
-        widget: image
-        required: false
-        hint: 仅在生成顶部卡片和详情页时使用；上传时默认按卡片的 16:10 比例裁剪。
-        media_library:
-          config:
-            crop_ratio: 1.6
-            crop_label: 研究成果卡片 16:10
-            max_width: 1600
-            quality: 85
-      - label: 卡片摘要
-        name: summary_text
-        widget: object
-        hint: 仅显示在上方研究成果卡片中；下方“研究课题”列表不显示摘要。
-        fields:
-          - {label: 中文摘要, name: zh, widget: text}
-          - {label: English Summary, name: en, widget: text}
-      - label: 详细文字介绍
-        name: details
-        widget: object
-        required: false
-        hint: 可选。填写后才会生成顶部卡片和详情入口；支持 Markdown 和插入图片。
-        fields:
-          - {label: 中文介绍, name: zh, widget: markdown}
-          - {label: English Introduction, name: en, widget: markdown}
 
   # =====================================================
-  # 发表论著
+  # 研究成果 > 代表工作分类
   # =====================================================
-  - name: citations
-    label: 发表论著
-    label_singular: 论文
-    description: 编辑「发表论著」页展示的论文列表。下方的「代表工作」为本栏目子内容。
-    files:
-      - name: citations
-        label: 论文列表
-        file: _data/citations.yaml
+  - name: featured_categories
+    label: 代表工作分类
+    label_singular: 代表工作分类
+    description: 管理「代表工作」的分类名称和前台显示顺序；空分类不会显示在网页中。
+    folder: _featured_categories/
+    create: true
+    delete: true
+    extension: md
+    format: yaml-frontmatter
+    identifier_field: title
+    slug: "{{slug}}"
+    summary: "{{name.zh}} / {{name.en}}"
+    fields:
+      - {label: 分类标识, name: title, widget: string, pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', '请使用小写英文字母、数字和连字符'], hint: 例如 spatiotemporal-foundation-models；代表工作使用该标识建立关联，创建后不建议修改。}
+      - label: 分类名称
+        name: name
+        widget: object
         fields:
-          - label: 论文
-            name: items
-            widget: paperlist
-            hint: 输入标题或 DOI 可自动获取作者、日期、期刊/会议等信息；未命中或需微调时可手动修改。
-            fields:
-              - {label: ID（DOI 或备注）, name: id, widget: string, required: false}
-              - {label: 标题, name: title, widget: string}
-              - label: 作者
-                name: authors
-                widget: list
-                field: {label: 作者, name: author, widget: string}
-              - {label: 发表期刊 / 会议, name: publisher, widget: string, required: false}
-              - {label: 发表日期（YYYY-MM-DD）, name: date, widget: datetime, format: YYYY-MM-DD}
-              - {label: 链接（DOI 或网址）, name: link, widget: string, required: false}
-              - {label: GitHub 代码链接, name: code, widget: string, required: false}
-              - {label: PDF 链接, name: pdf, widget: string, required: false}
-              - label: 类型
-                name: type
-                widget: select
-                default: conference
-                options:
-                  - {label: 会议 C, value: conference}
-                  - {label: 期刊 J, value: journal}
+          - {label: 中文, name: zh, widget: string}
+          - {label: English, name: en, widget: string}
+      - {label: 显示顺序, name: order, widget: number, value_type: int, min: 1, default: 10, hint: 数字越小越靠前。}
 
   # =====================================================
-  # 发表论著 > 代表工作
+  # 研究成果 > 代表工作
   # =====================================================
   - name: featured_publications
     label: 代表工作
     label_singular: 代表工作
-    description: 「发表论著」的子内容；管理页面顶部的 Selected Publications 卡片及其详情页。
+    description: 「研究成果」的子内容；按研究方向管理 Selected Publications 卡片及其详情页。
     media_folder: "/images/featured-publications"
     public_folder: "images/featured-publications"
     folder: _featured_publications/
@@ -301,13 +264,21 @@ collections:
     summary: "{{name.zh}} / {{name.en}}"
     fields:
       - {label: 工作英文简称（用于网址文件名）, name: title, widget: string, hint: 仅用于后台识别和生成网址，不在网页正文中显示。}
+      - label: 分类
+        name: category
+        widget: relation
+        collection: featured_categories
+        search_fields: [title, name.zh, name.en]
+        value_field: title
+        display_fields: [name.zh, name.en]
+        hint: 从「代表工作分类」中选择；需要新分类时请先到分类管理中创建。
       - label: 名称
         name: name
         widget: object
         fields:
           - {label: 中文, name: zh, widget: string}
           - {label: English, name: en, widget: string}
-      - label: 会议 / 期刊名
+      - label: 会议 / 期刊 / 项目来源
         name: venue
         widget: object
         fields:
@@ -340,6 +311,42 @@ collections:
         fields:
           - {label: 中文, name: zh, widget: markdown}
           - {label: English, name: en, widget: markdown}
+
+  # =====================================================
+  # 发表论著
+  # =====================================================
+  - name: citations
+    label: 发表论著
+    label_singular: 论文
+    description: 编辑「发表论著」页展示的论文列表。
+    files:
+      - name: citations
+        label: 论文列表
+        file: _data/citations.yaml
+        fields:
+          - label: 论文
+            name: items
+            widget: paperlist
+            hint: 输入标题或 DOI 可自动获取作者、日期、期刊/会议等信息；未命中或需微调时可手动修改。
+            fields:
+              - {label: ID（DOI 或备注）, name: id, widget: string, required: false}
+              - {label: 标题, name: title, widget: string}
+              - label: 作者
+                name: authors
+                widget: list
+                field: {label: 作者, name: author, widget: string}
+              - {label: 发表期刊 / 会议, name: publisher, widget: string, required: false}
+              - {label: 发表日期（YYYY-MM-DD）, name: date, widget: datetime, format: YYYY-MM-DD}
+              - {label: 链接（DOI 或网址）, name: link, widget: string, required: false}
+              - {label: GitHub 代码链接, name: code, widget: string, required: false}
+              - {label: PDF 链接, name: pdf, widget: string, required: false}
+              - label: 类型
+                name: type
+                widget: select
+                default: conference
+                options:
+                  - {label: 会议 C, value: conference}
+                  - {label: 期刊 J, value: journal}
 
   # =====================================================
   # 网站外观（主页顶部 / 页脚背景图）
