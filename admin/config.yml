@@ -287,7 +287,8 @@ collections:
       - label: 图片
         name: image
         widget: image
-        hint: 上传时默认按代表工作卡片的 16:10 比例裁剪，可拖动选择保留区域。
+        required: false
+        hint: 可选；未上传时显示统一占位图。上传时默认按代表工作卡片的 16:10 比例裁剪，可拖动选择保留区域。
         media_library:
           config:
             crop_ratio: 1.6
