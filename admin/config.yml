@@ -399,24 +399,24 @@ collections:
               label: 图片
               name: image
               widget: image
-              hint: 上传新图片时会自动启用 16:7 首页横幅裁剪框，可拖动选择保留区域。
+              hint: 上传新图片时会自动启用 16:7 首页横幅裁剪框，可拖动选择保留区域；保存为最大 1920 × 840 的 WebP。
               media_library:
                 config:
                   crop_ratio: 2.285714
                   crop_label: 首页横幅 16:7
                   max_width: 1920
-                  quality: 85
+                  quality: 90
           - label: 页脚背景图
             name: footer
             widget: image
             required: false
-            hint: 页脚会随屏幕宽度自动覆盖显示；上传时默认采用适合桌面端的 16:5 宽幅比例。
+            hint: 页脚会随屏幕宽度自动覆盖显示；上传时默认采用适合桌面端的 16:5 宽幅比例，保存为最大 1920 × 600 的 WebP。
             media_library:
               config:
                 crop_ratio: 3.2
                 crop_label: 页脚宽幅 16:5
                 max_width: 1920
-                quality: 85
+                quality: 90
 
   # =====================================================
   # 相册
@@ -441,13 +441,13 @@ collections:
                 name: image
                 widget: image
                 required: false
-                hint: 相册按图片自身比例显示；上传时默认锁定原图比例，可拖动选择保留区域。
+                hint: 相册列表和点开后的大图共用同一张高清 WebP；上传时默认锁定原图比例，可拖动选择保留区域，最大宽度 2400px。
                 media_library:
                   config:
                     crop_ratio: original
                     crop_label: 相册原图比例
-                    max_width: 1920
-                    quality: 88
+                    max_width: 2400
+                    quality: 90
               - label: 描述
                 name: caption
                 widget: object
