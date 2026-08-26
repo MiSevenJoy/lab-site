@@ -81,8 +81,8 @@ collections:
             required: false
             hint: 选择“自定义 / Custom”时填写。
             fields:
-              - {label: 中文名称, name: zh, widget: string}
-              - {label: English Name, name: en, widget: string}
+              - {label: 中文名称, name: zh, widget: string, required: false}
+              - {label: English Name, name: en, widget: string, required: false}
       - label: 摘要
         name: summary_text
         widget: object
@@ -99,6 +99,19 @@ collections:
         name: body
         widget: markdown
         hint: "中英文段落需分别标注语言：中文段落后紧跟一行 {: .lang-zh}，英文段落后紧跟一行 {: .lang-en}。注意：标记必须紧跟段落、两者之间不要空行，否则会出现中英文同时显示。"
+      - label: 详情图片（可多张）
+        name: detail_images
+        widget: list
+        required: false
+        hint: 可添加任意数量的图片并拖动调整顺序；图片按此顺序显示在详情正文之后。每张图片上传时均可自由裁剪。
+        field:
+          label: 图片
+          name: image
+          widget: image
+          media_library:
+            config:
+              max_width: 1600
+              quality: 85
 
   # =====================================================
   # 团队成员
