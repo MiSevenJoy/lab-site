@@ -47,9 +47,10 @@ collections:
     extension: md
     format: yaml-frontmatter
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    summary: "{{title}}"
+    summary: "{{title}} / {{title_en}}"
     fields:
-      - {label: 标题（主页卡片显示）, name: title, widget: string}
+      - {label: 中文标题（中文版主页卡片及详情页显示）, name: title, widget: string}
+      - {label: English Title（英文版主页卡片及详情页显示）, name: title_en, widget: string}
       - label: 照片（主页卡片左侧显示）
         name: image
         widget: image
