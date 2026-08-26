@@ -108,10 +108,13 @@ collections:
         widget: file
         required: false
         hint: 仅用于单个 Word、Markdown 或 PDF 等文档，不用于新闻图片。如需图片，请使用上方的“详情图片（可多张）”。Markdown 文档会在详情页直接渲染显示，其他文档显示为「下载附件」按钮。
-      - label: 详情正文（Markdown，可插入图片）
-        name: body
-        widget: markdown
-        hint: "中英文段落需分别标注语言：中文段落后紧跟一行 {: .lang-zh}，英文段落后紧跟一行 {: .lang-en}。注意：标记必须紧跟段落、两者之间不要空行，否则会出现中英文同时显示。"
+      - label: 详情正文
+        name: details
+        widget: object
+        hint: 中文与 English 分开填写，均支持 Markdown 和插入图片。
+        fields:
+          - {label: 中文, name: zh, widget: markdown, required: false}
+          - {label: English, name: en, widget: markdown, required: false}
 
   # =====================================================
   # 团队成员
@@ -191,7 +194,13 @@ collections:
         key_type: string
         value_type: string
         required: false
-      - {label: 个人简介, name: body, widget: markdown}
+      - label: 个人简介
+        name: bio
+        widget: object
+        hint: 中文与 English 分开填写，均支持 Markdown。
+        fields:
+          - {label: 中文, name: zh, widget: markdown, required: false}
+          - {label: English, name: en, widget: markdown, required: false}
 
   # =====================================================
   # 研究成果
