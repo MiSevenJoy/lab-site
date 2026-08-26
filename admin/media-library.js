@@ -1,6 +1,6 @@
 /*
   自定义图片媒体库：
-  - 上传图片时自动压缩（限制最大宽度 + JPEG 质量）
+  - 上传图片时自动压缩（限制最大宽度 + WebP / JPEG 质量）
   - 支持在后台裁剪宽度 / 高度
   - 通过 GitHub API 直接写入仓库（使用 Decap 已登录的 token）
   - 同时提供浏览已有图片并插入的能力
@@ -282,7 +282,10 @@
           );
         }
         var hasTransparentPadding = sx < 0 || sy < 0 || sx + cw > sw || sy + ch > sh;
-        var outputFormat = hasTransparentPadding ? 'image/png' : (opts.format || 'image/jpeg');
+        var outputFormat = opts.format || 'image/webp';
+        // JPEG 不支持透明通道；若显式选择 JPEG 且存在补边，才回退为 PNG。
+        // WebP 支持透明通道，因此透明补边仍可保持较小的文件体积。
+        if (hasTransparentPadding && outputFormat === 'image/jpeg') outputFormat = 'image/png';
         cv.toBlob(function (b) {
           if (b) resolve(b);
           else reject(new Error('图片处理失败'));
@@ -523,7 +526,7 @@
     var maxWInput = el('input', { type: 'number', value: '1920', min: '16', placeholder: '留空不缩放', style: 'width:110px;padding:4px;' });
     var qualityInput = el('input', { type: 'range', min: '30', max: '100', value: '80', style: 'width:140px;' });
     var qualityLabel = el('span', { style: 'font-size:12px;color:#666;min-width:36px;' }, '80%');
-    var cropHelp = el('div', { style: 'margin:10px 0;font-size:12px;color:#666;' }, '选择图片后，可在棋盘画布上拖动绘制裁剪范围。选框超出原图的部分将保存为透明 PNG。');
+    var cropHelp = el('div', { style: 'margin:10px 0;font-size:12px;color:#666;' }, '选择图片后，可在棋盘画布上拖动绘制裁剪范围。选框超出原图的部分将保留为透明区域。');
     var cropPresetBtn = el('button', { type: 'button', style: 'display:none;padding:5px 10px;cursor:pointer;' }, '恢复推荐裁剪框');
     var cropContainBtn = el('button', { type: 'button', style: 'display:none;padding:5px 10px;cursor:pointer;' }, '完整保留图片（透明补边）');
     var cropButtons = el('div', { style: 'display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;' }, [cropPresetBtn, cropContainBtn]);
@@ -562,8 +565,8 @@
       cropPresetBtn.style.display = ratio ? 'inline-block' : 'none';
       cropContainBtn.style.display = ratio ? 'inline-block' : 'none';
       cropHelp.textContent = ratio
-        ? '已锁定为' + (label ? '“' + label + '”' : '推荐横幅比例') + '。选框可越过原图边界继续等比例放大，棋盘区域将保存为透明 PNG。'
-        : '可在图片及周围棋盘画布上绘制和调整选框；超出原图的部分将保存为透明 PNG。不裁剪则使用整张图。';
+        ? '已锁定为' + (label ? '“' + label + '”' : '推荐横幅比例') + '。选框可越过原图边界继续等比例放大，棋盘区域将保存为透明 WebP。'
+        : '可在图片及周围棋盘画布上绘制和调整选框；超出原图的部分将保存为透明 WebP。不裁剪则使用整张图。';
       if (currentMediaConfig.max_width) maxWInput.value = String(currentMediaConfig.max_width);
       else maxWInput.value = '1920';
       if (currentMediaConfig.quality) qualityInput.value = String(currentMediaConfig.quality);
@@ -582,19 +585,22 @@
         maxWidth: maxW,
         quality: (parseInt(qualityInput.value, 10) || 80) / 100,
         cropDisplay: getCropDisplayRect(),
+        format: currentMediaConfig.format || 'image/webp',
       };
+      var processedBytes = 0;
       uploadBtn.disabled = true;
       status.style.color = '#666';
       status.textContent = '正在处理并上传…';
       processImage(f, opts)
         .then(function (blob) {
-          var extension = blob.type === 'image/png' ? '.png' : '.jpg';
+          processedBytes = blob.size;
+          var extension = blob.type === 'image/webp' ? '.webp' : (blob.type === 'image/png' ? '.png' : '.jpg');
           var filePath = (folder ? folder + '/' : '') + sanitizeName(f.name) + extension;
           return uploadImage(filePath, blob);
         })
         .then(createUploadedPreview)
         .then(function (uploaded) {
-          status.textContent = '上传成功：' + uploaded.path;
+          status.textContent = '上传成功：' + uploaded.path + '（' + Math.round(f.size / 1024) + ' KB → ' + Math.round(processedBytes / 1024) + ' KB）';
           if (handleInsertRef) handleInsertRef(uploaded.previewUrl);
           setTimeout(closeModal, 600);
         })
