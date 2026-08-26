@@ -4,6 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Content Manager</title>
+    <!-- 每次打开后台都重新获取最新表单配置，避免 GitHub Pages 的十分钟缓存。 -->
+    <link id="cms-config-url" href="config.yml" type="text/yaml" rel="cms-config-url" />
+    <script>
+      document.getElementById('cms-config-url').href = 'config.yml?v=' + Date.now();
+    </script>
     <style>
       .paper-list { display: flex; flex-direction: column; gap: 12px; }
       .paper-box { border: 1px solid #d3d7de; border-radius: 6px; padding: 12px; background: #fafbfc; }
